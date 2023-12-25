@@ -16,10 +16,10 @@
 /tmp
 
 #Ignore Config file
-/config/*.*
+/config
 
 #ignore Public 
-/public/*.*
+/public
 
 #Ignore bin
-/bin/*.*
+/bin
