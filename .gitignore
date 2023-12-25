@@ -14,3 +14,12 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+#Ignore Config file
+/config/*.*
+
+#ignore Public 
+/public/*.*
+
+#Ignore bin
+/bin/*.*
