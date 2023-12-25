@@ -1,0 +1,35 @@
+﻿<% environment.context_class.instance_eval { include Rails.application.routes.url_helpers} %>
+$(function() {
+  initPagevis_mach();
+});
+$(window).bind('page:change', function() {
+  initPagevis_mach();
+});
+function initPagevis_mach() {
+ jQuery(function($) {
+  return $("#visite_machine_id_visite_protocolaire").change(function() {
+     var state, machine;
+    state= $("select#visite_machine_id_visite_protocolaire :selected").val();
+    machine =$("select#visite_machine_idmachine :selected").val();
+    if (state === "") {
+      state = "0";
+    }
+     jQuery.get('<%=url_for(:controller=>"/visite_machines",:action=>"get_type_visite",:only_path=>true)%>'+".js?id_visite_protocolaire=" + state+"&id_machine="+machine );
+    return false;
+  });
+});
+
+ jQuery(function($) {
+  return $("#visite_machine_idmachine").change(function() {
+    var state
+    state= $("select#visite_machine_idmachine :selected").val();
+    if (state === "") {
+      state = "0";
+    }
+     jQuery.get('<%=url_for(:controller=>"/visite_machines",:action=>"get_type_machine",:only_path=>true)%>'+".js?id_machine=" + state );
+    return false;
+  });
+});
+
+
+}

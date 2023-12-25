@@ -1,0 +1,51 @@
+﻿<%= form_for(@exec_cn_machine) do |f| %>
+  <% if @exec_cn_machine.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@exec_cn_machine.errors.count, "erreur") %> interdit la sauvegarde de l'application de la CN:</h2>
+
+      <ul>
+      <% @exec_cn_machine.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+ <table border=0>
+<tr><td>
+<label for="type_exec_cn_machine_id_machine">Immatriculation :</label></td>
+<td>
+<%=  f.select  "id_machine", Machine.all.collect {|p| [ p.Immatriculation, p.id ] },{:include_blank=> 'Aucune'} %><br/>
+</td></tr>
+<tr><td>
+<label for="exec_cn_machine_date_visite">date de visite:</label></td>
+
+<td><%= f.text_field  "date_exec",{:value=>@date_1, :class =>"date_saisie",:size => 10} %>
+<br/>
+</td></tr>
+<tr><td><%= label_tag(:non_applicable, "CN non applicable :") %></td>
+<td><%= check_box "exec_cn_machine","non_applicable"%>
+</td></tr>
+<tr><td>
+<label for="type_exec_cn_machine_id_cn_machine">Type de visite</label></td>
+<td>
+<%=  f.select( "idcn_machine", CnMachine.all.collect {|p| [ p.nom + " BS:" + p.service_bulletin, p.id ] },{:include_blank=> 'N.D'})%> 
+
+</td></tr>
+<tr><td>
+<label for="exec_cn_machine_val_potentiel">faites &agrave; :</label><div id="unitee"><%=@unite%> </div></td>
+<td><%= f.text_field  "val_potentiel_exec", :size => 20 %>
+</td></tr>
+<tr><td>
+<label for="exec_cn_machine_machine_commentaire">commentaires:</label></td>
+<td><%= f.text_area "commentaire", :rows => 5, :cols => 20 %><br/>
+
+</td></tr>
+<tr><td>
+  <p>
+  <%= if !(params[:id_machine].nil?) then hidden_field_tag(:retour,params[:id_machine]) end %>
+    <%= f.submit 'Sauvegarder' %>
+  </p>
+
+</td></tr>
+</table>
+<% end %>

@@ -1,0 +1,31 @@
+﻿<%= form_for(@potentiel_equipement) do |f| %>
+  <% if @potentiel_equipement.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@potentiel_equipement.errors.count, "error") %> prohibited this potentiel_equipement from being saved:</h2>
+
+      <ul>
+      <% @potentiel_equipement.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<table border=1>
+<tr><td>
+<label for="idtype_equipement">type equipement:</label></td>
+<td><%=  select("potentiel_equipement", "idtype_equipement", TypeEquipement.all.collect {|p| [ p.nom_constructeur+" "+p.type_equipement, p.id ] }, {:include_blank => 'None'})%><br/>
+</td></tr>
+<tr><td>
+<label for="idtype_potentiel">type durée de vie:</label></td>
+<td><%=  select("potentiel_equipement", "idtype_potentiel", TypePotentiel.all.collect {|p| [ p.type_potentiel, p.id] },{:include_blank=> 'None'})%><br/>
+</td></tr>
+<tr><td>
+<label for="type_potentiel_valeur_potentiel">durée de vie :</label><div id="unitee"></div> </td>
+<td><%= text_field "potentiel_equipement", "valeur_potentiel", :size => 20 %>
+</td></tr>
+<tr><td>
+    <%= f.submit 'Modifier' %>
+ </td><td>&nbsp;   </td></tr>
+ </table>
+<% end %>
+

@@ -1,0 +1,31 @@
+﻿<% environment.context_class.instance_eval { include Rails.application.routes.url_helpers} %>
+$(function() {
+  initPageVE();
+});
+$(window).bind('page:change', function() {
+  initPageVE();
+});
+function initPageVE() {
+ jQuery(function($) {
+  return $("#visite_equipement_id_visite_protocolaire_equipement").change(function() {
+    var state, equipement;
+    state= $("select#visite_equipement_id_visite_protocolaire_equipement :selected").val();
+    equipement =$("select#visite_equipement_idequipement :selected").val();
+    if (state === "") {
+      state = "0";
+    }
+    jQuery.get('<%=url_for(:controller=>"/visite_equipements",:action=>"get_type_visite",:only_path=>true)%>'+".js?id_visite_protocolaire=" + state+"&id_equipement="+equipement );
+  });
+});
+
+ jQuery(function($) {
+  return $("#visite_equipement_idequipement").change(function() {
+    var state,vis_prot
+    state= $("select#visite_equipement_idequipement :selected").val();
+    if (state === "") {
+      state = "0";
+    }
+    jQuery.get('<%=url_for(:controller=>"/visite_equipements",:action=>"get_visite_equ",:only_path=>true)%>'+".js?id_equipement=" + state );
+  });
+});
+}

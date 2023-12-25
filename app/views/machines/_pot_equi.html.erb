@@ -1,0 +1,31 @@
+﻿<h2> Equipements </h2>
+<% type_equip=0 %>
+<%lance_visite=EstAcce.page_acc("potentiel_equipements","edit",session[:personne].id_fonction)%>
+<% @montages.each do |pot| %>
+	<% if (type_equip!= pot[1]["moteur_helice"]) then %>
+		<%if (type_equip!=0) then %></table><% end %>
+		<% type_equip= pot[1]["moteur_helice"]  %>
+		<%if (type_equip==2) then %><h3>Hélice</h3><%end %>
+		<% if (type_equip==1) then %><h3>Moteur</h3><%end %>
+		<% if (type_equip==3) then %><h3>Divers</h3> <%end %>
+		<table border=1 width=70%>
+		<tr>
+			<th width=20%>équipement</th>
+			<th  width=20%>Numéro de série </th>
+			<th  width=15%>type de durée de vie</th>
+			<th  width=15%>durée de vie</th>
+			<th  width=15%>durée de vie restante</th>
+			<th>Butée</th>
+		</tr>
+	<%end %>
+	<% @style=styling(pot[1]["couleur"])%>
+	<tr>
+		<td  id='<%= @style %>' ><%= pot[1]["equipement"].type_equipement.nom_constructeur %> <%=pot[1]["equipement"].type_equipement.type_equipement %></td>
+		<td><%= link_to pot[1]["equipement"].num_serie, pot[1]["equipement"],:title=>"détail de l'équipement" %></td>
+		<td><%= pot[1]["type_pot"] %> </td>
+		<td><%= pres_perio(pot[1]["val_pot"], pot[1]["type_pot"]) %> </td>
+		<td  id='<%= @style %>' ><%= pot[1]["reste"] %></td>
+		<td><%=  pot[1]["butee"] %> </td>
+	</tr>
+<% end %>
+</table>

@@ -1,0 +1,23 @@
+﻿<h1>Détails modification réparation</h1>
+<table border=1>
+  <tr>
+     <td>Immatriculation</td>
+     <td>Service Bull</td>
+     <td>Objet</td>
+     <td>référence</td>
+     <td>date réalisation</td>
+     <td>Fait par</td>
+  
+  </tr>
+
+  <tr>
+    <td><%= @modif_repar.machine.Immatriculation%></td>
+    <td><%= @modif_repar.sb %></td>
+    <td><%= @modif_repar.Objet %></td>
+    <td><%= @modif_repar.ref %></td>
+    <td><%= @modif_repar.date_rel %></td>
+    <td><%= @modif_repar.fait_par %></td>
+      </tr>
+      </table>
+<%= link_to 'Modifier', edit_modif_repar_path(@modif_repar) %> |
+<%= link_to 'retour à la liste', modif_repars_path %>

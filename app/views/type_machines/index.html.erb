@@ -1,0 +1,31 @@
+﻿<h1>Liste des  types de machines</h1>
+<table border=1 >
+  <tr>
+    <th>  Nom du Constructeur </th>
+    <th>  Type de Machine </th>
+    <th>  Programme d'entretien </th>
+    <th>  révision </th>
+    <th>  date révision </th>
+    <th>  date approbation </th>
+    <th>  date dernière revue </th>
+    <th>Mod</th>
+    <th>Supp</th>
+  </tr>
+<% @type_machines.each do |type_machine| %>
+  <tr>
+    <td><%= type_machine.Nom_constructeur %></td>
+    <td><%= link_to type_machine.type_machine,type_machine %></td>
+    <td><%= type_machine.ref_manuel_entretien%></td>
+    <td><%= type_machine.revision%></td>
+    <td><%= if (type_machine.date_revision.nil?) then"" else type_machine.date_revision.strftime('%d/%m/%Y')end %></td>
+    <td><%=  if (type_machine.date_approb.nil?) then "" else type_machine.date_approb.strftime('%d/%m/%Y') end%></td>
+    <td><%=  if (type_machine.date_revue.nil?) then "" else type_machine.date_revue.strftime('%d/%m/%Y') end%></td>
+    <td><%= mod_link edit_type_machine_path(type_machine) %></td>
+    <td><%= del_link type_machine %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Créer un nouveau type de machine', new_type_machine_path %>

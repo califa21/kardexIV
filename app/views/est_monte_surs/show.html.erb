@@ -1,0 +1,62 @@
+﻿<H1> Détail montage équipement <%=@montage_equipement.equipement.type_equipement.nom_constructeur%>  <%=@montage_equipement.equipement.type_equipement.type_equipement%></h1>
+<table border=1 width=70%>
+	 <tr>
+		<th width=15%>Type</th>
+		<th width=15%>Immat</th>
+		<th> Constructeur</th>
+		<th width=17%>type équipement</th>
+		<th width=23%>num série</th>
+		<th width=12%>date montage</th>
+		<th width=12%>date retrait</th>
+	  </tr>
+<tr>
+	 <td><%= @montage_equipement.machine.type_machine.type_machine %></td>
+	 <td><%= link_to(@montage_equipement.machine.Immatriculation,@montage_equipement.machine)%> </td>
+	 <td><%= @montage_equipement.equipement.type_equipement.nom_constructeur    %></td>
+	 <td><%= @montage_equipement.equipement.type_equipement.type_equipement    %></td>
+	 <td><%= @montage_equipement.equipement.num_serie    %></td>
+	 <td><%= if (@montage_equipement.date_montage.nil?) then "&nbsp;" else  @montage_equipement.date_montage.strftime('%d/%m/%Y')  end   %></td>
+	<td><%= if (@montage_equipement.date_retrait.nil?) then " " else @montage_equipement.date_retrait.strftime('%d/%m/%Y') end   %></td>
+</tr>
+</table>
+<%if  !@montage_equipement.potentiel_montage.empty? then %>
+<h3> potentiel au montage </h3>
+<table border=1>
+<tr>
+	<th>Type potentiel</th>
+	<th>potentiel restant au montage</th>
+	<th>Valeur carnet au montage</th>
+</tr>	
+
+<% @montage_equipement.potentiel_montage.each do |pot| %>
+	<tr>
+		<td><%= pot.type_potentiel.type_potentiel %></td>
+		<td><%=pres_perio(pot.valeur_potentiel_montage,pot.type_potentiel.type_potentiel)%></td>
+		<td><%= if (pot.type_potentiel.type_potentiel=="Calendaire") then @montage_equipement.date_montage.strftime('%d/%m/%Y') else pres_val(pot.valeur_machine_jour_montage,pot.type_potentiel.type_potentiel) end%></td>
+	</tr>
+<% end %>
+</table>
+<%end%>
+<% if !@vis_equip.empty? then %>
+<h3> visite entretien réalisé au montage </h3>
+<table border=1>
+<tr>
+	<th>Type de visites</th>
+	<th>type de potentiel</th>
+	<th>Périodicité visite</th>
+	<th>Valeur carnet au montage</th>
+	<th> Modifier</th>
+</tr>	
+<% @vis_equip.each do |vis| %>
+	<tr>
+	<td><%= vis.visite_protocolaire_equipement.Nom%></td>
+	<td><%= vis.visite_protocolaire_equipement.type_potentiel.type_potentiel%></td>
+	<td><%= pres_perio(vis.visite_protocolaire_equipement.valeur_potentiel,vis.visite_protocolaire_equipement.type_potentiel.type_potentiel)%></td>
+	<td><%= if (vis.visite_protocolaire_equipement.type_potentiel.type_potentiel=="Calendaire") then vis.date_visite.strftime('%d/%m/%Y') else pres_val(vis.val_potentiel,vis.visite_protocolaire_equipement.type_potentiel.type_potentiel) end %></td>
+	<td><%= mod_link (edit_visite_equipement_path(vis)) %></td>
+</tr>	
+<%end%>
+</table>
+<% end %>
+<%= link_to 'Modifier', edit_est_monte_sur_path(@montage_equipement) %> |
+<%= link_to 'retour à la liste', est_monte_surs_path %>

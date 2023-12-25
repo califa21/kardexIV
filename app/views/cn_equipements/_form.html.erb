@@ -1,0 +1,57 @@
+﻿<%= form_for(@cn_equipement) do |f| %>
+  <% if @cn_equipement.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@cn_equipement.errors.count, "error") %> prohibited this cn_equipement from being saved:</h2>
+
+      <ul>
+      <% @cn_equipement.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<table border=1>
+   <tr><td>
+<label for="cn_equipement_Nom">Nom :</label></td>
+<td><%= text_field "cn_equipement", "nom", :size => 20 %><br/>
+</td></tr>
+<tr><td>
+<label for="cn_equipement_reference">Reference CN :</label></td>
+<td><%= text_field "cn_equipement", "reference", :size => 20 %><br/>
+</td></tr>
+<tr><td>
+<label for="cn_equipement_service_bulletin">BS :</label></td>
+<td><%= text_field "cn_equipement", "service_bulletin", :size => 20 %><br/>
+</td></tr>
+<tr><td>
+<label for="type_cn_equipement_idtype_equipement">type de equipement:</label></td>
+<td>
+<%=  select("cn_equipement", "idtype_equipement", TypeEquipement.all.collect {|p| [ p.type_equipement, p.id ] })%><br/>
+</td></tr>
+<tr><td><%= label_tag(:est_annule, "CN annulée") %></td>
+<td><%= check_box "cn_equipement","est_annule"%>
+</td></tr>
+<tr><td>
+<label for="type_cn_equipement_idtype_potentiel">type de potentiel:</label></div></td>
+<td>
+<%=  select("cn_equipement", "idtype_potentiel", TypePotentiel.all.collect {|p| [ p.type_potentiel, p.id ] })%><br/>
+</td></tr>
+
+<tr><td>
+<label for="cn_equipement_valeur_potentiel">valeur du potentiel:</label><div id='unitee'></td>
+<td><%= text_field "cn_equipement", "val_potentiel", :size => 20 %><br/>
+</td></tr>
+<tr><td>
+<label for="cn_equipement_commentaire">commentaires:</label></td>
+<td><%= text_area"cn_equipement", "commentaire", :rows => 5, :cols => 20 %><br/>
+
+</td></tr>
+<tr><td>
+  <p>
+    <%= f.submit 'Modifier' %>
+  </p>
+</p>
+  </td><td></td></tr>
+  </table>
+<% end %>
+

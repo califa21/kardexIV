@@ -1,0 +1,2 @@
+module VisiteProtocolaireEquipementsHelper
+end

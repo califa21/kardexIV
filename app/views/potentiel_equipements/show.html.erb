@@ -1,0 +1,14 @@
+﻿<table border=1>
+  <tr>
+  <td>équipement</td>
+  <td>type de durée de vie</td>
+  <td>durée de vie</td>
+  </tr>
+<tr>
+    <td><%= @potentiel_equipement.type_equipement.nom_constructeur+" "+@potentiel_equipement.type_equipement.type_equipement %></td>
+    <td><%= @potentiel_equipement.type_potentiel.type_potentiel %> </td>
+    <td><%=pres_perio(@potentiel_equipement.valeur_potentiel,@potentiel_equipement.type_potentiel.type_potentiel)%></td>
+</td>
+</table>
+<%= link_to 'Modifier', edit_potentiel_equipement_path(@potentiel_equipement) %> |
+<%= link_to 'Retour à la liste', potentiel_equipements_path %>

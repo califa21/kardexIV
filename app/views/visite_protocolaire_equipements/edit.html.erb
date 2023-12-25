@@ -1,0 +1,11 @@
+﻿<h1>modification d'un type de visite d'entretien d'équipement</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'détail', @visite_protocolaire_equipement %> |
+<%= link_to 'retour à la liste', visite_protocolaire_equipements_path %>
+<h2>documents</h2>
+<h3>Carte de travail</h3>
+<%= render  partial: 'doc_divers/aff_doc', locals: {docs: @Carte_travail_docs}%>
+</div>
+<%= render partial: 'doc_divers/form', locals:{retour: "visite_protocolaire_equipements"} %>

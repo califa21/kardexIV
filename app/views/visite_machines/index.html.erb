@@ -1,0 +1,45 @@
+﻿<h1>Liste des visites machine</h1>
+<% machine=""%>
+<% vis_pro="" %>
+<%= link_to 'créer une visite machine', new_visite_machine_path %>
+<% @visite_machines.each do |visite_machine| %>
+<%if (machine!=visite_machine.machine.Immatriculation) then %>
+<% machine=visite_machine.machine.Immatriculation %>
+<% if(vis_pro!="") then %> </table> <%end%>
+<% vis_pro=""%>
+<h3><%= link_to(machine,visite_machine.machine) %></h3>
+<%end %>
+<% if (vis_pro!=visite_machine.visite_protocolaire.Nom) then %>
+<% if(vis_pro!="") then %> </table> <%end%>
+<% vis_pro=visite_machine.visite_protocolaire.Nom %>
+<h4><%=vis_pro %> (potentiel de type <%=visite_machine.visite_protocolaire.type_potentiel.type_potentiel%>)</h4>
+<table border=1 width=40%>
+  <tr>
+  
+    <th width=10%>date_visite </th>
+    <th width=40%>Ref  bon de lancement</th>
+    <th width=15%>faite à </th>
+    <th width=15%>potentiel suite à visite</th>
+    <th>Mod</th>
+    <th>Supp</th>
+  </tr>
+
+<%end%>
+  <tr>
+    <td><%= visite_machine.date_visite.strftime('%d/%m/%Y') %></td>
+    <td><%= link_to(visite_machine.nom, visite_machine) %></td>
+    <% if visite_machine.visite_protocolaire.type_potentiel.type_potentiel=="Calendaire" then pot= visite_machine.date_visite else pot= visite_machine.val_potentiel end %>
+    <td><%= pres_val(pot,visite_machine.visite_protocolaire.type_potentiel.type_potentiel) %></td>
+    <% if ( visite_machine.visite_protocolaire.potentiel_variable) %>
+	<td><%=pres_perio( visite_machine.val_nouv_pot,visite_machine.visite_protocolaire.type_potentiel.type_potentiel)%> </td>
+    <%else %>
+	<td><%= pres_perio(visite_machine.visite_protocolaire.valeur_potentiel,visite_machine.visite_protocolaire.type_potentiel.type_potentiel)%> </td>
+    <% end %>
+    <td><%= mod_link(edit_visite_machine_path(visite_machine)) %></td>
+    <td><%= del_link(visite_machine) %></td>
+  </tr>
+<% end %>
+<br />
+</table>
+<p>
+</p>

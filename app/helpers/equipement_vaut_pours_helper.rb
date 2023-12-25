@@ -1,0 +1,2 @@
+module EquipementVautPoursHelper
+end

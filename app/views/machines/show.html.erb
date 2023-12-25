@@ -1,0 +1,214 @@
+﻿<% top=230 %>
+<h1>Détail machine <%=@machine.Immatriculation%> </h1>
+<%= link_to('imprimer la fiche', "./" + @machine.id.to_s + ".pdf") %>
+
+	<div id="fx1"  style="position:absolute;background-color:#FFFFFF ; border: solid; width:100px; height:40px; left:  50px; top:<%=top%>px; z-index:5 ; border-bottom : <%=@onglet1[0]%> " onclick="active_onglet(1)"><b>données générales </b></div>
+	<div id="fx2"  style="position:absolute;background-color:#FFFFFF ; border: solid; width:100px; height:40px; left:153px; top:<%=top%>px; z-index:5; border-bottom : <%=@onglet1[1]%>" onclick="active_onglet(2)"> <b id='<%=styling(@couleur_visite)%>'>	Visites Entretien</b> </div>
+	<div id="fx3"  style="position:absolute;background-color:#FFFFFF ; border: solid; width:100px; height:40px; left:256px; top:<%=top%>px; z-index:5; border-bottom : <%=@onglet1[2]%>" onclick="active_onglet(3)"><b id='<%=styling(@couleur_cn_machine)%>'>	CN machine </b> </div>
+	<div id="fx4"  style="position:absolute;background-color:#FFFFFF ; border: solid; width:100px; height:40px; left:359px; top:<%=top%>px; z-index:5;border-bottom : <%=@onglet1[3]%>" onclick="active_onglet(4)"><b id='<%=styling(@couleur_cn_equipement)%>'>CN Equipement </b> </div>
+	<div id="fx5"  style="position:absolute;background-color:#FFFFFF ; border: solid; width:100px; height:40px; left:462px; top:<%=top%>px; z-index:5;border-bottom : <%=@onglet1[4]%>" onclick="active_onglet(5)"><b id='<%=styling(@couleur_potentiel_machine)%>'>durée de vie</b></div>
+	<div id="fx6"  style="position:absolute;background-color:#FFFFFF ; border: solid; width:100px; height:40px; left:565px; top:<%=top%>px; z-index:5;border-bottom : <%=@onglet1[5]%>" onclick="active_onglet(6)"><b>Modification réparation</b></div>
+
+	
+<div	id=f1 style="position:absolute; background-color:#FFFFFF ; border:solid; width:1100px; height:4000px; left:10px; top:<%=top+40%>px; clip:rect('0', '0', '900', '900'); z-index:0";visibility:<%=@onglet[0]%>  >
+<h2>Données Générales</h2>
+<table border=0>
+<tr>
+<td>Constructeur:<td>
+<%= @machine.type_machine.Nom_constructeur %>
+</td>
+
+<td>Type:<td>
+<%= @machine.type_machine.type_machine %>
+</td>
+</tr><tr>
+<td>Immatriculation:
+<td>
+<%= @machine.Immatriculation %>
+</td><td>Numéro de série </td><td>
+<%= @machine.num_serie %>
+</td></tr>
+<tr><td>Date de construction </td><td>
+<%= @machine.date_construct.strftime('%d/%m/%Y') %>
+</td>
+<td>
+ Age de la machine : </td><td><%= @age_annee  %> années et <%= @age_mois  %> mois
+</td></tr>
+</table>
+<% if (EstAcce.page_acc("machines","edit",session[:personne].id_fonction))  %><%= link_to image_mod, edit_machine_path(@machine) %> |<%end%>
+<%= link_to 'retour à la liste', machines_path %>
+<h2> Dernier relevé</h2>
+<p>date du relev&eacute :<%= @releve["date_releve"].strftime('%d/%m/%Y') %></p>
+<table border=1>
+<tr><td>&nbsp;</td><td>valeur relevé </td><td>utilisation annuelle</td></tr>
+<tr><td>Heure de vol </td><td><%= pres_val(@releve["heure_de_vol"],"Heure de vol") %></td><td><%= pres_val(@util["heure_de_vol"],"Heure de vol") %></td></tr>
+<tr><td>Nombre de Cycle </td><td><%= @releve["nombre_cycle"]%></td><td><%=sprintf("%.0f",@util["nombre_cycle"]) %></tr>
+<tr><td>Heure moteur</td><td><%= @releve["heure_moteur"]%></td><td><%=sprintf("%.0f",@util["heure_moteur"]) %></tr>
+</table>
+<h2>Equipements montés sur la machine</h2>
+<table border=1>
+<tr>
+	<td>Constructeur</td>
+	<td>Type </td>
+	<td>Num série</td>
+	<td>date montage</td>
+</tr>
+<% @equipement.each do |equipement1| %>
+<tr>
+	<td><%= equipement1.equipement.type_equipement.nom_constructeur %></td>
+	<td><%= equipement1.equipement.type_equipement.type_equipement %></td>
+	<td><%= equipement1.equipement.num_serie %></td>
+	<td><%= equipement1.date_montage.strftime('%d/%m/%Y')%></td>
+</tr>
+<% end %>
+</table>
+<div style="border-style: none;width:40%;">
+<h2>documents</h2>
+<h3>Manuels de maintenance Machine</h3>
+<%= render  partial: 'doc_divers/aff_doc', locals: {docs: @mm_docs}%>
+</div>
+</div>
+
+<div	id=f2 style="position:absolute; background-color:#ffffFF;border:solid; width:1100px; height:4000px; left:10px; top:<%=top+40%>px; clip:rect('0', '0', '900', '900') ; z-index:0 ;visibility:<%=@onglet[1]%>">
+<h2> Etat des visites entretien machine</h2>
+<table border=1>
+ <tr>
+    <th>Visite</th>
+    <th>Périodicité</th>
+    <th>Tolérance</th>
+    <th>dernière visite</th>
+    <th>Date visite</th>
+    <th>valeur potentiel</th>
+    <th>butée</th>
+    <th>butée avec tol</th>
+    <th>Derniere valeur connue </th>
+    <th>potentiel restant hors tolérance</th>
+    <th>potentiel restant avec tolérance</th>
+    <%lance_visite=EstAcce.page_acc("visite_machines","new",session[:personne].id_fonction)%>
+    <% if (lance_visite) then %><th>créer une nouvelle visite</th><%end%>
+    
+</tr>
+<% @visite_machines.each do |visite| %>
+   <% vi_pro=visite[1]["visite_protocolaire"] %>
+  <tr>
+    <td  id='<%=styling(visite[1]["couleur"])%>' ><%=  visite[1]["visite_protocolaire"].Nom %></td>
+    <td><%=  pres_perio(visite[1]["visite_protocolaire"].valeur_potentiel,visite[1]["visite_protocolaire"].type_potentiel.type_potentiel)%> </td>
+    <td><%=  pres_perio(visite[1]["visite_protocolaire"].tolerance ,visite[1]["visite_protocolaire"].type_potentiel.type_potentiel)%> </td>
+    <td><%=  visite[1]["nom"] %></td>
+    <td><%=  visite[1]["date_visite"].strftime('%d/%m/%Y') %></td>
+    <td><%=  pres_val(visite[1]["val_potentiel"],visite[1]["visite_protocolaire"].type_potentiel.type_potentiel)%></td>
+    <td><%=  pres_val(visite[1]["butee"],visite[1]["visite_protocolaire"].type_potentiel.type_potentiel) %></td>
+    <td><%=  pres_val(visite[1]["butee_tol"],visite[1]["visite_protocolaire"].type_potentiel.type_potentiel)%></td>
+    <td><%=  pres_val(visite[1]["val_dernier_releve"],visite[1]["visite_protocolaire"].type_potentiel.type_potentiel)%></td>
+    <td  id='<%=styling(visite[1]["couleur"])%>' ><%= pres_pot(visite[1]["reste"], visite[1]["visite_protocolaire"].type_potentiel.type_potentiel)%></td>
+    <td><%=pres_pot(visite[1]["reste_tol"], visite[1]["visite_protocolaire"].type_potentiel.type_potentiel)%></td>
+    <% if (lance_visite)   %><td align="center"><%= new_visite(url_for (new_visite_machine_path(:id_machine=>@machine.id,:id_visite_pro =>vi_pro.id))) %></td><%end%>
+  </tr>
+<% end %>
+</table>
+ <% if (lance_visite)   then %><%= link_to 'nouvelle visite',new_visite_machine_path(:id_machine=>@machine.id) %><%end%>
+
+		<%= render "visite_equipement" %>
+</div>
+<div	id=f3 style=" position:absolute; background-color:#FFFFFF;  border:solid ; width:1100px; height:4000px; left:10px; top:<%=top+40%>px; clip:rect('0', '0', '900', '900') ; z-index:0 ;visibility:<%=@onglet[2]%>">
+<h2> Etat des CN Machines</h2>
+<table border=1>
+ <tr>
+    <th>Référence</th>
+    <th>Nom Cn</th>
+    <th>Num BS</p>
+    <th>valeur potentiel</p>
+    <th>date application</th>
+    <th>CN Applicable </th>
+    <th>valeur potentiel</th>
+    <th>butée</th>
+    <th>Derniere valeur connue </th>
+    <th>potentiel restant hors tolérance</th>
+    <%lance_visite=EstAcce.page_acc("exec_cn_machines","new",session[:personne].id_fonction)%>
+    <% if (lance_visite) then %><th>créer une nouvelle application</th><%end%>
+    
+</tr>
+<% @cn_machine.each do |cn_ex| %>
+   <% cn_mach=cn_ex[1]["visite_protocolaire"] %>
+  <tr>
+     <% @style=styling(cn_ex[1]["couleur"])%>
+     <% if (cn_ex[1]["visite_protocolaire"].est_annule) then @style="annule" end%>
+    <td id='<%= @style %>' ><%=cn_mach.reference  %></td>
+    <td  ><%=  link_to(cn_ex[1]["visite_protocolaire"].nom,url_for(:controller=>"cn_machines", :action=>'show',:id=>cn_ex[1]["visite_protocolaire"].id,:id_machine=>@machine.id,:idcn_machine =>cn_mach.id))  %></td>
+    <td><%=  cn_mach.service_bulletin %></td>
+    <td><%=  pres_perio(cn_mach.val_potentiel,cn_mach.type_potentiel.type_potentiel)%> <%= cn_mach.type_potentiel.unitee %></td>
+    <td><%=  cn_ex[1]["date_visite"] %></td>
+    <td align="center"><%= if (!cn_ex[1]["NA"]) then image_tag "case_a_cocher.gif" else " " end %></td>
+    <td><%= pres_val( cn_ex[1]["val_potentiel"],cn_mach.type_potentiel.type_potentiel)%></td>
+    <td><%= pres_val( cn_ex[1]["butee"],  cn_mach.type_potentiel.type_potentiel) %></td>
+    <td><%=  pres_val(cn_ex[1]["val_dernier_releve"],cn_mach.type_potentiel.type_potentiel)%></td>
+    <td id='<%= @style %>'><%=  pres_pot( cn_ex[1]["reste"], cn_mach.type_potentiel.type_potentiel)%></td>
+    <% if (lance_visite) then %><td align='center'><%= new_visite (url_for(new_exec_cn_machine_path(:id_machine=>@machine.id,:idcn_machine =>cn_mach.id))) %></td><%end%>
+      </tr>
+<% end %>
+</table>
+	</div>
+	
+	
+	<div	id=f4 style="position:absolute; background-color:#FFFFFF ; border:solid; width:1100px; height:4000px; left:10px; top:<%=top+40%>px; clip:rect('0', '0', '900', '900') ; z-index:0 ;visibility:<%=@onglet[3]%>" >
+
+		<%= render "cn_equipement" %>
+	</div>
+	<div	id=f5 style="position:absolute; background-color:#FFFFFF ; border:solid; width:1100px; height:4000px; left:10px; top:<%=top+40%>px; clip:rect('0', '0', '900', '900') ; z-index:0 ;visibility:<%=@onglet[4]%>" >
+	<h2> Machine </h2>
+	<table border=1 width=40%>
+<tr>
+	<th>nom</th>
+	<th>type de durée de vie</th>
+	<th>durée de vie</th>
+	<th>durée de vie restante</th>
+	<th>Butée</th>
+</tr>
+	<% @pots_machs.each do |pot_mach| %>
+	<% @style=styling(pot_mach["couleur"])%>
+<tr>	
+	<td   id='<%= @style %>' ><%=pot_mach["nom"] %></td>
+	<td><%= pot_mach["type_potentiel"]  %></td>
+	<td><%= pot_mach["val_potentiel"]  %></td>
+	<td   id='<%= @style %>' ><%=pres_val(pot_mach["reste"], pot_mach["type_potentiel"]) %> </td>
+	<td><%=pot_mach["butee"] %></td>
+
+</tr>
+<% end %>
+</table>	
+<%= render "pot_equi" %>
+	</div>
+	
+	<div	id=f6 style="position:absolute; background-color:#FFFFFF ; border:solid; width:1100px; height:4000px; left:10px; top:<%=top+40%>px; clip:rect('0', '0', '900', '900') ; z-index:0 ;visibility:<%=@onglet[5]%>" >
+	<h2> Modification Réparation </h2>
+	<table border=1>
+  <tr>
+     <th>Immatriculation</th>
+     <th>Service Bull</th>
+     <th>Objet</th>
+     <th>référence</th>
+     <th>date réalisation</th>
+     <th>Fait par</th>
+       <%lance_visite=EstAcce.page_acc("modif_repars","new",session[:personne].id_fonction)%>
+    <% if (lance_visite) then %> 
+	<th>Modif</th>
+	<th>Supp</th>
+<%end%>
+  </tr>
+
+<% @modif_repars.each do |modif_repar| %>
+  <tr>
+    <td><%= modif_repar.machine.Immatriculation%></td>
+    <td><%= modif_repar.sb %></td>
+    <td><%= link_to modif_repar.Objet, modif_repar%></td>
+    <td><%= modif_repar.ref %></td>
+    <td><%= modif_repar.date_rel.strftime('%d/%m/%Y')%></td>
+    <td><%= modif_repar.fait_par%></td>
+    <% if (lance_visite) then %> 
+    <td><%= link_to image_mod, edit_modif_repar_path(modif_repar) %></td>
+    <td><%= link_to image_del, modif_repar, :confirm => 'etes vous sur', :method => :delete %></td><% end %>
+  </tr>
+<% end %>
+</table>
+<% if (lance_visite) then %>  <%= link_to 'saisir nouvelle modif/réparation',new_modif_repar_path(:id_machine=>@machine.id) %><%end%>
+	</div>

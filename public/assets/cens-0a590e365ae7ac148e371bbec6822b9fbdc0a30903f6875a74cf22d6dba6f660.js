@@ -1,0 +1,1 @@
+$(document).ready(function(){$("#cen_id_machine").change(function(){return state=this.value,""===state&&(state="0"),jQuery.get("/kardex/cens/get_heure_tot.js?id_machine="+state),!1})});

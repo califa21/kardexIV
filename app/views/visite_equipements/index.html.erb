@@ -1,0 +1,42 @@
+﻿<h1>Liste des visites d'équipements</h1>
+<%= link_to "Nouvelle visite d'équipement", new_visite_equipement_path %>
+<%num_serie=""%>
+<% vis_pro="" %>
+<% @visite_equipements.each do |visite_equipement| %>
+	<%if (num_serie!=visite_equipement.equipement.num_serie) then %>
+		<% num_serie=visite_equipement.equipement.num_serie %>
+		<% if(vis_pro!="") then %> </table> <%end%>
+		<% vis_pro=""%>
+		<h3><%= visite_equipement.equipement.type_equipement.nom_constructeur%> <%= visite_equipement.equipement.type_equipement.type_equipement%> <%= visite_equipement.equipement.num_serie%></h3>
+	<%end %>
+	<% if (vis_pro!=visite_equipement.visite_protocolaire_equipement.Nom) then %>
+		<% if(vis_pro!="") then %> </table> <%end%>
+		<% vis_pro=visite_equipement.visite_protocolaire_equipement.Nom %>
+		<h4><%=vis_pro %></h4>
+		<table border=1 width="40%">
+		  <tr>
+			<th width="10%">Date de visite</th>
+			<th width="40%">Ref bon de lancement</th>
+			<th width="15%">faites à</th>
+			<th width=15%>potentiel suite à visite</th>
+			<th >Mod</th>
+			<th >Supp</th>
+		  </tr>
+	<%end%>
+
+	  <tr>
+	   <tr>
+	    <td><%= visite_equipement.date_visite.strftime('%d/%m/%Y') %></td>
+	    <td><%= link_to visite_equipement.nom, visite_equipement %></td>
+	    <% if visite_equipement.visite_protocolaire_equipement.type_potentiel.type_potentiel=="Calendaire" then pot= visite_equipement.date_visite else pot= visite_equipement.val_potentiel end %>
+	    <td><%= pres_val(pot,visite_equipement.visite_protocolaire_equipement.type_potentiel.type_potentiel)%></td>
+	    <td><%= pres_perio(visite_equipement.visite_protocolaire_equipement.valeur_potentiel,visite_equipement.visite_protocolaire_equipement.type_potentiel.type_potentiel)%> </td>
+	    <td><%= mod_link(edit_visite_equipement_path(visite_equipement)) %></td>
+	    <td><%= del_link(visite_equipement)%></td>
+	  </tr>
+	<% end %>
+</table>
+
+<br />
+
+<%= link_to "Nouvelle visite d'équipement", new_visite_equipement_path %>

@@ -1,0 +1,49 @@
+﻿<%= form_for(@exec_cn_equipement) do |f| %>
+  <% if @exec_cn_equipement.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@exec_cn_equipement.errors.count, "error") %> prohibited this exec_cn_equipement from being saved:</h2>
+
+      <ul>
+      <% @exec_cn_equipement.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <table border=0>
+<tr><td>
+<label for="type_exec_cn_equipement_id_equipement">Equipement :</label></td>
+<td>
+<%=  f.select "id_equipement", Equipement.all.collect {|p| [ p.type_equipement.nom_constructeur+" "+p.type_equipement.type_equipement+" "+p.num_serie+" "+p.type_equipement.type_equipement, p.id ] } %><br/>
+</td></tr>
+<tr><td>
+<label for="exec_cn_equipement_date_visite">date d'application:</label></td>
+<td><%= f.text_field  "date_exec",{:value=>@date_1, :class =>"date_saisie",:size => 10} %>
+</td></tr>
+<tr><td><%= label_tag(:non_applicable, "CN non applicable ") %></td>
+<td><%= check_box "exec_cn_equipement","non_applicable"%>
+</td></tr>
+<tr><td>
+<label for="type_exec_cn_equipement_id_cn_equipement">Type de CN</label></td>
+<td>
+<%=  f.select "idcn_equipement", CnEquipement.all.collect {|p| [ p.nom + p.service_bulletin, p.id ] } %><br/>
+</td></tr>
+<tr><td>
+<label for="exec_cn_equipement_val_potentiel">faites à :</label><div id="unitee"> </div></td>
+<td><%= text_field "exec_cn_equipement", "val_potentiel_exec", :size => 20 %>
+</td></tr>
+<tr><td>
+<label for="exec_cn_equipement_commentaire">commentaires:</label></td>
+<td><%= text_area"exec_cn_equipement", "commentaire", :rows => 5, :cols => 20 %><br/>
+
+</td></tr>
+<tr><td>
+  <p>
+  <%= if !(params[:id_machine].nil?) then hidden_field_tag(:retour,params[:id_machine]) end %>
+    <%= f.submit 'Modifier' %>
+  </p>
+
+</td></tr>
+</table>
+<% end %>

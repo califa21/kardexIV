@@ -1,0 +1,23 @@
+﻿<h1>Edition d'une consigne machine</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'détail', @cn_machine %> |
+<%= link_to 'retour à la liste des CN machine', cn_machines_path %>
+<div style="border-style: none;width:40%;">
+<h2>documents</h2>
+<h3>CN</h3>
+	<% if !@cn_docs.nil? then %>
+	<%= render  partial: 'doc_divers/aff_doc', locals: {docs: @cn_docs}%>
+	<% end %>
+<h3>BS</h3>
+	<% if !@bs_docs.nil? then %>
+	<%= render  partial: 'doc_divers/aff_doc', locals: {docs: @bs_docs}%>
+	<% end %>
+</div>
+<p></p>
+<div style="border-style: solid;width:40%;">
+<h3>Ajouter un document</h3>
+	<%= render partial: 'doc_divers/form', locals:{retour: "cn_machines"} %>
+</div>
+

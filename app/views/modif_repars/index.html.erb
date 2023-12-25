@@ -1,0 +1,33 @@
+﻿<h1>liste des modifications réparation</h1>
+<% immat="" %>
+<br><%= link_to 'nouvelle modification réparation', new_modif_repar_path %></br>
+<% @modif_repars.each do |modif_repar| %>
+	<% if (immat!=modif_repar.machine.Immatriculation) then %>
+		<% if (immat!="") then %> </table> <%end %>
+		<%immat=modif_repar.machine.Immatriculation %>
+		<h3><%=modif_repar.machine.type_machine.Nom_constructeur %> <%= modif_repar.machine.type_machine.type_machine%>  <%= modif_repar.machine.Immatriculation%></h3>
+		<table border=1 width=50%>
+		  <tr>
+		     <th width=10%>Service Bull</th>
+		     <th width=40%>Objet</th>
+		     <th width=10%>référence</th>
+		     <th width=15%>date réalisation</th>
+		     <th width=15%>Fait par</th>
+		     <th>Mod</th>
+		     <th>Supp</th>
+		  </tr>
+	<%end%>
+	 <tr>
+	    <td><%= modif_repar.sb %></td>
+	    <td><%= link_to modif_repar.Objet, modif_repar%></td>
+	    <td><%= modif_repar.ref %></td>
+	    <td><%= modif_repar.date_rel.strftime('%d/%m/%Y')%></td>
+	    <td><%= modif_repar.fait_par%></td>
+	    <td><%= mod_link edit_modif_repar_path(modif_repar) %></td>
+	    <td><%= del_link modif_repar %></td>
+	  </tr>
+<% end %>
+</table>
+
+<br />
+

@@ -1,0 +1,38 @@
+﻿<h1> détail de l'application de la CN </h1>
+<table border=1>
+  <tr>
+	<td>Machine</td>
+	<td>CN</td>
+	<td>Numéro BS</td>
+	<td>date execution</td>
+	<td>Potentiel à execution</td>
+	<td>CN applicable</td>
+	<td>Commentaires</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+  </tr>
+
+
+  <tr>
+    <td><%= @exec_cn_machine.machine.Immatriculation %></td>
+    <td><%= @exec_cn_machine.cn_machine.nom  %></td>
+    <td><%= @exec_cn_machine.cn_machine.service_bulletin %></td>
+    <td><%= @exec_cn_machine.date_exec.strftime('%d/%m/%Y') %></td>
+    <td>
+    <%= if ( @exec_cn_machine.non_applicable or @exec_cn_machine.cn_machine.type_potentiel.type_potentiel=="Une fois" or @exec_cn_machine.cn_machine.type_potentiel.type_potentiel=="Calendaire") then " " 
+		else 
+		pres_val(@exec_cn_machine.val_potentiel_exec,@exec_cn_machine.cn_machine.type_potentiel.type_potentiel) + @exec_cn_machine.cn_machine.type_potentiel.unitee 
+	end%>
+    </td>
+    
+        <td align="center"><%= if (!@exec_cn_machine.non_applicable) then image_tag "case_a_cocher.gif" else  image_tag "case_cocher_vide.jpg" end %></td>
+	<td align="center"><%=@exec_cn_machine.commentaire %></td>
+    
+	
+    <td><%= link_to 'modifier', edit_exec_cn_machine_path(@exec_cn_machine) %></td>
+    <td><%= link_to 'Suppr', @exec_cn_machine, data:{ confirm: 'êtes vous sur?'}, :method => :delete %></td>
+  </tr>
+
+</table>
+<%= link_to 'Modifier', edit_exec_cn_machine_path(@exec_cn_machine) %> |
+<%= link_to 'Retour', exec_cn_machines_path %>

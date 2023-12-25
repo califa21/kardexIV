@@ -1,0 +1,1 @@
+function initPagePot_e(){jQuery(function(t){return t("#potentiel_equipement_idtype_potentiel").change(function(){var e;return""===(e=t("select#potentiel_equipement_idtype_potentiel :selected").val())&&(e="0"),jQuery.get("/kardex/type_potentiels/get_unitee.js?pot_id="+e),!1})})}$(function(){initPagePot_e()}),$(window).bind("page:change",function(){initPagePot_e()});

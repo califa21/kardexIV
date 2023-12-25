@@ -1,0 +1,49 @@
+<%= form_for(@page_acce) do |f| %>
+  <% if @page_acce.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@page_acce.errors.count, "error") %> prohibited this page_acce from being saved:</h2>
+
+      <ul>
+      <% @page_acce.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<p><label for="page_acce_Nom">Nom de la page:</label> <%= text_field "page_acce", "Nom", :size => 20 %></p>
+<p><label for="page_acce_adresse">adresse de la page:</label> <%= text_field "page_acce", "adresse", :size => 20 %></p>
+<label for="page_acce_menu_item">Menu :</label><%=  select("page_acce", "menu_item_id", MenuItem.all.collect {|p| [ p.Nom ,p.id] })%><br/>
+
+
+
+<table border=1>
+  <tr>
+	<td>fonction</td>
+	<td>Consultation</td>
+	<td>Modification</td>
+	<td>Suppression</td>
+	<td>Cr&eacute;ation</td>
+</tr>
+<% @fonctions.each do |fonction| %>
+<% detail=EstAcce.where(" fonction_idfonction =? and page_acce_id=?",fonction.id,@page_acce.id).first%>
+<% if(detail.nil?) then 
+		detail= EstAcce.new()
+	end%>
+  <tr>
+	<td><%= fonction.nom_fonction%></td>
+	<td><%= check_box "est_acce["+fonction.id.to_s+"]","page_consult",{checked: detail.page_consult}, checked_value = "1", unchecked_value = "0" %></td>
+	<td><%= check_box "est_acce["+fonction.id.to_s+"]","page_modif",{checked: detail.page_modif}, checked_value = "1", unchecked_value = "0"%></td>
+	<td><%= check_box "est_acce["+fonction.id.to_s+"]","page_suppr",{checked:detail.page_suppr}, checked_value = "1", unchecked_value = "0"%></td>
+	<td><%= check_box "est_acce["+fonction.id.to_s+"]","page_new",{checked: detail.page_new}, checked_value = "1", unchecked_value = "0"%></td>
+  </tr>
+  <%end%>
+  </table>
+ 
+  <div class="actions">
+    <%= f.submit  'Modifier' %>
+  </div>
+<% end %>
+
+
+
+

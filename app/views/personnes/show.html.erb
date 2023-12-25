@@ -1,0 +1,57 @@
+﻿<p id="notice"><%= notice %></p>
+<h1>Détail d'un utilisateur</h1>
+<table border=0>
+<tr><td>Identité :</td><td><%= @personne.Nom + " "+ @personne.prenom %></td></tr>
+<tr><td>Fonction :</td><td> <%= @personne.fonction.nom_fonction %></td></tr>
+<tr><td>Login :</td><td> <%= @personne.login %></td></tr>
+
+<tr><td>Numéro autorisation CEN</td><td><%= if @personne.autor.nil? then " " else @personne.autor end %></td></tr>
+<tr><td>Numéro Licence Mécano</td><td><%= if @personne.num_licence_mec.nil? then " " else @personne.num_licence_mec end %></td></tr>
+<tr><td>Pilote Propriétaire</td><td><%= if (@personne.pil_prop) then image_tag "case_a_cocher.gif" else  image_tag "case_cocher_vide.jpg" end %></td></tr>
+</table>
+<h2> Travaux menés </h2>
+<table border=1>
+ <tr> <th>date</th>
+ <th>Aéronef</th>
+ <th>opération</th></tr>
+ <% @travaux.each do |travail| %>
+ <tr>
+	<td><%=travail.date_fin_trav.strftime('%d/%m/%Y')%></td>
+	<td><%=travail.machine.Immatriculation%></td>
+	<td>- visite :
+		<% travail.visite_protocolaire.each do |vis_prot|%>
+		<%=vis_prot.Nom%>,
+		<%end%>
+	<% if !travail.cn_machine.empty? then %>
+		<p>-cn machine 
+			<% travail.cn_machine.each do |cn|%>
+			  <%=cn.nom%>,
+			<%end%>
+	<%end%>
+	<% if !travail.visite_protocolaire_equipement.empty? then %>
+		<%id_equipement=0%>
+		<% travail.type_visite_equipement_lance.order("type_visite_equipement_lances.id_equipement").each do |cn|%>
+			<%if (id_equipement!=cn.id_equipement && !cn.nil?) then%>
+				<p><%=cn.equipement.type_equipement.nom_constructeur%> <%=cn.equipement.type_equipement.type_equipement%>  <%=cn.equipement.num_serie%> 
+				<%id_equipement=cn.id_equipement%>
+			<%end%>
+			 <%=cn.visite_protocolaire_equipement.Nom%>,
+		<%end%>
+		<%end%>
+		<% if !travail.cn_equipement.empty? then %>
+			<%id_equipement=0%>
+			<p>
+			<% travail.type_cn_equipement_lance.order("id_equipement").each do |cn|%>
+				<%if (id_equipement!=cn.id_equipement && !cn.nil?) then%>
+					CN équipement <%=cn.equipement.type_equipement.nom_constructeur%> <%=cn.equipement.type_equipement.type_equipement%>  <%=cn.equipement.num_serie%> 
+					<%id_equipement=cn.id_equipement%>
+				<%end%>
+				<%=cn.cn_equipement.nom%>,
+			<%end%>
+			<%end%>
+	<p> travaux non périodique : <%=travail.trav_prog%> <%=travail.trav_decou%></td>
+ </tr>
+ <% end%>
+</table>
+<%= link_to 'Modifier', edit_personne_path(@personne) %> |
+<%= link_to 'Retour à la liste', personnes_path %>

@@ -1,0 +1,12 @@
+<h1>Editing maint_previ</h1>
+
+<% form_for(@maint_previ) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @maint_previ %> |
+<%= link_to 'Back', maint_previs_path %>

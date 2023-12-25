@@ -1,0 +1,124 @@
+﻿<h2>Date de prévision : <%= (@date_fin.to_date+12.month).strftime('%d/%m/%Y') %></h2>
+<h3>Visites machines prévisibles</h3>
+<% debug(@vis_machine) %>
+<table border=1 width=80%>
+<tr>
+	<td>Type Machine</td>
+	<td>Machine</td>
+	<td>Type de visite </td>
+	<td>type de potentiel</td>
+	<td>Butée</td>
+	<td width=5%>Prévision a la date du <%=(@date_fin.to_date+12.month).strftime('%d/%m/%Y')%></td>
+	<td align='center'>manque</td>
+</tr>
+<% @vis_machine.each do |visite| %>
+<%if (visite[1]["visite_protocolaire"].type_potentiel.type_potentiel) == "Calendaire" then
+		butee=visite[1]["butee"].strftime('%d/%m/%Y')
+		der_rel="" 
+		manque=((@date_fin.to_date+12.month)-visite[1]["butee"]).to_i
+		manque=manque.to_s + " jours"
+	else
+		butee=visite[1]["butee"].to_i
+		der_rel=pres_val(visite[1]["val_dernier_releve"],visite[1]["visite_protocolaire"].type_potentiel.type_potentiel)
+		manque=pres_pot(visite[1]["val_dernier_releve"] - butee,visite[1]["visite_protocolaire"].type_potentiel.type_potentiel)
+		#manque=manque.to_s 
+		#manque=manque+" " +visite[1]["visite_protocolaire"].type_potentiel.unitee
+	end
+%>
+<tr>
+	<td><%= visite[1]["machine"].type_machine.type_machine %></td>
+	<td><%= visite[1]["machine"].Immatriculation %></td>
+	<td><%= visite[1]["visite_protocolaire"].Nom  %></td>
+	<td><%= visite[1]["visite_protocolaire"].type_potentiel.type_potentiel %></td>
+	<td><%= pres_val(butee,visite[1]["visite_protocolaire"].type_potentiel.type_potentiel)  %></td>
+	<td><%= der_rel  %></td>
+	<td align='right'><%= manque %>
+</tr>
+<% end %>
+</table>
+<h3>Equipement en fin de potentiel</h3>
+<table border=1 width=80%>
+<tr>
+	<td>Type Equipement</td>
+	<td>Equipement</td>
+	<td>Type potentiel</td>
+	<td>Type Machine</td>
+	<td>Machine</td>
+	<td>Butee</td>
+	<td>Prévision a la date du <%=(@date_fin.to_date+12.month).strftime('%d/%m/%Y')%></td>
+</tr>
+
+
+<% @pot.each do |equip| %>
+<tr>
+	<td><%= equip[1]["type_equip"] %> </td>
+	<td><%= equip[1]["num_serie"] %> </td>
+	<td><%= equip[1]["type_pot"] %> </td>
+	<td><%= equip[1]["type_machine"] %> </td>
+	<td><%= equip[1]["nom_machine"] %> </td>
+	<td><%= equip[1]["butee"] %> </td>
+	<td><%= if  equip[1]["type_pot"] == "Calendaire" then "" else equip[1]["estime"] end %> </td>
+</tr>
+<%end%>
+
+
+
+
+</table>
+<h3>visites équipement</h3>
+<table border=1 width=80%>
+<tr>
+	<td>Type d'équipement</td>
+	<td>Equipement</td>
+	<td>Type de visite </td>
+	<td>Type Machine</td>
+	<td>Machine</td>
+	<td>Butee</td>
+	<td>Prévision a la date du <%=(@date_fin.to_date+12.month).strftime('%d/%m/%Y')%></td>
+</tr>
+<% @vis_equip.each do |vis| %>
+	<%#visite[1].each do |vis| %>
+	<tr>
+	<%if (vis[1]["pot"]) == "Calendaire" then
+		butee=vis[1]["butee"].strftime('%d/%m/%Y')
+		der_rel="" 
+	else
+		butee=vis[1]["butee"].to_i
+		der_rel=vis[1]["val_dernier_releve"].to_i
+	end
+	%>
+	<td><%= vis[1]["type_equipement"] %></td>
+	<td><%= vis[1]["num_serie"] %></td>
+	<td><%= vis[1]["visite_protocolaire"] %></td>
+	<td><%= vis[1]["type_machine"] %></td>
+	<td><%= vis[1]["nom_machine"] %></td>
+	<td><%= butee %></td>
+	<td><%= der_rel %> </td>
+</tr>
+<%#end%>
+<%end%>
+</table>
+<h3>Détail par machine</h3>
+<table border=1 width=80%>
+  <tr>
+    <td> type </td>
+    <td> Nom Constructeur</td>
+    <td>  Immatriculation </td>
+    <td>  num série </td>
+    <td>  date construction </td>
+    <td> </td>
+    <% if (@modif)  %><td> </td><%end%>
+     <%if (@suppr)  %><td> </td><%end%>
+  </tr>
+
+<% @machines.each do |mach| %>
+<tr>
+	<td><%= mach.type_machine.type_machine%>
+	<td><%= mach.type_machine.Nom_constructeur%>
+	<td><%=  mach.Immatriculation %></td>
+	<td><%=  mach.num_serie %></td>
+	<td><%=  mach.date_construct.strftime('%d/%m/%Y') %></td>
+	<td><%= link_to 'détail', url_for(:action=>'show',:id=>mach.id,:date=>@date_fin.to_s) %></td>
+  </tr>
+<% end %>
+</table>

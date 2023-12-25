@@ -1,0 +1,2 @@
+module VisiteProtocolairesHelper
+end

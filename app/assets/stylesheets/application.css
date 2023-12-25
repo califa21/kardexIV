@@ -1,0 +1,83 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *=require_tree .
+ *=require scaffolds.css
+ *= require jquery-ui
+ 
+ */
+ .Style_titre {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-style: italic;
+	font-size:36px;
+	vertical-align:middle
+}
+  ul{
+        padding: 0;
+        list-style: none;
+        background: #f2f2f2;
+    }
+    ul li{
+        display: inline-block;
+        position: relative;
+        line-height: 21px;
+        text-align: left;
+    }
+    ul li a{
+        display: block;
+        padding: 8px 25px;
+        color: #333;
+        text-decoration: none;
+    }
+    ul li a:hover{
+        color: #fff;
+        background: #939393;
+    }
+    ul li ul.dropdown{
+        min-width: 125px; /* Set width of the dropdown */
+        background: #f2f2f2;
+        display: none;
+        position: absolute;
+        z-index: 999;
+        left: 0;
+    }
+    ul li:hover ul.dropdown{
+        display: block;	/* Display the dropdown */
+    }
+    ul li ul.dropdown li{
+        display: block;
+    }
+	
+	
+#KO {
+	background-color:#FF0000;
+	color:#FFFFFF
+}
+#half_ko {
+	background-color:#FFA500;
+	color:#FFFFFF
+}
+#OK {
+	background-color:#00FF00;
+	color:#FFFFFF;
+}
+#LIMITE{
+	background-color:#FF9900;
+	color:#000000;
+	}
+#annule{
+	text-decoration:line-through;
+	font-style:italic;
+}
+#NA {
+	text-decoration:line-through;
+	}

@@ -1,0 +1,21 @@
+﻿(new_options = [
+<%@vpes.each do |vpe| %>
+["<%=vpe.Nom %>","<%=vpe.id%>"],
+<%end%>
+]);
+
+/* Remove all options from the select list */
+$('#visite_equipement_id_visite_protocolaire_equipement').empty();
+$.each(new_options, function() {
+                   $('#visite_equipement_id_visite_protocolaire_equipement').append(
+                                        $("<option></option>").val(this[1]).html(this[0])
+                                    )
+                            });
+var state, equipement;
+    state= $("select#visite_equipement_id_visite_protocolaire_equipement :selected").val();
+    equipement =$("select#visite_equipement_idequipement :selected").val();
+    if (state === "") {
+      state = "0";
+    }
+    //jQuery.get(<%=url_for(:controller=>"/visite_equipements",:action=>"get_type_visite",:only_path=>true)%> + state+"&id_equipement="+equipement );
+$('#unitee').html('<%= escape_javascript(render "form_pot") %>');

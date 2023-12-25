@@ -1,0 +1,44 @@
+﻿<%= form_for(@modif_repar) do |f| %>
+  <% if @modif_repar.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@modif_repar.errors.count, "erreur") %> interdit la sauveagarde:</h2>
+
+      <ul>
+      <% @modif_repar.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<table border=1>
+   <tr><td>
+<label for="modif_repar_id_machine">Immatriculation Machine:</label></td>
+<td>
+<%=  f.select("id_machine", Machine.all.collect {|p| [ p.Immatriculation, p.id ] })%><br/>
+</td></tr>
+<tr><td>
+<label for="modif_repar_sb">Bulletin service :</label></td>
+<td><%= f.text_field  "sb", :size => 20 %><br/>
+</td></tr>
+<tr><td>
+<label for="modif_repar_Objet">Objet :</label></td>
+<td><%= f.text_field  "Objet", :size => 45 %><br/>
+</td></tr>
+<tr><td>
+<label for="modif_repar_ref">r&eacute;f&eacute;rence :</label></td>
+<td><%= f.text_field  "ref", :size => 20 %><br/>
+</td></tr>
+<tr><td>
+<label for="modif_repar_date_rel">date de visite:</label></td>
+<td><%= f.text_field  "date_rel",{:value=>@date_1, :class =>"date_saisie",:size => 10}%>
+<br/>
+</td></tr>
+<tr><td>
+<label for="modif_repar_fait_par">Fait par :</label></td>
+<td><%= f.text_field "fait_par", :size => 20 %><br/>
+</td></tr>
+<tr><td>
+    <%= f.submit 'Sauvegarder' %>
+</td><td>&nbsp;</td></tr>
+</table>
+<% end %>

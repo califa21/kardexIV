@@ -1,0 +1,94 @@
+﻿<h1>type de machine</h1>
+<p>Constructeur :<%= @type_machine.Nom_constructeur %></p>
+<p>Type : <%= @type_machine.type_machine %></p>
+<p>Programme entretien:<%=@type_machine.ref_manuel_entretien%></p>
+<p>Revision : <%=@type_machine.revision%></p>
+<p>date revision :<%= if (@type_machine.date_revision.nil?) then"" else @type_machine.date_revision.strftime('%d/%m/%Y')end %></p>
+<p>date Approbation :<%= if (@type_machine.date_approb.nil?) then"" else @type_machine.date_approb.strftime('%d/%m/%Y')end %></p>
+<p>date dernière revue :<%= if (@type_machine.date_revue.nil?) then"" else @type_machine.date_revue.strftime('%d/%m/%Y')end %></p>
+<%= link_to 'modifier', edit_type_machine_path(@type_machine) %> |
+<%= link_to 'retour à liste des machines', type_machines_path %>
+
+<h2>Liste des  visites protocolaires</h2>
+
+<table border=1>
+  <tr>
+    <th>Nom</th>
+    <th>type de potentiel</th>
+    <th>valeur de potentiel </th>
+    <th>tolerance </th>
+    <th>&nbsp</th>
+    <th>&nbsp</th>
+  </tr>
+<% @visite_protocolaires.each do |visite_protocolaire| %>
+  <tr>
+    <td><%= link_to visite_protocolaire.Nom, visite_protocolaire %></td>
+    <td><%=visite_protocolaire.type_potentiel.type_potentiel %></td>
+    <td><%=pres_perio(visite_protocolaire.valeur_potentiel,visite_protocolaire.type_potentiel.type_potentiel)%></td>
+    <td><%=pres_perio(visite_protocolaire.tolerance,visite_protocolaire.type_potentiel.type_potentiel) %></td>
+    <td><%= mod_link(edit_visite_protocolaire_path(visite_protocolaire))%></td>
+    <td><%= del_link(visite_protocolaire)%></td>
+    
+  </tr>
+<% end %>
+</table>
+<td><%= link_to 'définir une nouvelle visite',new_visite_protocolaire_path(:idtype_machine=>@type_machine.id) %></td>
+
+<h2>liste potentiel machines</h2>
+
+<table border=1>
+  <tr>
+	<th>Nom</th>
+	<th>Valeur potentiel</th>
+	<th>&nbsp;</th>
+	<th>&nbsp;</th>
+  </tr>
+
+<% @potentiel_machines.each do |potentiel_machine| %>
+  <tr>
+    <td><%= link_to potentiel_machine.nom, potentiel_machine %></td>
+    <td><%=pres_perio(potentiel_machine.valeur_potentiel,potentiel_machine.type_potentiel.type_potentiel)%> <%= potentiel_machine.type_potentiel.unitee %></td>
+    <td><%= mod_link(edit_potentiel_machine_path(potentiel_machine))%>
+    <td><%=del_link( potentiel_machine)  %></td>
+  </tr>
+<% end %>
+</table>
+<td><%= link_to 'définir un nouveau potentiel',new_potentiel_machine_path(:idtype_machine=>@type_machine.id) %></td>
+<h2>Cn Machines</h2>
+<table border=1>
+  <tr>
+	<th>Nom</th>
+	<th>Reference</th>
+	<th>BS</th>
+	<th>Annule</th>
+	<th>potentiel</th>
+	<th>&nbsp</th>
+	<th>&nbsp</th>
+  </tr>
+
+<% @cn_machines.each do |cn_machine| %>
+  <tr>
+	<td><%= link_to(cn_machine.nom, cn_machine) %></td>
+	<td><%= cn_machine.reference %></td>
+	<td><%= cn_machine.service_bulletin %></td>
+	<td><%= if (cn_machine.est_annule) then image_tag "case_a_cocher.gif" else  image_tag"case_cocher_vide.jpg" end %></td>
+	<td><%= cn_machine.val_potentiel  %> <%= cn_machine.type_potentiel.unitee_saisie %></td>
+	<td><%= mod_link(edit_cn_machine_path(cn_machine)) %></td>
+	<td><%= del_link(cn_machine) %></td>
+  </tr>
+<% end %>
+</table>
+<td><%= link_to 'nouvelle Cn',new_cn_machine_path(:idtype_machine=>@type_machine.id) %></td>
+
+
+<div style="border-style: none;width:40%;">
+<h2>documents</h2>
+<% if !@mm_docs.empty? then %>
+<h3>Manuel de maintenance</h3>
+<%= render  partial: 'doc_divers/aff_doc', locals: {docs: @mm_docs}%>
+<%end%>
+<% if !@ct_docs.empty? then %>
+<h3>carte de travail</h3>
+<%= render  partial: 'doc_divers/aff_doc', locals: {docs: @ct_docs}%>
+<%end%>
+</div>

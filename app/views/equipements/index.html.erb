@@ -1,0 +1,22 @@
+﻿<h1>Liste des équipements</h1>
+<%= link_to 'nouvel équipement', new_equipement_path %>
+<%type_equip =""%>
+<% @equipements.each do |equipement| %>
+	<% if (type_equip != equipement.type_equipement.type_equipement ) then %>
+		<% if (type_equip !="") then %></table><%end%>
+		<% type_equip =equipement.type_equipement.type_equipement %>
+		<h3><%= equipement.type_equipement.nom_constructeur %> <%= equipement.type_equipement.type_equipement %></h3>
+		<table border=1 width=30%>
+		<tr>
+			<th width=90%>N° de série</th>
+			<th>Mod</th>
+			<th>Supp</th>
+		</tr>
+	<% end %>	
+	<tr>
+		<td><%= link_to equipement.num_serie,equipement %></td>
+		<td><%= mod_link edit_equipement_path(equipement) %></td>
+		<td><%= del_link equipement %></td>
+	</tr>
+<% end %>
+</table>

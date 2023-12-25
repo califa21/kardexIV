@@ -1,0 +1,30 @@
+﻿<%= form_for(@equipement) do |f| %>
+  <% if @equipement.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@equipement.errors.count, "error") %> prohibited this equipement from being saved:</h2>
+
+      <ul>
+      <% @equipement.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<table border=1>
+<tr><td>
+<label for="idtypeequipement">type equipement:</label></td>
+<td>
+<%=  select("equipement", "idtypeequipement", TypeEquipement.all.collect {|p| [ p.nom_constructeur+" "+p.type_equipement, p.id ] }, {:include_blank => 'Sans'})%><br/>
+</td></tr>
+
+
+<tr><td>
+<div id="unitee"><label for="equipement_num_serie">num&eacute;ro de serie :</label>&nbsp </td>
+<td><%= text_field "equipement", "num_serie", :size => 20 %></div>
+</td></tr>
+<tr><td>
+  <p>
+    <%= f.submit 'Sauvegarder' %>
+  </p></td><td>&nbsp;</td></tr>
+  </table>
+<% end %>

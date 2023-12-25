@@ -1,0 +1,21 @@
+<% environment.context_class.instance_eval { include Rails.application.routes.url_helpers} %>
+$(function() {
+  initPage_pot_mach();
+});
+$(window).bind('page:change', function() {
+   initPage_pot_mach();
+});
+function  initPage_pot_mach() {
+ jQuery(function($) {
+  return $("#potentiel_machine_idtype_potentiel").change(function() {
+    var state, test, texte;
+    state= $("select#potentiel_machine_idtype_potentiel :selected").val();
+    if (state === "") {
+      state = "0";
+    }
+    jQuery.get('<%=url_for(:controller=>"/type_potentiels",:action=>"get_unitee",:only_path=>true)%>'+".js?pot_id=" + state );
+    return false;
+  });
+});
+
+}

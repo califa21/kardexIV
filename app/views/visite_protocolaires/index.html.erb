@@ -1,0 +1,39 @@
+﻿<h1>Liste des  visites d'entretien</h1>
+<% type="" %>
+<%= link_to 'nouvelle visite protocolaire', new_visite_protocolaire_path %>
+<% @visite_protocolaires.each do |visite_protocolaire| %>
+	<% if (type!=visite_protocolaire.type_machine.type_machine) then %>
+		<% if (type!="") then %></table> <% end%>
+		<% type=visite_protocolaire.type_machine.type_machine%>
+		<h3><%= visite_protocolaire.type_machine.Nom_constructeur %> <%=visite_protocolaire.type_machine.type_machine%></h3>
+		<table border=1 width=40%>
+		 <tr>
+			<th width=25%>Nom</th>
+			<th width=15%>type de potentiel</th>
+			<th width=15%>valeur de potentiel </th>
+			<th width=15%>tolerance </th>
+			<th width=10%>potentiel variable</th>
+			<th>gv</th>
+			<th>va</th>
+			<th>Carte travail</th>
+			<th>Mod</th>
+			<th>Supp</th>
+		</tr>
+	<% end %>
+
+	  <tr>
+	    <td><%=link_to visite_protocolaire.Nom, visite_protocolaire %></td>
+	    <td><%=visite_protocolaire.type_potentiel.type_potentiel %></td>
+	    <td><%=pres_perio(visite_protocolaire.valeur_potentiel,visite_protocolaire.type_potentiel.type_potentiel) %></td>
+	    <td><%=pres_perio(visite_protocolaire.tolerance,visite_protocolaire.type_potentiel.type_potentiel) %></td>
+	    <td align="center"><%= if (visite_protocolaire.potentiel_variable) then image_tag "case_a_cocher.gif" else image_tag "case_cocher_vide.jpg" end %></td>
+	    <td align="center"><%= if (visite_protocolaire.gv) then image_tag "case_a_cocher.gif" else image_tag "case_cocher_vide.jpg" end %></td>
+	    <td align="center"><%= if (visite_protocolaire.va) then image_tag "case_a_cocher.gif" else image_tag "case_cocher_vide.jpg" end %></td>
+		<td align="center"><%= if (visite_protocolaire.carte) then image_tag "case_a_cocher.gif" else image_tag "case_cocher_vide.jpg" end %></td>
+	    <td><%= mod_link edit_visite_protocolaire_path(visite_protocolaire) %></td>
+	    <td><%= del_link visite_protocolaire %></td>
+	  </tr>
+<% end %>
+</table>
+
+<br />

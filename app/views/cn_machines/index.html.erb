@@ -1,0 +1,35 @@
+﻿<h1>liste des CN machines</h1>
+<% type_machine="" %>
+<p><%= link_to 'nouvelle CN machine', new_cn_machine_path %></p>
+<% @cn_machines.each do |cn_machine| %>
+	<% if cn_machine.type_machine.type_machine != type_machine then%>
+		<%if (type_machine != "") then %></table> <% else %><% end %>
+		<% type_machine = cn_machine.type_machine.type_machine%>
+		<h3><%= cn_machine.type_machine.Nom_constructeur + ' '+cn_machine.type_machine.type_machine %></h3>
+		<table border=1 width= 50%>
+		  <tr>
+			<th width=30%>Nom</th>
+			<th width=20%>Reference</th>
+			<th width=10%>BS</th>
+			<th width=5%>Valide</th>
+			<th width=14%>potentiel</th>
+			<th width=7%>Mod</th>
+			<th width=7%>supp</th>
+		  </tr>
+		  
+	<% end%>
+	<% type_machine = cn_machine.type_machine.type_machine%>
+	<% if (cn_machine.est_annule) then @style='id="annule"' else @style='' end%>
+	  <tr>
+		<td <%=@style%>><%= link_to cn_machine.nom,cn_machine %></td>
+		<td <%=@style%>><%= cn_machine.reference %></td>
+		<td><%= cn_machine.service_bulletin %></td>
+		<td align="center"><%= if (!cn_machine.est_annule) then image_tag "case_a_cocher.gif" else image_tag "case_cocher_vide.jpg" end %></td>
+		<td><%= pres_perio(cn_machine.val_potentiel,cn_machine.type_potentiel.type_potentiel)%>
+		</td>
+	    <td><%= mod_link  edit_cn_machine_path(cn_machine) %></td>
+	    <td><%= del_link cn_machine %></td>
+	  </tr>
+<% end %>
+</table>
+<%= link_to 'nouvelle CN machine', new_cn_machine_path %>

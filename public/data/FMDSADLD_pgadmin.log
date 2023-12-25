@@ -1,0 +1,6 @@
+2013-12-26 19:21:48 ERROR  : ERREUR:  le nouvel encodage (WIN1252à est incompatible avec l'encodage de la base de
+données modèle (UTF8)
+HINT:  Utilisez le même encodage que celui de la base de données modèle,
+ou utilisez template0 comme modèle.
+2013-12-26 22:08:44 ERROR  : Error connecting to the server: FATAL:  authentification par mot de passe échouée pour l'utilisateur  « postgres »
+

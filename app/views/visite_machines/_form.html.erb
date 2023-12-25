@@ -1,0 +1,35 @@
+﻿<%= form_for(@visite_machine) do |f| %>
+  <% if @visite_machine.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@visite_machine.errors.count, "erreur") %> prohibited this visite_machine from being saved:</h2>
+
+      <ul>
+      <% @visite_machine.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<p><label for="visite_machine_nom">référence:</label>
+<%= text_field "visite_machine", "nom", :size => 20 %></p>
+
+<p> <label for="type_visite_machine_idmachine">Immatriculation :</label>
+<%=  f.select "idmachine", Machine.all.collect {|p| [ p.Immatriculation, p.id ] },{:include_blank=> 'None'}
+     %><br/>
+
+<p><label for="visite_machine_date_visite">date de visite:</label>
+<%= f.text_field  "date_visite",{:value=>@date_1, :class =>"date_saisie",:size => 10}%>
+<p>
+<label for="type_visite_machine_id_visite_protocolaire">Type de visite </label>
+<%=  f.select  "id_visite_protocolaire",@visit_prot %><br/>
+<p>
+<%= render("form_pot")%>
+<p>
+<label for="visite_machine_commentaire">commentaires:</label> </p><%= text_area"visite_machine", "commentaire", :rows => 5, :cols => 20 %><br/>
+</p>
+
+  <div class="actions">
+  <%= if !(params[:id_machine].nil?) then hidden_field_tag(:retour,params[:id_machine]) end %>
+    <%= f.submit("Enregistrer") %>
+  </div>
+<% end %>

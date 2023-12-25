@@ -1,0 +1,8 @@
+<%= form_tag  url_for(:controller=>"appli",:action=>"login"),:target=> '_parent' do  %>
+    <h3>Login</h3> 
+  <label for="personne_login">Login:</label><br/>
+  <%= text_field "personne", "login", :size => 20 %><br/>
+  <label for="personne_pass">Password:</label><br/>
+  <%= password_field "personne", "pass", :size => 20 %><br/>
+<%= submit_tag "Envoyer" %>
+<% end %>

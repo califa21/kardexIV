@@ -1,0 +1,110 @@
+﻿<h1> détails équipement</h2>
+<%= link_to 'Retour à la liste ', equipements_path %>
+<h2>Equipement</h2>
+<table border=1>
+  <tr>
+  <td>Constructeur</td>
+   <td>type</td>
+    <td>N° de série</td>
+      <td>&nbsp;</td>
+       <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td><%=@equipement.type_equipement.nom_constructeur %></td>
+    <td><%=@equipement.type_equipement.type_equipement %></td>
+    <td><%= @equipement.num_serie %></td>
+    <td><%= link_to 'modifier', edit_equipement_path(@equipement) %></td>
+    <td><%= link_to 'Suppr', @equipement, :confirm => '&ecirc;tes vous sur?', :method => :delete %></td>
+  </tr>
+</table>
+<% if  (!(@est_monte[0].nil?))then %>
+<h2> équipement monté sur </h2>
+<p><%= @machine.type_machine.Nom_constructeur %> <%= @machine.type_machine.type_machine %> <%= link_to(@machine.Immatriculation,@machine)  %></p>
+<% if !(@equipement.type_equipement.visite_protocolaire_equipement.empty?) then %>
+<h2> visite entretien de l'équipement</h2>
+<% @equipement.type_equipement.visite_protocolaire_equipement.each do |visite_equ| %>
+<h3><%=visite_equ.Nom%></h3> 
+(validité : <%= visite_equ.valeur_potentiel%> <%= visite_equ.type_potentiel.unitee %>)
+<%= link_to 'détail', visite_equ %> <%= link_to 'modifier', edit_visite_equipement_path(visite_equ) %> <%= link_to 'Suppr', visite_equ, :confirm => 'êtes vous sur?', :method => :delete %>
+<table border=1>
+<tr>
+	<td>visite</td>
+	<td>date</td>
+	<%= if (visite_equ.type_potentiel.type_potentiel !="Calendaire") then "<td>potentiel à la réalisation</td>" end%>
+	<td>&nbsp;</td>
+</tr>
+<% @vis_equ.each do |vis| %>
+<% if (vis.id_visite_protocolaire_equipement== visite_equ.id) then %>
+<tr>
+	<td><%= vis.nom %></td>
+	<td><%= vis.date_visite.strftime('%d/%m/%Y')  %></td>
+	<%= if (visite_equ.type_potentiel.type_potentiel !="Calendaire") then "<td>"+vis.val_potentiel.to_s+"</td>" end%>
+	<td><%= link_to 'détail', vis %></td>
+</tr>
+<%end%>
+<%end%>
+</table>
+<% end%>
+<% end %>
+<% if !@pot_rest.empty? then %>
+<h2> potentiel de l'équipements</h2>
+<table border=1>
+<tr>
+	<td>type de potentiel</td>
+	<td>valeur du potentiel</td>
+	<td>butée</td>
+	<td>Valeur courante</td>
+	<td>reste</td>
+
+</tr>
+<% @pot_rest.each do |pot1| %>
+<% pot=pot1[1] %>
+    <td><%= pot["type_pot"] %> </td>
+    <td><%= pot["initial"] %> <%= pot["unitee"] %></td>
+    <td><%= pot["butee"] %> </td>
+    <td><%= pot["valeur_courante"] %> </td>
+    <td><%= pot["reste"] %> </td>
+<tr>
+    
+</tr>
+<% end %>
+</table>
+<%end%>
+<% if !@equipement.type_equipement.cn_equipement.empty? then %>
+<h2> cn applicable à  l'équipements</h2>
+<table border=1>
+<tr>
+	<td>CN</td>
+	<td>Nom</td>
+	<td>Numéro BS</td>
+	<td>type de potentiel</td>
+	<td>valeur du potentiel</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+</tr>
+<% @equipement.type_equipement.cn_equipement.each do |cn_equ| %>
+	<tr>
+		<tr>
+    <td><%= cn_equ.reference %></td>
+    <td><%= cn_equ.nom %></td>
+    <td><%= cn_equ.service_bulletin %></td>
+    <td><%= cn_equ.type_potentiel.type_potentiel %> </td>
+    <td><%= cn_equ.val_potentiel %> <%= cn_equ.type_potentiel.unitee %></td>
+    <td><%= link_to 'Modifier', edit_cn_equipement_path(cn_equ) %></td>
+    <td><%= link_to 'suppr', cn_equ, :confirm => 'êtes vous sur?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+<% end %>
+<div style="border-style: none;width:40%;">
+<h2>documents</h2>
+<h3>manuel de maintenance</h3>
+<table border=0>
+	<% @mm_docs.each do |mm_doc| %>
+	<tr>
+		<td><%= link_to(mm_doc.Nom,url_for(:controller=>'doc_divers', :action=>'envoi_doc',:fichier=>mm_doc.adresse,:id=>0))%></td>
+	</tr>
+	<% end %>
+</table>
+<% end %>
+</div>

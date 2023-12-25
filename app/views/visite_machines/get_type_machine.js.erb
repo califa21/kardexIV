@@ -1,0 +1,20 @@
+﻿(new_options = [
+<%@vis_prots.each do |vm| %>
+["<%=vm[0] %>","<%=vm[1]%>"],
+<%end%>
+]);
+
+/* Remove all options from the select list */
+$('#visite_machine_id_visite_protocolaire').empty();
+$.each(new_options, function() {
+                   $('#visite_machine_id_visite_protocolaire').append(
+                                        $("<option></option>").val(this[1]).html(this[0])
+                                    )
+                            });
+var state;
+    state= $("select#visite_machine_id_visite_protocolaire :selected").val();
+    if (state === "") {
+      state = "0";
+    }
+    
+    $('#unitee').html('<%= escape_javascript(render "form_pot") %>');

@@ -1,0 +1,97 @@
+﻿<h1>Type d'équipement : <%= @type_equipement.nom_constructeur %>  <%= @type_equipement.type_equipement %></h1>
+<table>
+  <tr>
+	<td>Constructeur</td>
+	<td>Type déquipement</td>
+	<td>Moteur</td>
+	<td>Hélice</td>
+  </tr>
+
+
+  <tr>
+    <td><%= @type_equipement.nom_constructeur %></td>
+    <td><%= @type_equipement.type_equipement %></td>
+    <td align="center"><%= if (@type_equipement.moteur) then image_tag "case_a_cocher.gif" else image_tag "case_cocher_vide.jpg" end %></td>
+    <td align="center"><%= if (@type_equipement.helice) then image_tag "case_a_cocher.gif" else image_tag "case_cocher_vide.jpg" end %></td>
+  </tr>
+</table>
+<%= link_to 'modifier', edit_type_equipement_path(@type_equipement) %> |
+<%= link_to 'retour à liste', type_equipements_path %>
+
+<h2>Liste des  visites protocolaires </h2>
+
+<table border=1>
+  <tr>
+    <th>Nom</th>
+    <th>type de potentiel</th>
+    <th>valeur de potentiel </th>
+    <th>tolérance </th>
+    <th>&nbsp</th>
+    <th>&nbsp</th>
+  </tr>
+
+<% @type_equipement.visite_protocolaire_equipement.each do |visite_protocolaire| %>
+  <tr>
+    <td><%=link_to visite_protocolaire.Nom,visite_protocolaire %></td>
+    <td><%=visite_protocolaire.type_potentiel.type_potentiel %></td>
+    <td><%=visite_protocolaire.valeur_potentiel %></td>
+    <td><%=visite_protocolaire.tolerance %></td>
+    <td><%=mod_link  edit_visite_protocolaire_equipement_path(visite_protocolaire) %></td>
+    <td><%= del_link visite_protocolaire %></td>
+  </tr>
+<% end %>
+</table>
+<%= link_to "nouvelle visite protocolaire d'équipement", new_visite_protocolaire_equipement_path(:idtype_equipement=>@type_equipement.id) %>
+<h2>liste des potentiels equipements</h2>
+
+<table border=1>
+  <tr>
+  <th>type de potentiel</th>
+  <th>valeur potentiel</th>
+  <th>&nbsp;</th>
+  <th>&nbsp;</th>
+  </tr>
+
+<% @type_equipement.potentiel_equipement.each do |potentiel_equipement| %>
+  <tr>
+    <td><%= link_to potentiel_equipement.type_potentiel.type_potentiel,potentiel_equipement %> </td>
+    <td><%= potentiel_equipement.valeur_potentiel %> <%= potentiel_equipement.type_potentiel.unitee %></td>
+    <td><%= mod_link edit_potentiel_equipement_path(potentiel_equipement) %></td>
+    <td><%= del_link potentiel_equipement %></td>
+  </tr>
+<% end %>
+</table>
+<%= link_to 'Nouveau potentiel équipement', new_potentiel_equipement_path %>
+
+<h2>liste des CN equipements</h2>
+
+<table border=1>
+  <tr>
+	<th>Reference</th>
+	<th>Nom</th>
+	<th>BS</th>
+	<th>potentiel</th>
+	<th>&nbsp</th>
+	<th>&nbsp</th>
+  </tr>
+
+<% @type_equipement.cn_equipement.each do |cn_equipement| %>
+<%if  (cn_equipement.est_annule) then style='id="annule"' else style="" end%>
+  <tr <%= style %>>
+	<td ><%= link_to cn_equipement.reference, cn_equipement %></td>
+	<td ><%= cn_equipement.nom %></td>
+	<td><%= cn_equipement.service_bulletin %></td>
+	<td><%= cn_equipement.val_potentiel  %> <%= cn_equipement.type_potentiel.unitee_saisie %></td>
+    <td><%= mod_link edit_cn_equipement_path(cn_equipement) %></td>
+    <td><%= del_link cn_equipement%></td>
+  </tr>
+<% end %>
+</table>
+<%= link_to 'Nouvelle CN équipement',new_cn_equipement_path(:id_type_equipement=>@type_equipement.id) %>
+<div style="border-style: none;width:40%;">
+<h2>documents</h2>
+<h3>Manuel de maintenance</h3>
+<%= render  partial: 'doc_divers/aff_doc', locals: {docs: @mm_docs}%>
+<h3>Carte de travail</h3>
+<%= render  partial: 'doc_divers/aff_doc', locals: {docs: @cv_docs}%>
+</div>

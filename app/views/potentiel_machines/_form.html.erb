@@ -1,0 +1,35 @@
+﻿
+<%= form_for(@potentiel_machine) do |f| %>
+  <% if @potentiel_machine.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@potentiel_machine.errors.count, "error") %> interdisent la sauvegarde du potentiel machine</h2>
+
+      <ul>
+      <% @potentiel_machine.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<table border=1>
+  <tr><td>
+<label for="potentiel_machine_nom">Nom:</label></td>
+<td><%= text_field "potentiel_machine", "nom", :size => 20 %><br/></td></tr>
+
+<tr><td>
+<label for="idtype_machine">type machine:</label></td>
+<td><%=  select("potentiel_machine", "idtype_machine", TypeMachine.all.collect {|p| [ p.Nom_constructeur+" "+p.type_machine, p.id ] }, {:include_blank => 'None'})%>
+</td></tr>
+<tr><td>
+<label for="idtype_potentiel">type durée de vie:</label></td>
+<td><%=  select("potentiel_machine", "idtype_potentiel", TypePotentiel.all.collect {|p| [ p.type_potentiel, p.id] },{:include_blank=> 'None'})%><br/>
+</td></tr>
+<tr><td>
+<label for="potentiel_machine_valeur_potentiel">durée de vie :<div id="unitee"></div></label>&nbsp </td>
+<td><%= text_field "potentiel_machine", "valeur_potentiel", :size => 20 %>
+</td></tr>
+<tr><td>
+    <%= f.submit 'Sauvegarder' %>
+</td></tr>
+</table>
+<% end %>

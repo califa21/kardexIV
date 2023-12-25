@@ -1,0 +1,20 @@
+﻿<h1>modifier un équipement</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'détail', @equipement %> |
+<%= link_to 'Retour à la liste', equipements_path %>
+
+<div style="border-style: none;width:40%;">
+<h2>documents</h2>
+<h3>manuel de maintenance</h3>
+<table border=0>
+	<% @mm_docs.each do |mm_doc| %>
+	<tr>
+		<td><%= link_to(mm_doc.Nom,url_for(:controller=>'doc_divers', :action=>'envoi_doc',:fichier=>mm_doc.adresse,:id=>0))%></td>
+	</tr>
+	<% end %>
+</table>
+</div>
+
+

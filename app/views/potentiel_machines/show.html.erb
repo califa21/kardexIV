@@ -1,0 +1,22 @@
+﻿<table border=1>
+  <tr>
+	<td>Nom</td>
+	<td>Type Machine</td>
+	<td>durée de vie</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+  </tr>
+
+
+  <tr>
+    <td><%= @potentiel_machine.nom %></td>
+    <td><%= @potentiel_machine.type_machine.Nom_constructeur+" "+ @potentiel_machine.type_machine.type_machine %></td>
+    <td><%= pres_perio(@potentiel_machine.valeur_potentiel,@potentiel_machine.type_potentiel.type_potentiel) %> </td>
+    <td><%= link_to 'détail', @potentiel_machine %></td>
+    <td><%= link_to 'Modifier', edit_potentiel_machine_path(@potentiel_machine) %></td>
+    <td><%= link_to 'Suppr', @potentiel_machine, :confirm => 'êtes vous sur?', :method => :delete %></td>
+  </tr>
+</table>
+<%= link_to 'Modifier', edit_potentiel_machine_path(@potentiel_machine) %> |
+<%= link_to 'retour', potentiel_machines_path %>

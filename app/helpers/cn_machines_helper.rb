@@ -1,0 +1,2 @@
+module CnMachinesHelper
+end

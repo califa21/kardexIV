@@ -1,0 +1,67 @@
+﻿<%= form_for(@bon_lancement) do |f| %>
+<%= hidden_field_tag 'id_bl', @bon_lancement.id %>
+  <% if @bon_lancement.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@bon_lancement.errors.count, "erreur") %> sur la sauvegarde de ce bon de lancement</h2>
+
+      <ul>
+      <% @bon_lancement.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+ <h2> Numéro :<%= f.text_field "numero", :size => 20 %> Machine :<%=  f.select "id_machine", Machine.all.collect {|p| [ p.Immatriculation, p.id ] },{:include_blank=> 'None'} %></h2>
+ <p>
+  <table  border=1 width=80%>
+  <tr>
+	<td>date de lancement :<%= f.text_field  "date_lancement",{:value=>@date_1, :class =>"date_saisie",:size => 10} %></td>
+	<td>Responsable Lancement : <%= f.select "id_rn", Personne.all.collect {|p| [ p.Nom, p.id ] },{:include_blank=> 'None'}%></td>
+  </tr>
+  <tr>
+	<td>Travaux programmés</td>
+	<td><%= f.text_area "trav_prog", :rows => 2, :cols => 120 %></td>
+  </tr>
+  <tr>
+	<td>pièces à Changer</td>
+	<td>
+	<%=f.fields_for "piece_changee" do |piece_form| %>
+           <p>
+          <%= piece_form.label :name, 'piece:' %>
+          <%= piece_form.text_field :nom %>
+	  <%= piece_form.label :easa_form1_ref, 'form1 ref :' %>
+          <%= piece_form.text_field :easa_form1_ref%>
+	  <%= piece_form.hidden_field :id %>
+	  <% unless piece_form.object.new_record? %>
+		<%= piece_form.label :_destroy, 'Supp:' %>
+		<%= piece_form.check_box :_destroy %>
+          <% end %>
+	  </p>
+    <% end %></td>
+  </tr>
+  <tr>
+	<td>date d'éxécution :<%= f.text_field  "date_exec",{:value=>val_date(@bon_lancement.date_exec), :class =>"date_saisie",:size => 10} %></td>
+	<td>Responsable exécution <%= f.select "id_re", Personne.all.collect {|p| [ p.Nom, p.id ] },{:include_blank=> 'None'}%></td>
+  </tr>
+  <tr>
+	<td>date de découverte :<%= f.text_field  "date_decou",{:value=>val_date(@bon_lancement.date_decou), :class =>"date_saisie",:size => 10} %></td>
+	<td>Responsable Lancement découvert :<%= f.select "id_rn_decou", Personne.all.collect {|p| [ p.Nom, p.id ] },{:include_blank=> 'None'}%></td>
+  </tr>
+  <tr>
+	<td>travaux découverts</td>
+	<td><%= f.text_area "trav_decou", :rows => 3, :cols => 120 %></td></td>
+  </tr>
+  <tr>
+	<td>date d'éxécution decouvert :<%= f.text_field  "date_exec_decou",{:value=>val_date(@bon_lancement.date_exec_decou), :class =>"date_saisie",:size => 10} %></td>
+	<td>Responsable exécution découvert :<%= f.select "id_re_decou", Personne.all.collect {|p| [ p.Nom, p.id ] },{:include_blank=> 'None'}%></td></td>
+  </tr>
+  </table>
+  <h3>date de fin de travaux :<%= f.text_field  "date_fin_trav",{:value=>val_date(@bon_lancement.date_fin_trav), :class =>"date_saisie",:size => 10} %></h3>
+  <div id="visite">
+  <%= render "form_visite"%>
+  </div>
+  <div class="actions">
+    <%= f.submit "sauvegarder" %>
+  </div>
+<% end %>
+

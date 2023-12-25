@@ -1,0 +1,6 @@
+﻿<h1>modifier un bon lancement</h1>
+<%=link_to "Impression" ,bon_lancement_path(@bon_lancement, :format => 'pdf') %>
+<%= render 'form' %>
+
+<%= link_to 'détail', @bon_lancement %> |
+<%= link_to 'retour à la liste', bon_lancements_path %>

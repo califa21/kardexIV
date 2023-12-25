@@ -1,0 +1,29 @@
+﻿<h1>Page :<%= @page_acce.Nom %></h1>
+<h2>Menu :<%= @page_acce.menu_item.Nom%></h2>
+
+<table border=1>
+<tr>
+	<td>Nom Fonction</td>
+	<td>Consultation</td>
+	<td>Modification</td>
+	<td>Création</td>
+	<td>Suppression</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+</tr>
+
+<% @page_acce.est_acce.each do |est_acce| %>
+<tr>
+	<td><%= est_acce.fonction.nom_fonction %></td>
+	<td><%= if (est_acce.page_consult) then image_tag "case_a_cocher.gif" else  image_tag "case_cocher_vide.jpg" end %></td>
+	<td><%= if (est_acce.page_modif) then image_tag "case_a_cocher.gif" else  image_tag"case_cocher_vide.jpg" end %></td>
+	<td><%= if (est_acce.page_new) then image_tag "case_a_cocher.gif" else  image_tag "case_cocher_vide.jpg" end %></td>
+	<td><%= if (est_acce.page_suppr) then image_tag "case_a_cocher.gif" else image_tag "case_cocher_vide.jpg" end %></td>
+	<td><%= link_to 'modifier',edit_page_acce_path(@page_acce)%></td>
+	<td>Suppr</td>
+</tr>
+<%end %>
+
+</table>
+<%= link_to 'modifier', edit_page_acce_path(@page_acce) %> |
+<%= link_to 'retour à la liste', page_acces_path %>

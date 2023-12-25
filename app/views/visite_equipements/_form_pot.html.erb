@@ -1,0 +1,29 @@
+﻿<div id="unitee">
+<% if (@unite != "date" ) then %>
+	<p>
+	<label for="visite_equipement_val_potentiel">faites à :<%=@unite%></label> <%= text_field "visite_equipement", "val_potentiel", :size => 20 %>
+	</p>
+<%else%>
+	<%= hidden_field_tag("visite_equipement[val_potentiel]",0)%>
+<% end %>
+<% if (@carn) then %>
+
+	<label for="visite_equipement_fait_a_heure_moteur">Nb heure Moteur:</label>
+	<%= text_field "visite_equipement", "fait_a_heure_moteur", :size => 20 %></p>
+<%end%>
+<%if !(@visite_induites.nil?) then %>
+<h3>visites validées du fait de la réalisation de la visite</h3>
+<table border=1>
+	<tr>
+		<th>Nom de la visite</th>
+		<th>valeur potentiel</th>
+	</tr>
+
+<% @visite_induites.each  do |induite| %>
+	<tr>
+		<td><%=induite.induite.Nom %></td>
+		<td><%= text_field "induite["+induite.induite.id.to_s+"]", :pot_montage , :value=>val_pot(params[:id_equipement],induite.induite.type_potentiel.type_potentiel) %>
+<%end%>
+</table>
+<%end%>
+</div>

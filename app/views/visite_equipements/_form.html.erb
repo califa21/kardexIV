@@ -1,0 +1,39 @@
+﻿<%= form_for(@visite_equipement) do |f| %>
+  <% if @visite_equipement.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@visite_equipement.errors.count, "error") %> prohibited this visite_equipement from being saved:</h2>
+
+      <ul>
+      <% @visite_equipement.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<p>
+<label for="visite_equipement_nom">référence:</label> <%= text_field "visite_equipement", "nom", :size => 20 %><br/>
+</p>
+
+<p>
+<label for="type_visite_equipement_idequipement">Numero de série :</label>
+<%=  f.select "idequipement", Equipement.includes(:type_equipement).order( "type_equipements.nom_constructeur,type_equipements.type_equipement,num_serie DESC").collect {|p| [ p.type_equipement.nom_constructeur.concat( " ") +  p.type_equipement.type_equipement.concat( " ") + p.num_serie , p.id] },{:include_blank=> 'Sans'} %><br/>
+</p><p>
+<label for="visite_equipement_date_visite">date de visite:</label>
+<%= f.text_field  "date_visite", {:value=>@date_1, :class =>"date_saisie",:size => 10} %>
+<br/>
+</p><p>
+<label for="type_visite_equipement_id_visite_protocolaire">Type de visite</label>
+<%=  f.select "id_visite_protocolaire_equipement", VisiteProtocolaireEquipement.all.collect {|p| [ p.Nom, p.id] },{:include_blank=> 'Sans'}%>
+</p><p>
+<%= render("form_pot")%>
+</p><p>
+<label for="visite_equipement_commentaire">commentaires:</label>
+<%= text_area"visite_equipement", "commentaire", :rows => 5, :cols => 20 %><br/>
+</p>
+  <p>
+  <%= if !(params[:id_machine].nil?) then hidden_field_tag(:retour,params[:id_machine]) end %>
+    <%= f.submit 'Enregistrer' %>
+  </p>
+<% end %>
+

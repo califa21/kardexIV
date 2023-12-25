@@ -1,0 +1,39 @@
+<%= form_for(@machine) do |f| %>
+  <% if @machine.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@machine.errors.count, "error") %> prohibited this machine from being saved:</h2>
+
+      <ul>
+      <% @machine.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <table border=0>
+  <tr><td>
+<label for="machine_immatriculation">Immatriculation:</label></td>
+<td><%= f.text_field  "Immatriculation", :size => 20 %><br/></td></tr>
+<tr><td>
+<label for="machine_num_serie">num&eacutero de s&eacuterie:</label></td>
+<td><%= f.text_field  "num_serie", :size => 20 %><br/></td></tr>
+<tr><td>
+<label for="machine_date_construct">date de construction:</label></td>
+<td><%= f.text_field  "date_construct",{:value=>@date_1, :class =>"date_saisie",:size => 10} %>
+<br/></td></tr>
+<tr><td>
+<tr><td>
+<label for="type_machine_idtype_machine">type machine:</label></td>
+<td>
+<%=  f.select "type_machine_idtype_machine", TypeMachine.all.collect {|p| [ p.type_machine, p.id ] }, {:include_blank => 'None'}%><br/>
+</td></tr>
+
+<tr><td><%= label_tag(:vendu, "machine vendue") %></td>
+<td><%= f.check_box "vendu"%>
+</td></tr>
+<tr><td>
+  <div class="actions">
+    <%= f.submit("Enregistrer") %>
+</td></tr></table>
+  </div>
+<% end %>

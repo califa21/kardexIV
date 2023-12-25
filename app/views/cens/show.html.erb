@@ -1,0 +1,12 @@
+﻿<p id="notice"><%= notice %></p>
+<h1>Cen numéro <%=@cen.num_cen%></h1>
+<h1><%=@cen.machine.type_machine.type_machine%> <%=@cen.machine.Immatriculation%></h1>
+
+<h2> détails</h2>
+date de délivrance          : <%= @cen.deliv.strftime('%d/%m/%Y')%></p>
+Heure Cellule à délivrance:<%= @cen.heure_cellule %></p>
+Date d'exipration            : <%= @cen.expire.strftime('%d/%m/%Y')%></p>
+Soumis Nuissance sonore : <%= if @cen.nuissance_sonore then image_tag "case_a_cocher.gif" else image_tag "case_cocher_vide.jpg" end %></p>
+rédacteur			  : <%=@cen.personne.Nom + @cen.personne.prenom%></p>
+
+<%= link_to 'Retour à liste', cens_path %>

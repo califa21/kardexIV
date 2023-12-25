@@ -1,0 +1,25 @@
+﻿<h1> relevés carnet <%=@machine.Immatriculation %></h1>
+ <table border=1>
+ <tr>
+    <th>date relevé</th>
+    <th>manuel</th>
+    <th>heure de vol</th>
+    <th>nombre de cycle</th>
+    <th>heure moteur </th>
+    <th>modifier</th>
+    <th>supprimer</th>
+  </tr>
+  <% @carnets.each do |carnet| %>
+ <tr>
+    
+    <td><%= carnet["date_releve"].strftime('%d/%m/%Y') %></td>
+    <td align="center"><%= if carnet["auto"]==0 then image_tag "case_a_cocher.gif" else image_tag "case_cocher_vide.jpg" end %></td>
+    <td><%= pres_val(carnet["heure_de_vol"],"Heure de vol") %></td>
+    <td><%= carnet["nombre_cycle"] %></td>
+    <td><%= carnet["heure_moteur"] %></td>
+    <td><%= mod_link(edit_carnet_path(carnet)) %></td>
+    <td><%=del_link(carnet)%></td>
+</tr>
+  <% end %>
+  </table>
+<%= link_to 'retour', carnets_path %>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kardex IV</title>
+  <link rel="shortcut icon" href="i1.gif" /> 
+   <%= stylesheet_link_tag "application", media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= csrf_meta_tags %>
+  <% if content_for?(:head) %>
+	<%= yield(:head) %>
+   <% end %>
+</head>
+
+<body>
+	<div ><br/>
+	<span class="Style_titre" > KARDEX IV</span>
+	</div>
+
+<%= yield %>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+﻿<h1>Modification d'un Type Machine</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'détail', @type_machine %> |
+<%= link_to 'retour à la liste', type_machines_path %>
+
+<div style="border-style: none;width:40%;">
+<h2>documents</h2>
+<h3>Manuel de maintenance</h3>
+<%= render  partial: 'doc_divers/aff_doc', locals: {docs: @mm_docs}%>
+<% if !@ct_docs.empty? then %>
+<h3>carte de travail</h3>
+<%= render  partial: 'doc_divers/aff_doc', locals: {docs: @ct_docs}%>
+<%end%>
+</div>
+<p></p>
+<div style="border-style: solid;width:40%;">
+<h3>Ajouter un document</h3>
+	<%= render partial: 'doc_divers/form', locals:{retour: "type_machines"} %>
+</div>

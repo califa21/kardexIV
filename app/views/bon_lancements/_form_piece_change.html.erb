@@ -1,0 +1,18 @@
+<%= text_area "bon_lancement","piece_chgt", :rows => 3, :cols => 120 %>
+<%f.fields_for :piece_changee do |piece_form| %>
+      <p>
+        <div>
+          <%= piece_form.label :name, 'piece:' %>
+          <%= piece_form.text_field :nom %>
+	  <%= piece_form.text_field :id %>
+        </div>
+
+        <% unless piece_form.object.new_record? %>
+          <div>
+            <%= piece_form.label :_delete, 'Remove:' %>
+            <%= piece_form.check_box :_delete %>
+          </div>
+        <% end %>
+      </p>
+      3.times { bon_lancement.piece_changee.build }
+    <% end %>

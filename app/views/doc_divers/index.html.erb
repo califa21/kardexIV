@@ -1,0 +1,27 @@
+﻿<h1>Liste des documents</h1>
+
+<table border=1 width= 40%>
+  <thead>
+    <tr>
+      <th>Nom Doc</th>
+      <th>Type doc</th>
+      <th>Mod</th>
+      <th>Supp</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @doc_divers.each do |doc_diver| %>
+      <tr>
+        <td><%= link_to doc_diver.Nom, doc_diver %></td>
+	<td><%=doc_diver.type_doc.type_long%></td>
+        <td><%= mod_link edit_doc_diver_path(doc_diver) %></td>
+        <td><%= del_link doc_diver %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'créer un nouveau document', new_doc_diver_path %>

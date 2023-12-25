@@ -1,0 +1,49 @@
+﻿<h2> Etat des CN Equipements</h2>
+<% type_equip=0 %>
+<% equip=""%>
+<%lance_visite=EstAcce.page_acc("exec_cn_equipements","new",session[:personne].id_fonction)%>
+<% @cn_equipement_machine.each do |cn_ex| %>
+		<% if (equip!= cn_ex[1]["equipement_type"]) then %>
+			<% if (equip!="") then %></table> <%end %>
+			<%equip=cn_ex[1]["equipement_type"] %>
+			<% if (type_equip!= cn_ex[1]["moteur_helice"]) then %>
+				<% type_equip= cn_ex[1]["moteur_helice"]  %>
+				<% if (type_equip==2) then%> <h3>Hélice</h3> <%end %>
+				<% if (type_equip==1) then%> <h3>Moteur</h3> <%end %>
+				<% if (type_equip==3) then%> <h3>Divers</h3> <%end %>
+			<%end%>
+			<h4><%=cn_ex[1]["equipement_type"]%></h4>
+			<table border=1  width="100%" >
+			 <tr>
+			    <th>ref CN</th>
+			    <th>Nom Cn</th>
+			    <th>Num BS</p>
+			    <th>valeur potentiel</p>
+			    <th>date application</th>
+			    <th>valeur potentiel</th>
+			    <th>butée</th>
+			    <th>Derniere valeur connue </th>
+			    <th>potentiel restant hors tolérance</th>
+			    <th> CN Applicable </th>
+			    <% if (lance_visite) then %><th>créer une nouvelle application</th><% end %>
+			</tr>
+		<% end %>
+	<% cn_mach=cn_ex[1]["visite_protocolaire"] %>
+	 <% @style=styling(cn_ex[1]["couleur"])%>
+	 <% if (cn_ex[1]["visite_protocolaire"].est_annule) then @style='annule' end%>
+	<tr>
+		<td  id='<%= @style %>' ><%=  cn_mach.reference %></td>
+		<td > <%=  link_to(cn_ex[1]["visite_protocolaire"].nom,url_for(:controller=>"cn_equipements", :action=>'show',:id=>cn_ex[1]["visite_protocolaire"].id,:id_machine=>@machine.id))  %> </td>
+		<td><%=  cn_mach.service_bulletin %></td>
+		<td><%= pres_perio( cn_mach.val_potentiel,cn_mach.type_potentiel.type_potentiel)%> <%= cn_mach.type_potentiel.unitee %></td>
+		<% if cn_ex[1]["date_visite"]=="pas_applique" then @date_1=cn_ex[1]["date_visite"] else @date_1=cn_ex[1]["date_visite"].strftime('%d/%m/%Y') end %>
+		<td><%=  @date_1 %></td>
+		<td><%=  pres_val(cn_ex[1]["val_potentiel"], cn_mach.type_potentiel.type_potentiel) %></td>
+		<td><%=  pres_val(cn_ex[1]["butee"], cn_mach.type_potentiel.type_potentiel) %></td>
+		<td><%=  pres_val(cn_ex[1]["val_dernier_releve"],cn_mach.type_potentiel.type_potentiel) %></td>
+		<td   id='<%= @style %>' ><%=  pres_pot(cn_ex[1]["reste"],cn_mach.type_potentiel.type_potentiel) %></td>
+		<td align="center"><%= if (!cn_ex[1]["NA"]) then image_tag "case_a_cocher.gif" else " " end %></td>
+		<% if (lance_visite) %><td align="center"><%= new_visite (url_for (new_exec_cn_equipement_path(:id_equipement=>cn_ex[1]["idequipement"],:idcn_equipement =>cn_mach.id,:id_machine=>@machine.id))) %></td><%end%>
+	</tr>
+<% end %>
+</table>

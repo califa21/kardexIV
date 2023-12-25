@@ -1,0 +1,14 @@
+﻿(new_options = [
+<%@cn_machines.each do |cn_machine| %>
+["<%=cn_machine.nom + " BS:" + cn_machine.service_bulletin%>","<%=cn_machine.id%>"],
+<%end%>
+]);
+
+/* Remove all options from the select list */
+$('#exec_cn_machine_idcn_machine').empty();
+$.each(new_options, function() {
+                   $('#exec_cn_machine_idcn_machine').append(
+                                        $("<option></option>").val(this[1]).html(this[0])
+                                    )
+                            });
+

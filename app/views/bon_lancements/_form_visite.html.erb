@@ -1,0 +1,194 @@
+﻿
+<h3> Carnet à la date de lancement</h3>
+<table border=1>
+ <tr>
+	<th>heure totale</th>
+	<th>heure Moteur</th>
+	<th>cycles</th></tr>
+ <tr>
+	 <td><%= text_field "bon_lancement","heure_machine", :size => 20 %></td>
+	 <td><%= text_field "bon_lancement", "heure_moteur", :size => 20 %></td>
+	 <td><%= text_field "bon_lancement", "cycle", :size => 20 %></td>
+ </tr>
+</table>
+<h3>Visites Machines</h3>
+
+<% if !@vis_prots.nil? then %>
+
+<table border=1>
+<tr>
+	<th>Nom</th>
+	<th>Valeur Potentiel</th>
+	<th>butée</th>
+	<th>Potentiel restant</th>
+	<th>à lancer</th>
+	<th>Potentiel au lancement</th>
+</tr>
+<% @vis_prots.each do |vis_prot| %>
+<tr>
+	<td  id='<%=styling(vis_prot[1]["couleur"])%>'><%=vis_prot[1]["visite_protocolaire"].Nom%></td>
+	<td><%=pres_perio(vis_prot[1]["visite_protocolaire"].valeur_potentiel,vis_prot[1]["visite_protocolaire"].type_potentiel.type_potentiel)%></td>
+	<td><%=pres_val(vis_prot[1]["butee"] ,vis_prot[1]["visite_protocolaire"].type_potentiel.type_potentiel)%></td>
+	<td  id='<%=styling(vis_prot[1]["couleur"])%>' ><%= pres_pot(vis_prot[1]["reste"], vis_prot[1]["visite_protocolaire"].type_potentiel.type_potentiel)%></td>
+	<% sel =vis_prot[1]["visite_protocolaire"].type_visite_lance.select{|lance| lance.bon_lancement_id==@bon_lancement.id}%>
+	<%if sel.empty? then 
+		val_check="" 
+		val_pot=vis_prot[1]["val_dernier_releve"]
+	else 
+		val_check=sel[0].id.to_s 
+		val_pot=sel[0].val_pot_lancement
+	end%>
+	
+	<td><%= check_box "vis_prot", vis_prot[1]["visite_protocolaire"].id.to_s,{:checked =>!sel.empty? },checked_value ="yes"+val_check,unchecked_value="no"+val_check %> </td>
+	<td><%=text_field "vis_pot",vis_prot[1]["visite_protocolaire"].id.to_s,:value=>pres_val(val_pot,vis_prot[1]["visite_protocolaire"].type_potentiel.type_potentiel)  %>   </td>
+</tr>
+<% end %>
+</table>
+<%end%>
+  <h3>Visites Equipement</h3>
+  <% type_equip=0 %>
+  <% if !@visites_equipement.nil? then%>
+	<% @visites_equipement.each do |vis| %>
+	<% if (type_equip!= vis[1]["moteur_helice"]) then %>
+		<% if (type_equip!=0) then %> </table> <%end %>
+		<% type_equip= vis[1]["moteur_helice"]  %>
+		<h4>
+		<%= if (type_equip==2) then "Hélice" end %>
+		<%= if (type_equip==1) then "Moteur" end %>
+		<%= if (type_equip==3) then 'Divers' end %>
+		</h4>
+		<table border=1 width="80%">
+			 <tr>
+			    <th>Equipement</th>
+			    <th>Nom visite equipement</th>
+			    <th>Potentiel</th>
+			    <th>but&eacute;e</th>
+			    <th>potentiel restant </th>
+			    <th>à lancer</th>
+			    <th>Potentiel au lancement</th>
+			</tr>
+	<% end %>
+	<tr>
+		<td  id='<%=styling(vis[1]["couleur"])%>' ><%=  vis[1]["type_equipement"] %></td>
+		<td ><%=  vis[1]["visite_protocolaire"].Nom %></td>
+		<td><%=  pres_perio(vis[1]["visite_protocolaire"].valeur_potentiel,vis[1]["visite_protocolaire"].type_potentiel.type_potentiel)%> </td>
+		<td><%=  pres_val(vis[1]["butee"], vis[1]["visite_protocolaire"].type_potentiel.type_potentiel)%></td>
+		<td  id='<%=styling(vis[1]["couleur"])%>' ><%=  pres_pot(vis[1]["reste"], vis[1]["visite_protocolaire"].type_potentiel.type_potentiel) %></td>
+		
+		<% sel =vis[1]["visite_protocolaire"].type_visite_equipement_lance.select{|lance| lance.bon_lancement_id==@bon_lancement.id}%>
+		<%if sel.empty? then 
+			val_check="" 
+			val_pot=vis[1]["val_dernier_releve"]
+		else 
+			val_check=sel[0].id.to_s 
+			val_pot=sel[0].val_pot_lancement
+		end%>
+		
+		<td><%= check_box "vis_equi", vis[1]["visite_protocolaire"].id.to_s+"]["+vis[1]["id_equipement"].to_s,{:checked =>!sel.empty? },checked_value ="yes"+val_check,unchecked_value="no"+val_check %> </td>
+		<td><%=text_field "vis_pot_equi",vis[1]["visite_protocolaire"].id.to_s+"]["+vis[1]["id_equipement"].to_s,:value=>pres_val(val_pot, vis[1]["visite_protocolaire"].type_potentiel.type_potentiel) %>   </td>
+        </tr>
+<% end %>
+</table>
+  <%end%>
+  <%titre=false %>
+  <% if !@cn_machine.nil? then %>
+<% @cn_machine.each do |cn_ex| %>
+   <%if (!cn_ex[1]["visite_protocolaire"].est_annule) &&((cn_ex[1]["visite_protocolaire"].type_potentiel.type_potentiel!="Une fois") || ( cn_ex[1]["date_visite"]=="pas applique "))   then %>
+		<%if (!titre) then %>
+			<h3>Cn machines</h3>
+			  <table border=1 width=80%>
+			 <tr>
+			    <th>R&eacute;f&eacute;rence</td>
+			    <th>Nom Cn</th>
+			    <th>Num BS</th>
+			    <th>valeur potentiel</th>
+			    <th>but&eacute;e</th>
+			    <th>potentiel restant</th>
+			    <th>à lancer</th>
+				<th>Potentiel au lancement</th>
+			</tr>
+		<%titre=true%>
+		<%end%>
+			<% cn_mach=cn_ex[1]["visite_protocolaire"] %>
+		<tr>
+		     <% @style=styling(cn_ex[1]["couleur"])%>
+		     <% if (cn_ex[1]["visite_protocolaire"].est_annule) then @style="annule" end%>
+		    <td id='<%= @style %>' ><%=cn_mach.reference  %></td>
+		    <td  ><%=  cn_ex[1]["visite_protocolaire"].nom  %></td>
+		    <td><%=  cn_mach.service_bulletin %></td>
+		    <td><%=  pres_perio(cn_mach.val_potentiel,cn_mach.type_potentiel.type_potentiel)%> </td>
+		    <td><%= pres_val( cn_ex[1]["butee"],  cn_mach.type_potentiel.type_potentiel) %></td>
+		    <td id='<%= @style %>'><%=  pres_pot( cn_ex[1]["reste"], cn_mach.type_potentiel.type_potentiel)%></td>
+		    <% sel =cn_ex[1]["visite_protocolaire"].type_cn_lance.select{|lance| lance.bon_lancement_id==@bon_lancement.id}%>
+			<%if sel.empty? then 
+			val_check="" 
+			val_pot=cn_ex[1]["val_dernier_releve"]
+		else 
+			val_check=sel[0].id.to_s 
+			val_pot=sel[0].val_pot_lancement
+		end%>
+		
+		<td><%= check_box "cn_ex", cn_ex[1]["visite_protocolaire"].id.to_s,{:checked =>!sel.empty? },checked_value ="yes"+val_check,unchecked_value="no"+val_check %> </td>
+		<td><%=text_field "vis_pot_cn",cn_ex[1]["visite_protocolaire"].id.to_s,:value=>pres_val(val_pot, cn_mach.type_potentiel.type_potentiel )%>   </td>
+      </tr>
+      <%end%>
+<% end %>
+</table>
+<%end%>
+  
+  <%if (!@cn_equipement_machine.nil?) then %>
+  <% type_equip=0 %>
+<% equip=""%>
+<% @cn_equipement_machine.each do |cn_ex| %>
+<%if (!cn_ex[1]["visite_protocolaire"].est_annule) &&((cn_ex[1]["visite_protocolaire"].type_potentiel.type_potentiel!="Une fois") || ( cn_ex[1]["date_visite"]=="pas applique "))   then %>
+		<% if (equip!= cn_ex[1]["equipement_type"]) then %>
+			<% if (equip!="") then %></table><%else%> <h3>Cn Equipement</h3> <%end %>
+			<%equip=cn_ex[1]["equipement_type"] %>
+			<% if (type_equip!= cn_ex[1]["moteur_helice"]) then %>
+				<% type_equip= cn_ex[1]["moteur_helice"]  %>
+				<% if (type_equip==2) then%> <h3>Hélice</h3> <%end %>
+				<% if (type_equip==1) then%> <h3>Moteur</h3> <%end %>
+				<% if (type_equip==3) then%> <h3>Divers</h3> <%end %>
+			<%end%>
+			<h4><%=cn_ex[1]["equipement_type"]%></h4>
+			<table border=1  width="80%" >
+			 <tr>
+			    <th>ref CN</th>
+			    <th>Nom Cn</th>
+			    <th>Num BS</th>
+			    <th>valeur potentiel</th>
+			    <th>but&eacute;e</th>
+			    <th>potentiel restant</th>
+			    <th>à lancer</th>
+			    <th>Potentiel au lancement</th>
+			</tr>
+		<% end %>
+	<% cn_mach=cn_ex[1]["visite_protocolaire"] %>
+	 <% @style=styling(cn_ex[1]["couleur"])%>
+	 <% if (cn_ex[1]["visite_protocolaire"].est_annule) then @style='annule' end%>
+	<tr>
+		<td  id='<%= @style %>' ><%=  cn_mach.reference %></td>
+		<td > <%=cn_ex[1]["visite_protocolaire"].nom %> </td>
+		<td><%=  cn_mach.service_bulletin %></td>
+		<td><%=  pres_perio(cn_mach.val_potentiel,cn_mach.type_potentiel.type_potentiel)%></td>
+		<td><%=  pres_val(cn_ex[1]["butee"], cn_mach.type_potentiel.type_potentiel) %></td>
+		<td   id='<%= @style %>' ><%=  pres_pot(cn_ex[1]["reste"],cn_mach.type_potentiel.type_potentiel) %></td>
+		
+		 <% sel =cn_ex[1]["visite_protocolaire"].type_cn_equipement_lance.select{|lance| lance.bon_lancement_id==@bon_lancement.id}%>
+			<%if sel.empty? then 
+			val_check="" 
+			val_pot=cn_ex[1]["val_dernier_releve"]
+		else 
+			val_check=sel[0].id.to_s 
+			val_pot=sel[0].val_pot_lancement
+		end%>
+		
+		<td><%= check_box "cn_ex_eq", cn_ex[1]["visite_protocolaire"].id.to_s+"]["+cn_ex[1]["idequipement"].to_s,{:checked =>!sel.empty? },checked_value ="yes"+val_check,unchecked_value="no"+val_check %> </td>
+		<td><%=text_field "vis_pot_cn_eq",cn_ex[1]["visite_protocolaire"].id.to_s+"]["+cn_ex[1]["idequipement"].to_s,:value=>pres_val(val_pot,cn_mach.type_potentiel.type_potentiel)  %>   </td>
+		
+			</tr>
+<%end%>
+<% end %>
+</table>
+ <%end%> 
+  

@@ -1,0 +1,42 @@
+﻿<p id="notice"><%= notice %></p>
+<h1>Bon de lancement numéro <%=@bon_lancement.numero%></h1>
+<h1><%=@bon_lancement.machine.type_machine.type_machine%> <%=@bon_lancement.machine.Immatriculation%></h1>
+<% if !@bon_lancement.visite_protocolaire.empty? then %>
+<h2>Visite machine lancée</h2>
+<% @bon_lancement.visite_protocolaire.each do |vis_prot|%>
+	<p> - <%=vis_prot.Nom%></p>
+<%end%>
+<%end%>
+<% if !@bon_lancement.cn_machine.empty? then %>
+<h2>CN lancée</h2>
+<% @bon_lancement.cn_machine.each do |cn|%>
+	<p> - <%=cn.nom%></p>
+<%end%>
+<%end%>
+<h2>Equipement</h2>
+<% if !@bon_lancement.visite_protocolaire_equipement.empty? then %>
+<%id_equipement=0%>
+<h3>Visite</h3>
+<% @bon_lancement.type_visite_equipement_lance.order("type_visite_equipement_lances.id_equipement").each do |cn|%>
+	<%if (id_equipement!=cn.id_equipement && !cn.nil?) then%>
+		<h4><%=cn.equipement.type_equipement.nom_constructeur%> <%=cn.equipement.type_equipement.type_equipement%>  <%=cn.equipement.num_serie%> </h4>
+		<%id_equipement=cn.id_equipement%>
+	<%end%>
+	<p> - <%=cn.visite_protocolaire_equipement.Nom%> </p>
+<%end%>
+<%end%>
+<% if !@bon_lancement.cn_equipement.empty? then %>
+<%id_equipement=0%>
+<h3>CN</h3>
+<% @bon_lancement.type_cn_equipement_lance.order("id_equipement").each do |cn|%>
+	<%if (id_equipement!=cn.id_equipement && !cn.nil?) then%>
+		<h4><%=cn.equipement.type_equipement.nom_constructeur%> <%=cn.equipement.type_equipement.type_equipement%>  <%=cn.equipement.num_serie%> </h4>
+		<%id_equipement=cn.id_equipement%>
+	<%end%>
+	<p> - <%=cn.cn_equipement.nom%> </p>
+<%end%>
+<%end%>
+
+<h2>Travaux hors entretien périodique</h2>
+<%= link_to 'Modifier', edit_bon_lancement_path(@bon_lancement) %> |
+<%= link_to 'Retour à la liste', bon_lancements_path %>

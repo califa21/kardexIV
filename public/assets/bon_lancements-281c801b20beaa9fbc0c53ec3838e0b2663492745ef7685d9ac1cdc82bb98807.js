@@ -1,0 +1,1 @@
+function initPagelanc(){jQuery(function(i){return i("#bon_lancement_id_machine").change(function(){var n,e;return e=i("select#bon_lancement_id_machine :selected").val(),""===(n=i("#id_bl").val())&&(n="0"),jQuery.get("/kardex/bon_lancements/get_type_visite.js?id_bl="+n+"&id_machine="+e),!1})})}$(function(){initPagelanc()}),$(window).bind("page:change",function(){initPagelanc()});

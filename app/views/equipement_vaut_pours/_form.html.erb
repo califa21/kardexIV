@@ -1,0 +1,33 @@
+<%= form_for(@equipement_vaut_pour) do |f| %>
+  <% if @equipement_vaut_pour.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@equipement_vaut_pour.errors.count, "error") %> prohibited this equipement_vaut_pour from being saved:</h2>
+
+      <ul>
+      <% @equipement_vaut_pour.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<table border=0>
+<tr><td>
+<label for="maitre_id">Visite Maitre :</label></td>
+<td>
+<%=  f.select  "maitre_id", VisiteProtocolaireEquipement.includes(:type_equipement).all(:order =>"type_equipements.nom_constructeur,type_equipements.type_equipement,Nom DESC").collect {|p| [ p.type_equipement.nom_constructeur+" "+p.type_equipement.type_equipement+" "+p.Nom, p.id ] } %><br/>
+</td></tr>
+<tr><td>
+<label for="induite_id">Visite induite :</label></td>
+<td>
+<%=  f.select  "induite_id", VisiteProtocolaireEquipement.includes(:type_equipement).all(:order =>"type_equipements.nom_constructeur,type_equipements.type_equipement,Nom DESC").collect {|p| [ p.type_equipement.nom_constructeur+" "+p.type_equipement.type_equipement+" "+p.Nom, p.id ]  } %><br/>
+</td></tr>
+<tr><td>
+
+<label for="vaut_pour_commentaire">commentaires:</label></td>
+<td><%= f.text_area "commentaire", :rows => 5, :cols => 20 %><br/>
+</td></tr>
+</table>
+  <div class="actions">
+    <%= f.submit "Enregistrer" %>
+  </div>
+<% end %>

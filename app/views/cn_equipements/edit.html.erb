@@ -1,0 +1,18 @@
+﻿<h1>Modification  CN equipement</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Détail', @cn_equipement %> |
+<%= link_to 'Retour à la liste ', cn_equipements_path %>
+<div style="border-style: none;width:40%;">
+<h2>documents</h2>
+<h3>CN</h3>
+	<%= render  partial: 'doc_divers/aff_doc', locals: {docs: @cn_docs}%>
+<h3>BS</h3>
+	<%= render  partial: 'doc_divers/aff_doc', locals: {docs: @bs_docs}%>
+</div>
+<p></p>
+<div style="border-style: solid;width:40%;">
+<h3>Ajouter un document</h3>
+		<%= render partial: 'doc_divers/form', locals:{retour: "cn_equipements"} %>
+</div>

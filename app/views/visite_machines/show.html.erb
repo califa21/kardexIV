@@ -1,0 +1,19 @@
+﻿<table border=0>
+   <tr><td>référence:</td><td><%= @visite_machine.nom %></td></tr>
+   <tr><td>Immatriculation</td><td><%= @visite_machine.machine.Immatriculation %></td></tr>
+    <tr><td>date de visite</td><td><%= @visite_machine.date_visite.strftime('%d/%m/%Y') %></td></tr>
+    <tr><td>type de visite</td><td><%= @visite_machine.visite_protocolaire.Nom %></td></tr>
+    <tr><td>faite à</td><td><%= pres_val(@visite_machine.val_potentiel,@visite_machine.visite_protocolaire.type_potentiel.type_potentiel)%> </td></tr>
+    
+    <% if ( @visite_machine.visite_protocolaire.potentiel_variable) %>
+	<tr><td> Potentiel suite à visite </td><td><%= pres_pot(@visite_machine.val_nouv_pot,@visite_machine.visite_protocolaire.type_potentiel.type_potentiel)%> <%= @visite_machine.visite_protocolaire.type_potentiel.unitee %></td></tr>
+    <% end %>
+    <tr>
+	<td>
+	Commentaires
+	</td>
+	<td align="center"><%=@visite_machine.commentaire %></td>
+	</tr>
+    </table>
+<%= link_to 'modifier', edit_visite_machine_path(@visite_machine) %> |
+<%= link_to 'retour à la liste des visites', visite_machines_path %>

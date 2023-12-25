@@ -1,0 +1,15 @@
+﻿<% environment.context_class.instance_eval { include Rails.application.routes.url_helpers} %>
+$(document).ready(function(){
+	$("#cen_id_machine").change(function() {
+		 state= this.value;
+		if (state === "") {
+			state = "0";
+		}
+		jQuery.get('<%=url_for(:controller=>"/cens",:action=>"get_heure_tot",:only_path=>true)%>'+".js?id_machine=" + state );
+		return false;
+		});
+	    
+    
+    
+    
+    });

@@ -1,0 +1,2 @@
+module VisiteMachinesHelper
+end

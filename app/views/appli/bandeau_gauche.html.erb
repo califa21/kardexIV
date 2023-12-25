@@ -1,0 +1,15 @@
+<% if !(@utilisateur == "pb") then %>
+<table>
+<% menu="" %>
+ <% @est_acces.each do |est_acc| %>
+	<tr>
+		<% if (menu != est_acc.page_acce.menu_item.Nom) then %>
+			<td><b><%= est_acc.page_acce.menu_item.Nom %></b></td></tr><tr>
+			<% menu = est_acc.page_acce.menu_item.Nom %>
+		<%end %>
+		<td><%=  link_to est_acc.page_acce.Nom,est_acc.page_acce.adresse,:target=>"mainFrame"   %> </td>
+        </tr>
+                        
+<% end %>
+</table>
+<%end%>

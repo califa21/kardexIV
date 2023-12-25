@@ -1,0 +1,55 @@
+﻿<%= form_for(@carnet) do |f| %>
+  <% if @carnet.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@carnet.errors.count, "error") %> prohibited this carnet from being saved:</h2>
+
+      <ul>
+      <% @carnet.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+<% end%>
+<div>
+  <table border=0>
+  <tr><td>
+<label for="carnet_machine_idmachine">Immatriculation  de la  machine:</label></td>
+<td>
+<%=  select("carnet","machine_idmachine", Machine.all.collect {|p| [ p.Immatriculation, p.id ]})  %><br/>
+</td></tr>
+<tr><td>
+<label for="carnet_date_releve">date du relevé:</label></td>
+<td><%= f.text_field  "date_releve",{:value=>@date_1, :class =>"date_saisie",:size => 10} %>
+<br/></td></tr>  
+<tr><td><label for="carnet_heure_de_vol">heure de vol:</label></td>
+<td><%= text_field("carnet", "heure_de_vol", :size => 20)  %></td></tr>
+<tr><td><label for="carnet_nombre_cycle">nombre de cycle:</label></td>
+<td><%= text_field "carnet", "nombre_cycle", :size => 20 %><br/></td></tr>
+<tr><td><label for="carnet_heure_moteur">heure moteur:</label></td>
+<td><%= text_field "carnet", "heure_moteur", :size => 20 %><br/></td></tr>
+</table>
+<%= submit_tag 'Créer' %>
+ </div>
+ 
+<div  style="position:absolute;background-color:#FFFFFF ; border: non; width:100px; height:70px; left:  50%; top:75px;" >
+	<table>
+		<tr>
+			<td><%= button_tag "<<",type: 'button', onclick: "transfert_total()",class: "transfert_total"%></td>
+			<td>heure de vol</td>
+		</tr>
+		<% 0.upto( 15 )  { |i| %>
+			<tr><td>
+			<%= if (i==0) then 'report'   else ' ' end %>
+			</td>
+			<td>
+			<%= text_field("ligne","L_"+i.to_s,:size=>6,:style=>"text-align:right",:onchange=>"somme_tout("+i.to_s+")")%>
+			</td></tr>
+		<% } %>
+		<tr><td>total <%= button_tag "nouv_page", onclick: "raz_page()",class: "raz_page" %></td>
+		<td><%= text_field("total",'total',:size=>6, :value=>0,:style=>"text-align:right", :value=>0)%>
+		</td></tr>
+	</table>
+ 
+</div>
+<%end%>
+

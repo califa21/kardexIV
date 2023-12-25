@@ -1,0 +1,36 @@
+﻿<% environment.context_class.instance_eval { include Rails.application.routes.url_helpers} %>
+$(function() {
+  initPageecnmach();
+});
+$(window).bind('page:change', function() {
+  initPageecnmach();
+});
+function initPageecnmach() {
+ jQuery(function($) {
+  return $("#exec_cn_machine_idcn_machine").change(function() {
+    var state, test, texte;
+    state= $("select#exec_cn_machine_idcn_machine :selected").val();
+    if (state === "") {
+      state = "0";
+    }
+    jQuery.get('<%=url_for(:controller=>"/type_potentiels",:action=>"get_unitee",:only_path=>true)%>'+".js?cn_mach_id=" + state  );
+
+    return false;
+  });
+});
+
+ jQuery(function($) {
+  return $("#exec_cn_machine_id_machine").change(function() {
+    var state
+    state= $("select#exec_cn_machine_id_machine :selected").val();
+    if (state === "") {
+      state = "0";
+    }
+    jQuery.get('<%=url_for(:controller=>"/exec_cn_machines",:action=>"cn_typemachine",:only_path=>true)%>'+".js?machine_id=" + state );
+
+    return false;
+  });
+});
+
+
+}

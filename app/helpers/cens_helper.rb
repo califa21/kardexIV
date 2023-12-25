@@ -1,0 +1,2 @@
+module CensHelper
+end

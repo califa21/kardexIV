@@ -1,0 +1,58 @@
+﻿<%= form_for(@cn_machine) do |f| %>
+  <% if @cn_machine.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@cn_machine.errors.count, "error") %> prohibited this cn_machine from being saved:</h2>
+
+      <ul>
+      <% @cn_machine.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<table border=1>
+<tr><td>
+<label for="cn_machine_Nom">Nom :</label></td>
+<td><%= text_field "cn_machine", "nom", :size => 20 %><br/>
+</td></tr>
+<tr><td>
+<label for="cn_machine_reference">Reference CN :</label></td>
+<td><%= text_field "cn_machine", "reference", :size => 20 %><br/>
+</td></tr>
+<tr><td>
+<label for="cn_machine_service_bulletin">BS :</label></td>
+<td><%= text_field "cn_machine", "service_bulletin", :size => 20 %><br/>
+</td></tr>
+<tr><td>
+<label for="type_cn_machine_idtype_machine">type de machine:</label></td>
+<td>
+<%=  select("cn_machine", "idtype_machine", TypeMachine.all.collect {|p| [ p.type_machine, p.id ] })%><br/>
+<%= if !(params[:idtype_machine].nil?) then hidden_field_tag(:retour,params[:idtype_machine]) end %>
+</td></tr>
+<tr><td><%= label_tag(:est_annule, "CN annulée") %></td>
+<td><%= check_box "cn_machine","est_annule"%>
+</td></tr>
+<tr><td>
+<label for="type_cn_machine_idtype_potentiel">type de potentiel:</label></td>
+<td>
+<%=  select("cn_machine", "idtype_potentiel", TypePotentiel.all.collect {|p| [ p.type_potentiel, p.id ] })%><br/>
+</td></tr>
+
+<tr><td>
+<label for="cn_machine_valeur_potentiel">valeur du potentiel:</label></td>
+<td><%= text_field "cn_machine", "val_potentiel", :size => 20 %><br/>
+</td></tr>
+<tr><td>
+<label for="cn_machine_commentaire">commentaires:</label></td>
+<td><%= text_area"cn_machine", "commentaire", :rows => 5, :cols => 20 %><br/>
+</td></tr>
+<tr><td>
+  <p>
+    <%= f.submit 'Sauvegarder' %>
+  </p>
+</p>
+  </td></tr>
+  </table>
+<% end %>
+
+

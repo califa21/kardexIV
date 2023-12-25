@@ -1,0 +1,8 @@
+<table border=0>
+	<% docs.each do |doc| %>
+	<tr>
+		<td><%= link_to(doc.Nom,url_for(:controller=>'doc_divers', :action=>'envoi_doc',:fichier=>doc.adresse,:id=>doc.id))%></td>
+		<td><%=   del_link doc %></td>
+	</tr>
+	<% end %>
+</table>

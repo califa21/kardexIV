@@ -1,0 +1,34 @@
+﻿<%= form_for(@cen) do |f| %>
+  <% if cen.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(cen.errors.count, "error") %> prohibited this cen from being saved:</h2>
+
+      <ul>
+        <% cen.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+<h2> Numéro :<%= f.text_field "num_cen", :size => 20 %>
+	<label for="machine">Machine :<%=  f.select "id_machine", Machine.all.collect {|p| [ p.Immatriculation, p.id ] },{:include_blank=> 'None'} %></h2>
+ <p>
+ <table  border=1 width=80%>
+  <tr>
+	<td>date de délivrance :<%= f.text_field  "deliv",{:value=>@date1, :class =>"date_saisie",:size => 10} %></td>
+	<td>date d'expiration    :<%= f.text_field  "expire",{:value=>@date2, :class =>"date_saisie",:size => 10} %></td>
+  </tr>
+  <tr>
+  <td>examen fait par : <%= f.select "id_personne", Personne.all.collect {|p| [ p.Nom, p.id ] },{:include_blank=> 'None'}%></td>
+  <td>certif nuissance :<%=  f.check_box "nuissance_sonore",{} %>
+		 </td>
+  </tr>
+  <tr>
+  <td><div class="heure_cell"> Heure cellule : <%= f.text_field "heure_cellule", :size => 20 %></div> </td>
+  <td></td>
+  </tr>
+  </table>
+  <div class="actions">
+    <%= f.submit "sauvegarder" %>
+  </div>
+<% end %>

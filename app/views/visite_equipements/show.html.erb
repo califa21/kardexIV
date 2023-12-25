@@ -1,0 +1,23 @@
+﻿<h1>détail d'une visite d'équipement</h1>
+
+<table border=1>
+  <tr>
+	<td>Equipement</td>
+	<td>Date de visite</td>
+	<td>Nom de la visite</td>
+	<td>Visite protocolaire </td>
+	<td>réalisé à</td>
+	<td>
+	Commentaires
+	</td>
+  </tr>
+   <tr>
+    <td><%= @visite_equipement.equipement.type_equipement.nom_constructeur%> <%= @visite_equipement.equipement.type_equipement.type_equipement%> N° <%=@visite_equipement.equipement.num_serie%></td>
+    <td><%= @visite_equipement.date_visite.strftime('%d/%m/%Y') %></td>
+    <td><%= @visite_equipement.nom %></td>
+    <td><%= @visite_equipement.visite_protocolaire_equipement.Nom %></td>
+    <td><%= pres_perio(@visite_equipement.val_potentiel,@visite_equipement.visite_protocolaire_equipement.type_potentiel.type_potentiel)%></td>
+    <td align="center"><%=@visite_equipement.commentaire %></td>
+</table>
+<%= link_to 'Modifier', edit_visite_equipement_path(@visite_equipement) %> |
+<%= link_to 'Retour à la liste', visite_equipements_path %>

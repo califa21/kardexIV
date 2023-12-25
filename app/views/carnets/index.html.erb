@@ -1,0 +1,36 @@
+﻿<h1>Dernier relevé Machine </h1>
+<table border=1>
+  <tr>
+  <th>Type Machine</th>
+  <th>Machine</th>
+    <th>Date dernier relevé</th>
+    <th>Manuel</th>
+    <th>Heure de vol</th>
+    <th>Nombre de cycle</th>
+    <th>Heure moteur </th>
+    
+    <th>Nouv</th>
+    <th>Supp</th>
+  </tr>
+
+<% @carnet.each do |carnet| %>
+<% if (Date.today - carnet[1]["date_releve"]  <7) then @style='OK' elsif (Date.today - carnet[1]["date_releve"]  <15) then @style='half_ko' else @style='KO' end %>
+<tr >
+	<td><%= carnet[1]["type_machine"]%>
+    <td><%= link_to carnet[0],{:action => 'show', :id => carnet[1]["machine"]}, :title=>"détail pour le "+carnet[0] %></td>
+    <td id="<%=@style %>" ><%= carnet[1]["date_releve"].strftime('%d/%m/%Y') %></td>
+    <td align="center"><%= if carnet[1]["auto"]==0 then image_tag "case_a_cocher.gif" else image_tag "case_cocher_vide.jpg" end %></td>
+    <td align="right"><%= pres_val( carnet[1]["heure_de_vol"],"Heure de vol") %></td>
+    <td align="right"><%= carnet[1]["nombre_cycle"] %></td>
+    <td align="right"><%= carnet[1]["heure_moteur"] %></td>
+    <td><%= new_link(url_for(:action=>"new", :id_machine => carnet[1]["machine"]))%></td>
+    <td><%= del_link(url_for(:controller =>"carnets", :id=>carnet[1]["id_carnet"] ))%></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Nouveau relevé', new_carnet_path %>
+<%= link_to 'impression du relevé;', "./carnets.pdf" %>
+<br>

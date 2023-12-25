@@ -1,0 +1,2 @@
+module DocDiversHelper
+end

@@ -1,0 +1,51 @@
+﻿<%= form_for(@type_machine) do |f| %>
+  <% if @type_machine.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@type_machine.errors.count, "error") %> prohibited this type_machine from being saved:</h2>
+
+      <ul>
+      <% @type_machine.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<table>
+  <tr><td>
+<label for="type_machine_nom_constructeur">Nom du constructeur:</label></td>
+<td><%= f.text_field "Nom_constructeur", :size => 20 %><br/></td></tr>
+<tr><td>
+<label for="type_machine_type_machine">type de machine:</label></td>
+<td><%= f.text_field "type_machine", :size => 20 %><br/></td></tr>
+<tr><td>
+
+
+<label for="type_machine_revision">référence prgm entretien:</label></td>
+<td><%= f.text_field "ref_manuel_entretien", :size => 20 %><br/></td></tr>
+<tr><td>
+<tr><td>
+<label for="type_machine_revision">révision prgm entretien:</label></td>
+<td><%= f.text_field  "revision", :size => 20 %><br/></td></tr>
+<tr><td>
+<label for="type_machine_revision">date de revision:</label></td>
+<% if (@type_machine.date_revision.nil?) then date_1="" else date_1 = @type_machine.date_revision.strftime('%d/%m/%Y') end%>
+<td><%= f.text_field  "date_revision",{:value=>date_1, :class =>"date_saisie",:size => 10} %>
+</td></tr>
+<tr><td>
+<label for="type_machine_approb">date d'approbation:</label></td>
+<% if (@type_machine.date_approb.nil?) then date_1="" else date_1 = @type_machine.date_approb.strftime('%d/%m/%Y') end%>
+<td><%= f.text_field  "date_approb",{:value=>date_1, :class =>"date_saisie",:size => 10} %>
+</td></tr>
+<tr><td>
+<label for="type_machine_revue">date de revue:</label></td>
+<% if (@type_machine.date_revue.nil?) then date_1="" else date_1 = @type_machine.date_revue.strftime('%d/%m/%Y') end%>
+<td><%= f.text_field  "date_revue",{:value=>date_1, :class =>"date_saisie",:size => 10} %>
+</td></tr>
+<tr><td>
+    <%= f.submit 'enregistrer' %>
+  </p>
+  </td></tr>
+  </table>
+<% end %>
+
+

@@ -1,0 +1,197 @@
+﻿<h1>maintenance pr&eacute;visionnelle</h1>
+<h2><%= @machine.type_machine.type_machine %> <%=@machine.Immatriculation %> </h2>
+<h3> Date prise en compte <%= ((@date_fin.to_date)+1.year).strftime('%d/%m/%Y') %> </h3>
+<h2> visite machine </h2>
+<table border=1>
+ <tr>
+    <td>Visite</td>
+    <td>P&eacute;riodicit&eacute;</p>
+    <td>Tol&eacute;rance</p>
+    <td>derni&egrave;re visite</td>
+    <td>Date visite</td>
+    <td>valeur potentiel</td>
+    <td>but&eacute;e</td>
+    <td>but&eacute;e avec tol</td>
+    <td>Valeur estim&eacute;e </td>
+    <td>potentiel estim&eacute; hors tol&eacute;rance</td>
+    <td>potentiel estim&eacute; avec tol&eacute;rance</td>
+</tr>
+<% @visite_machines.each do |visite| %>
+   <% vi_pro=visite[1]["visite_protocolaire"] %>
+   <% if (visite[1]["couleur"]==2) then @style='KO' elsif  (visite[1]["couleur"]==1) then @style='half_ko'  else @style='OK'  end %>
+  <tr>
+    <td  id='<%=styling(visite[1]["couleur"])%>' ><%=  visite[1]["visite_protocolaire"].Nom %></td>
+    <td><%=  pres_perio(visite[1]["visite_protocolaire"].valeur_potentiel,visite[1]["visite_protocolaire"].type_potentiel.type_potentiel)%> </td>
+    <td><%=  pres_perio(visite[1]["visite_protocolaire"].tolerance,visite[1]["visite_protocolaire"].type_potentiel.type_potentiel)%> </td>
+    <td><%=  visite[1]["nom"] %></td>
+    <td><%=  visite[1]["date_visite"].strftime('%d/%m/%Y') %></td>
+    <td><%=  pres_val(visite[1]["val_potentiel"],visite[1]["visite_protocolaire"].type_potentiel.type_potentiel)%></td>
+    <td><%=  pres_val(visite[1]["butee"],visite[1]["visite_protocolaire"].type_potentiel.type_potentiel) %></td>
+    <td><%=  pres_val(visite[1]["butee_tol"],visite[1]["visite_protocolaire"].type_potentiel.type_potentiel)%></td>
+    <td><%=  pres_val(visite[1]["val_dernier_releve"],visite[1]["visite_protocolaire"].type_potentiel.type_potentiel)%></td>
+    <td  id='<%=styling(visite[1]["couleur"])%>' ><%= pres_pot(visite[1]["reste"], visite[1]["visite_protocolaire"].type_potentiel.type_potentiel)%></td>
+    <td><%=pres_pot(visite[1]["reste_tol"], visite[1]["visite_protocolaire"].type_potentiel.type_potentiel)%></td>
+   </tr>
+<% end %>
+</table>
+<h2> Etat des visites d entretien &eacute;quipement</h2>
+<table border=1 width="100%">
+ <tr>
+    <td>Equipement</td>
+    <td>Nom visite equipement</td>
+    <td>Potentiel</td>
+    <td>Tol&eacute;rance</td>
+    <td>derni&egrave;re visite</td>
+    <td>Date visite</td>
+    <td>valeur potentiel</td>
+    <td>but&eacute;e</td>
+    <td>but&eacute;e avec tol</td>
+    <td>Valeur estim&eacute;e </td>
+    <td>potentiel restant hors tol&eacute;rance</td>
+    <td>potentiel restant avec tol&eacute;rance
+</tr>
+<% @visites_equipement.each do |vis| %>
+	<tr>
+		 <% if (vis[1]["couleur"]==2) then @style='KO' elsif  (vis[1]["couleur"]==1) then @style='half_ko'  else @style='OK'  end %>
+		<td  id='<%= @style %>' ><%=  vis[1]["type_equipement"] %></td>
+		<td ><%=  vis[1]["visite_protocolaire"].Nom %></td>
+		<td><%=  vis[1]["visite_protocolaire"].valeur_potentiel.to_s%> <%= vis[1]["visite_protocolaire"].type_potentiel.unitee %></td>
+		<td><%=  vis[1]["visite_protocolaire"].tolerance.to_s %> <%= vis[1]["visite_protocolaire"].type_potentiel.unitee %></td>
+		<td><%=  vis[1]["nom"] %></td>
+		<td><%=  vis[1]["date_visite"].strftime('%d/%m/%Y') %></td>
+		<td><%=  if( vis[1]["visite_protocolaire"].type_potentiel.type_potentiel=="Calendaire") then vis[1]["val_potentiel"].strftime('%d/%m/%Y') else vis[1]["val_potentiel"] end%></td>
+		<td><%=  if( vis[1]["visite_protocolaire"].type_potentiel.type_potentiel=="Calendaire") then vis[1]["butee"].strftime('%d/%m/%Y') else vis[1]["butee"] end%></td>
+		<td><%=  if( vis[1]["visite_protocolaire"].type_potentiel.type_potentiel=="Calendaire") then vis[1]["butee_tol"].strftime('%d/%m/%Y') else vis[1]["butee_tol"] end%></td>
+		<td><%=  if( vis[1]["visite_protocolaire"].type_potentiel.type_potentiel=="Calendaire") then " " else vis[1]["val_dernier_releve"].to_i end%></td>
+		<td  id='<%= @style %>' ><%=  if( vis[1]["visite_protocolaire"].type_potentiel.type_potentiel=="Calendaire") then vis[1]["reste"].to_i.to_s+" jours" else vis[1]["reste"].to_i end %></td>
+		<td><%=  if( vis[1]["visite_protocolaire"].type_potentiel.type_potentiel=="Calendaire") then vis[1]["reste_tol"].to_i.to_s+" jours" else vis[1]["reste_tol"].to_i end %></td>
+        </tr>
+<% end %>
+</table>
+
+	<h2> Machine </h2>
+	<table border=1>
+<tr>
+	<td>nom</td>
+	<td>type de dur&eacute;e de vie</td>
+	<td>dur&eacute;e de vie</td>
+	<td>dur&eacute;e de vie restante</td>
+	<td>But&eacute;e</td>
+</tr>
+	<% @pots_machs.each do |pot_mach| %>
+	<% @style=styling(pot_mach["couleur"])%>
+<tr>	
+	<td   id='<%= @style %>' ><%=pot_mach["nom"] %></td>
+	<td><%= pot_mach["type_potentiel"]  %></td>
+	<td><%= pot_mach["val_potentiel"]  %></td>
+	<td   id='<%= @style %>' ><%=pres_val(pot_mach["reste"], pot_mach["type_potentiel"]) %> </td>
+	<td><%=pot_mach["butee"] %></td>
+
+</tr>
+<% end %>
+</table>	
+<h2>Equipement</h2>
+<% type_equip=0 %>
+<% @montages.each do |pot| %>
+	<% if (type_equip!= pot[1]["moteur_helice"]) then %>
+		<%= if (type_equip!=0) then "</table>" end %>
+		<% type_equip= pot[1]["moteur_helice"]  %>
+		<% if (type_equip==2) then%> <h3>Hélice</h3> <%end %>
+		<% if (type_equip==1) then%> <h3>Moteur</h3> <%end %>
+		<% if (type_equip==3) then%> <h3>Divers</h3> <%end %>
+		<table border=1>
+		<tr>
+			<td>&eacute;quipement</td>
+			<td>Num&eacute;ro de s&eacute;rie </td>
+			<td>type de dur&eacute;e de vie</td>
+			<td>dur&eacute;e de vie</td>
+			<td>dur&eacute;e de vie restante</td>
+			<td>But&eacute;e</td>
+		</tr>
+	<%end %>
+	<% if (pot[1]["couleur"]==2) then @style='KO' elsif  (pot[1]["couleur"]==1) then @style='half_ko'  else @style='OK'  end %>
+	<tr>
+		<td  id='<%= @style %>' ><%= pot[1]["equipement"].type_equipement.nom_constructeur %> <%=pot[1]["equipement"].type_equipement.type_equipement %></td>
+		<td><%= link_to pot[1]["equipement"].num_serie, pot[1]["equipement"] %></td>
+		<td><%= pot[1]["type_pot"] %> </td>
+		<td><%= pot[1]["val_pot"] %> <%= pot[1]["unitee"] %></td>
+		<td  id='<%= @style %>' ><%= pot[1]["reste"].to_i %></td>
+		<td><%= pot[1]["butee"] %> </td>
+	</tr>
+<% end %>
+</table>
+<h2> Etat des CN Machines</h2>
+<table border=1>
+ <tr>
+    <td>R&eacute;f&eacute;rence</td>
+    <td>Nom Cn</td>
+    <td>Num BS</p>
+    <td>valeur potentiel</p>
+    <td>date application</td>
+    <td>CN Applicable </td>
+    <td>valeur potentiel</td>
+    <td>but&eacute;e</td>
+    <td>Derniere valeur connue </td>
+    <td>potentiel restant hors tol&eacute;rance</td>
+</tr>
+<% @cn_machine.each do |cn_ex| %>
+   <% cn_mach=cn_ex[1]["visite_protocolaire"] %>
+  <tr>
+    <% if (cn_ex[1]["couleur"]==2) then @style='KO' elsif  (cn_ex[1]["couleur"]==1) then @style='half_ko'  else @style='OK'  end %>
+     <% if (cn_ex[1]["visite_protocolaire"].est_annule) then @style='id="annule"'  end%>
+    <td  id='<%= @style %>' ><%=cn_mach.reference  %></td>
+    <td  ><%=  link_to(cn_ex[1]["visite_protocolaire"].nom,url_for(:controller=>"cn_machines", :action=>'show',:id=>cn_ex[1]["visite_protocolaire"].id,:id_machine=>@machine.id,:idcn_machine =>cn_mach.id))  %></td>
+    <td><%=  cn_mach.service_bulletin %></td>
+    <td><%=  cn_mach.val_potentiel.to_s%> <%= cn_mach.type_potentiel.unitee %></td>
+    <td><%=  cn_ex[1]["date_visite"] %></td>
+    <td align="center"><%= if (!cn_ex[1]["NA"]) then image_tag "case_a_cocher.gif" else " " end %></td>
+    <td><%=  if(  cn_mach.type_potentiel.type_potentiel=="Calendaire") then cn_ex[1]["val_potentiel"].strftime('%d/%m/%Y') else cn_ex[1]["val_potentiel"] end%></td>
+    <td><%=  if(  cn_mach.type_potentiel.type_potentiel=="Calendaire") then cn_ex[1]["butee"].strftime('%d/%m/%Y') else cn_ex[1]["butee"] end%></td>
+    <td><%=  if(  cn_mach.type_potentiel.type_potentiel=="Calendaire") then cn_ex[1]["val_dernier_releve"].strftime('%d/%m/%Y') else cn_ex[1]["val_dernier_releve"] end%></td>
+    <td  id='<%= @style %>' ><%=  if(  cn_mach.type_potentiel.type_potentiel=="Calendaire") then cn_ex[1]["reste"].to_i.to_s+" jours" else cn_ex[1]["reste"].to_i end%></td>
+<% end %>
+</table>
+	
+<h2> Etat des CN Equipements</h2>
+cn equip
+<table border=1 >
+ <tr>
+    <td>ref CN</td>
+    <td>Equipement</td>
+    <td>Nom Cn</td>
+    <td>Num BS</p>
+    <td>valeur potentiel</p>
+    <td>date application</td>
+    <td>valeur potentiel</td>
+    <td>but&eacute;e</td>
+    <td>Derniere valeur connue </td>
+    <td>potentiel restant hors tol&eacute;rance</td>
+    <td> CN Applicable </td>
+
+</tr>
+
+<% @cn_equipement_machine.each do |cn_ex| %>
+	<% cn_mach=cn_ex[1]["visite_protocolaire"] %>
+   <% if (cn_ex[1]["couleur"]==2) then @style='KO' elsif  (cn_ex[1]["couleur"]==1) then @style='half_ko'  else @style='OK'  end %>
+   <% if (cn_ex[1]["visite_protocolaire"].est_annule) then 
+	@style='annule' 
+	end%>
+      <tr>
+	<td   id='<%= @style %>' ><%=  cn_mach.reference %></td>
+	<td   id='<%= @style %>' ><%=  cn_ex[1]["equipement_type"] %></td>
+    <td > <%=  link_to(cn_ex[1]["visite_protocolaire"].nom,url_for(:controller=>"cn_equipements", :action=>'show',:id=>cn_ex[1]["visite_protocolaire"].id,:id_machine=>@machine.id))  %> </td>
+    <td><%=  cn_mach.service_bulletin %></td>
+    <td><%=  cn_mach.val_potentiel.to_s%> <%= cn_mach.type_potentiel.unitee %></td>
+    <% if cn_ex[1]["date_visite"]=="pas_applique" then @date_1=cn_ex[1]["date_visite"] else @date_1=cn_ex[1]["date_visite"].strftime('%d/%m/%Y') end %>
+    <td><%=  @date_1 %></td>
+    <td><%=  if(  cn_mach.type_potentiel.type_potentiel=="Calendaire") then cn_ex[1]["val_potentiel"].strftime('%d/%m/%Y') else cn_ex[1]["val_potentiel"] end%></td>
+    <td><%=  if(  cn_mach.type_potentiel.type_potentiel=="Calendaire") then cn_ex[1]["butee"].strftime('%d/%m/%Y') else cn_ex[1]["butee"] end%></td>
+    <td><%=  if(  cn_mach.type_potentiel.type_potentiel=="Calendaire") then " " else cn_ex[1]["val_dernier_releve"].to_i end%></td>
+    <td   id='<%= @style %>' ><%=  if(  cn_mach.type_potentiel.type_potentiel=="Calendaire") then cn_ex[1]["reste"].to_i.to_s+" jours" else cn_ex[1]["reste"].to_i end%></td>
+    <td align="center"><%= if (!cn_ex[1]["NA"]) then image_tag "case_a_cocher.gif" else " " end %></td>
+    </tr>
+
+<% end %>
+</table>
+
+<%= link_to 'Retour', maint_previs_path %>

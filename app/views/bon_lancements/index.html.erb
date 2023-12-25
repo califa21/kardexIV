@@ -1,0 +1,36 @@
+﻿<h1>liste des bons de lancement</h1>
+<%= link_to 'nouveau Bon de lancement', new_bon_lancement_path %>
+<table border=1 width 40%>
+  <thead>
+    <tr>
+      <th>Référence</th>
+      <th>Machine</th>
+      <th>date de lancement</th>
+      <th>Imp</th>
+      <th>imp avec carte</th>
+      <th>Mod</th>
+      <th>Supp</th>
+      <th>rapport</th>
+      
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @bon_lancements.each do |bon_lancement| %>
+      <tr>
+                <td><%=link_to bon_lancement.numero,bon_lancement%></td>
+                <td><%=bon_lancement.machine.Immatriculation%></td>
+                <td><%=bon_lancement.date_lancement.strftime('%d/%m/%Y')%></td>
+                <td><%= print_link bon_lancement_path(bon_lancement, :format => 'pdf',:type_rapport=>"lancement") %></td>
+                <td><%= print_link bon_lancement_path(bon_lancement, :format => 'pdf',:type_rapport=>"lancement_cv") %></td>
+                <td><%= mod_link edit_bon_lancement_path(bon_lancement) %></td>
+                <td><%= del_link bon_lancement %></td>
+                <td><%= print_link bon_lancement_path(bon_lancement, :format => 'pdf',:type_rapport=>"rapport") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'nouveau Bon de lancement', new_bon_lancement_path %>

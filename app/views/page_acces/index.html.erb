@@ -1,0 +1,33 @@
+﻿<h1>liste des pages de l'application</h1>
+
+<table border=1>
+  <tr>
+	<td>Menu</td>
+	<td>Page</td>
+	<td>Adresse</td>
+	<td>Fonction</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+  </tr>
+
+<% @page_acces.each do |page_acce| %>
+  <tr>
+    <td><%= page_acce.menu_item.Nom %></td>
+    <td><%= page_acce.Nom %></td>
+    <td><%= page_acce.adresse %></td>
+    <td>
+    <% page_acce.est_acce.each do |est_acce| %>
+    <%= est_acce.fonction.nom_fonction %>
+    <%end%>
+    </td>
+    <td><%= link_to 'détail', page_acce %></td>
+    <td><%= link_to 'Modifier', edit_page_acce_path(page_acce) %></td>
+    <td><%= link_to 'Suppr', page_acce, :confirm => 'êtes vous sur?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'nouvelle Page', new_page_acce_path %>

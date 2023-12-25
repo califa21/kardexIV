@@ -1,0 +1,16 @@
+
+<h1>maintenance pr&eacute;visionnelle</h1>
+<div id="unite"> 
+	<% toto='date' %>
+	<%= date_select "date_pre","toto",{ :default => 1.years.from_now,:order => [:day,:month,:year], :use_month_names=>@tableau_mois} %>
+	      
+	</form>
+</div>
+
+<div id='f2'>
+<%= render "previ_index" %>
+
+
+</div>
+
+ :with =>"'jour='+document.getlementsByName('date_pre[date(3i)]')[0].value +'&mois='+document.getElementsByName('date_pre[date(2i)]')[0].value+'&annee='+document.getElementsByName('date_pre[date(1i)]')[0].value")  

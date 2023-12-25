@@ -1,0 +1,27 @@
+﻿<h1>liste des durées de vie equipements</h1>
+<%type=""%>
+<%= link_to 'Nouvelle durée de vie équipement', new_potentiel_equipement_path %>
+<% @potentiel_equipements.each do |potentiel_equipement| %>
+	<% if(type!=potentiel_equipement.type_equipement.type_equipement) then %>
+	<% if(type!="") then %> </table><%end %>
+	<% type= potentiel_equipement.type_equipement.type_equipement%>
+	<h3><%= potentiel_equipement.type_equipement.nom_constructeur+" "+potentiel_equipement.type_equipement.type_equipement %></h3>
+	<table border=1 width=40%>
+	  <tr>
+		  <th width=30%>type de durée de vie</th>
+		  <th width=30%>valeur durée de vie</th>
+		  <th>Mod</th>
+		  <th>Supp</th>
+	  </tr>
+	<%end%>
+	 <tr>
+		 <td><%= link_to potentiel_equipement.type_potentiel.type_potentiel,potentiel_equipement %> </td>
+		 <td><%= pres_perio(potentiel_equipement.valeur_potentiel,potentiel_equipement.type_potentiel.type_potentiel) %></td>
+		 <td><%= mod_link edit_potentiel_equipement_path(potentiel_equipement) %></td>
+		 <td><%= del_link potentiel_equipement %></td>
+	 </tr>
+<% end %>
+</table>
+
+<br />
+

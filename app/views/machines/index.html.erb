@@ -1,0 +1,55 @@
+﻿<h1>Liste des machines gérées</h1>
+<%= link_to("imprimer l'état des CEN", "./machines.pdf") %>
+<table border=1 >
+  <tr>
+    
+    <th> Nom Constructeur</th>
+    <th> type </th>
+    <th>  Immatriculation </th>
+    <th>  num série </th>
+    <th>  date construction </th>
+    <% if (@modif)  %><th>Modif</th><%end%>
+     <%if (@suppr)  %><th>Supp</th><%end%>
+  </tr>
+
+<% @machines.each do |mach| %>
+	<% couleur= Machine.couleur(mach.id) %>
+	<% if(couleur==2) then @style='KO' elsif (couleur==1) then @style='half_ko' else  @style='OK' end %>
+  <tr>
+	<td><%= mach.type_machine.Nom_constructeur%>
+	<td><%= mach.type_machine.type_machine%>
+	<td id='<%= @style %>' ><%= link_to mach.Immatriculation,mach,:title=>"détail de la maintenance "+  mach.Immatriculation %></td>
+	<td><%=  mach.num_serie %></td>
+	<td><%=  mach.date_construct.strftime('%d/%m/%Y') %></td>
+	<% if (@modif)  %><td><%= mod_link(edit_machine_path(mach)) %></td><%end%>
+	<% if (@suppr)  %><td><%= del_link  (mach) %></td><%end%>
+  </tr>
+<% end %>
+</table>
+<%= link_to 'créer une nouvelle machine', new_machine_path %>
+<h2>Listes des machines vendues</h2>
+<table border=1 >
+  <tr>
+    <td> type </td>
+    <td> Nom Constructeur</td>
+    <td>  Immatriculation </td>
+    <td>  num série </td>
+    <td>  date construction </td>
+    <% if (@modif)  %><td>&nbsp</td><%end%>
+     <%if (@suppr)  %><td>&nbsp</td><%end%>
+  </tr>
+
+<% @machines_vendu.each do |mach| %>
+  <tr>
+	<td><%= mach.type_machine.type_machine%>
+	<td><%= mach.type_machine.Nom_constructeur%>
+	<td ><%=   link_to mach.Immatriculation,mach %></td>
+	<td><%=  mach.num_serie %></td>
+	<td><%=  mach.date_construct.strftime('%d/%m/%Y') %></td>
+	 <% if (@modif)  %><td><%= link_to image_mod, edit_machine_path(mach) %></td><%end%>
+	 <% if (@suppr)  %><td><%= link_to image_del, mach, data:{confirm: 'êtes vous sur?'}, :method => :delete %></td><%end%>
+  </tr>
+<% end %>
+</table>
+<br />
+

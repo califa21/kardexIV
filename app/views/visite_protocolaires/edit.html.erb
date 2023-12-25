@@ -1,0 +1,13 @@
+﻿<h1>modification visite Entretien </h1>
+
+<%= render 'form' %>
+
+<%= link_to 'retour à la liste des visites protocolaires', visite_protocolaires_path %>
+
+<h2>documents</h2>
+<h3>Carte de travail</h3>
+<%= render  partial: 'doc_divers/aff_doc', locals: {docs: @Carte_travail_docs}%>
+</div>
+
+<div style="border-style: solid;width:40%;">
+<%= render partial: 'doc_divers/form', locals:{retour: "visite_protocolaires"} %>

@@ -1,0 +1,31 @@
+﻿<h1>Liste Utilisateur</h1>
+
+<table border=1>
+  <tr>
+	<th>Identité</th>
+	<th>Login</th>
+	<th>Fonction</th>
+	<th>N° autor</th>
+	<th>num Licence mec</th>
+	<th>Pilote propriétaire</th>
+	<th>&nbsp</th>
+	<th>&nbsp</th>
+  </tr>
+
+<% @personnes.each do |personne| %>
+  <tr>
+    <td><%= link_to personne.Nom + " " + personne.prenom, personne  %></td>
+    <td><%= personne.login %></td>
+    <td><%= personne.fonction.nom_fonction %>
+    <td><%= if personne.autor.nil? then " " else personne.autor end %>
+    <td><%= if personne.num_licence_mec.nil? then " " else personne.num_licence_mec end %>
+    <td><%= if (personne.pil_prop) then image_tag "case_a_cocher.gif" else  image_tag "case_cocher_vide.jpg" end %></td>
+    <td><%= mod_link edit_personne_path(personne) %></td>
+    <td><%= del_link personne %></td>
+    
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Créer un nouvel utilisateur', new_personne_path %>

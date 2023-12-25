@@ -1,0 +1,25 @@
+<h1>Listing piece_changees</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @piece_changees.each do |piece_changee| %>
+      <tr>
+        <td><%= link_to 'Show', piece_changee %></td>
+        <td><%= link_to 'Edit', edit_piece_changee_path(piece_changee) %></td>
+        <td><%= link_to 'Destroy', piece_changee, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Piece changee', new_piece_changee_path %>

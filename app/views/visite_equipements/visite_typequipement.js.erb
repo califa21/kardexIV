@@ -1,0 +1,14 @@
+﻿(new_options = [
+<%@vpes.each do |vpe| %>
+["<%=vpe.Nom %>","<%=vpe.id%>"],
+<%end%>
+]);
+
+/* Remove all options from the select list */
+$('#visite_equipement_id_visite_protocolaire_equipement').empty();
+$.each(new_options, function() {
+                   $('#visite_equipement_id_visite_protocolaire_equipement').append(
+                                        $("<option></option>").val(this[1]).html(this[0])
+                                    )
+                            });
+

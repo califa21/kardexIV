@@ -1,0 +1,34 @@
+﻿<%= form_for(@type_equipement) do |f| %>
+  <% if @type_equipement.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@type_equipement.errors.count, "error") %> prohibited this type_equipement from being saved:</h2>
+
+      <ul>
+      <% @type_equipement.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<table border=1>
+  <tr><td>
+<label for="type_equipement_type_equipement">type &eacute;quipement:</label></td>
+<td><%= text_field "type_equipement", "type_equipement", :size => 45 %><br/>
+</td></tr>
+<tr><td>
+<label for="type_equipement_nom_constructeur">Nom constructeur:</label></td>
+<td><%= text_field "type_equipement", "nom_constructeur", :size => 45 %><br/>
+</td></tr>
+<tr><td>
+<%= check_box "type_equipement","moteur"%>
+<%= label_tag(:moteur, "moteur") %>
+</td><td>
+<%= check_box "type_equipement","helice" %>
+<%= label_tag(:helice, "helice") %>
+</td></tr>
+<tr><td>
+  <p>
+    <%= f.submit 'sauvegarder' %>
+  </p></td><td>&nbsp;</td></tr>
+  </table>
+<% end %>

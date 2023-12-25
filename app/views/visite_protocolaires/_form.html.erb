@@ -1,0 +1,69 @@
+﻿
+<%= form_for(@visite_protocolaire) do |f| %>
+  <% if @visite_protocolaire.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@visite_protocolaire.errors.count, "error") %> prohibited this visite_protocolaire from being saved:</h2>
+
+      <ul>
+      <% @visite_protocolaire.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<table border=0>
+  <tr><td>
+<label for="visite_protocolaire_nom">nom de la visite :</label></td>
+<td><%= text_field "visite_protocolaire", "Nom", :size => 20 %><br/>
+</td></tr>
+
+<tr><td>
+<label for="type_visite_protocolaire_idtype_machine">type de machine:</label></td>
+<td>
+<%=  select("visite_protocolaire", "idtype_machine", TypeMachine.all.collect {|p| [ p.type_machine, p.id ] })%><br/>
+</td></tr>
+
+<tr><td>
+<label for="type_visite_protocolaire_idtype_potentiel">type de potentiel:</label></td>
+<td>
+<%=  select("visite_protocolaire", "idtype_potentiel", TypePotentiel.all.collect {|p| [ p.type_potentiel, p.id ] })%><br/>
+<%= if !(params[:idtype_machine].nil?) then hidden_field_tag(:retour,params[:idtype_machine]) end %>
+</td></tr>
+
+<tr><td>
+<label for="visite_protocolaire_valeur_potentiel">valeur du potentiel:</label></td>
+<td><%= text_field "visite_protocolaire", "valeur_potentiel", :size => 20 %><br/>
+</td></tr>
+<tr><td>
+<label for="visite_protocolaire_tolerance">tolerance:</label></td>
+<td><%= text_field "visite_protocolaire", "tolerance", :size => 20 %><br/>
+</td></tr>
+<tr><td>
+<%= label_tag(:potentiel_variable, "potentiel variable") %></td>
+<td><%= check_box "visite_protocolaire","potentiel_variable" %>
+</td></tr>
+<tr><td>
+<%= label_tag(:gv, "gv") %></td>
+<td><%= check_box "visite_protocolaire","gv" %>
+</td></tr>
+<tr><td>
+<%= label_tag(:va, "va") %></td>
+<td><%= check_box "visite_protocolaire","va" %>
+</td></tr>
+<tr><td>
+<%= label_tag(:carte, "carte") %></td>
+<td><%= check_box "visite_protocolaire","carte" %>
+</td></tr>
+<tr><td>
+<label for="visite_protocolaire_commentaire">commentaires :</label></td>
+<td><%= text_area"visite_protocolaire", "commentaire", :rows => 5, :cols => 20 %><br/>
+
+</td></tr>
+<tr><td>
+  <p>
+    <%= f.submit 'Créer' %>
+  </p>
+  </td></tr>
+</table>
+<% end %>
+

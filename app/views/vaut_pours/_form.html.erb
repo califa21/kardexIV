@@ -1,0 +1,35 @@
+<%= form_for(@vaut_pour) do |f| %>
+  <% if @vaut_pour.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@vaut_pour.errors.count, "error") %> prohibited this vaut_pour from being saved:</h2>
+
+      <ul>
+      <% @vaut_pour.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+   <table border=0>
+<tr><td>
+<label for="maitre_id">Visite Maitre :</label></td>
+<td>
+<%=  f.select  "maitre_id", VisiteProtocolaire.all.collect {|p| [ p.type_machine.type_machine+" "+p.Nom, p.id ] } %><br/>
+</td></tr>
+<tr><td>
+<label for="induite_id">Visite induite :</label></td>
+<td>
+<%=  f.select  "induite_id", VisiteProtocolaire.all.collect {|p| [ p.type_machine.type_machine+" "+p.Nom, p.id ] } %><br/>
+</td></tr>
+<tr><td>
+
+<label for="vaut_pour_commentaire">commentaires:</label></td>
+<td><%= f.text_area "commentaire", :rows => 5, :cols => 20 %><br/>
+</td></tr>
+<tr><td>
+  <div class="actions">
+    <%= f.submit "enregistrer" %>
+  </div>
+  </td></tr>
+  </table>
+<% end %>

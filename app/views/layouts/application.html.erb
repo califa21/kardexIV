@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <title>Kardex IV</title>
+  <%= favicon_link_tag 'cab.JPG' %>
+  <%= stylesheet_link_tag "application", media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+ <%= csrf_meta_tags %>
+  <% if content_for?(:head) %>
+	<%= yield(:head) %>
+   <% end %>
+</head>
+<body>
+
+<div style="float: right">
+<% menu="" %>
+<% fin_list=0 %>
+<ul>
+<li><%= link_to "Déconnexion",{:controller=>"appli",:action=>"logout"}%></b></li>
+<% @est_acces.each do |est_acc| %>
+		<% if (menu != est_acc.page_acce.menu_item.Nom) then %>
+			<% if menu!="" then %>
+			</li></ul>
+			<%end %>
+			<li><a href="#"><%= est_acc.page_acce.menu_item.Nom %> &#9662;</a></b>
+			<% menu = est_acc.page_acce.menu_item.Nom %>
+			<ul class="dropdown">
+		<%end %>
+		<li><%=  link_to est_acc.page_acce.Nom,url_for(:controller=>est_acc.page_acce.adresse)   %> </li>
+<%end%>
+</ul>
+<ul>
+</ul>
+</ul>
+</div>
+<div style="float: left">
+	<div style="float: right"><br/>
+	<span class="Style_titre" > KARDEX IV</span>
+	</div>
+	<div style="float: left">
+	<%=image_tag('cab.JPG', height: '93', width: '167')%>
+	</div>
+</div>
+
+<div style=" clear: both; padding-top: 10px;">
+<%= yield %>
+</div>
+</body>
+</html>

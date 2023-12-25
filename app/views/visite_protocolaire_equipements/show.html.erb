@@ -1,0 +1,35 @@
+﻿<h1>Détail de la visite <%=@visite_protocolaire_equipement.Nom %></h1>
+<table border=1>
+  <tr>
+  <td>Nom</td>
+    <td>type d'équipement</td>
+    <td>type de potentiel</td>
+    <td>valeur de potentiel </td>
+    <td>tolerance </td>
+    <td> GV</td>
+    <td>VA</td>
+    <td>Carte</td>
+    <td>	Commentaires</td>
+  </tr>
+
+  <tr>
+    <td><%=@visite_protocolaire_equipement.Nom %></td>
+    <td><%=@visite_protocolaire_equipement.type_equipement.nom_constructeur + " " + @visite_protocolaire_equipement.type_equipement.type_equipement %></td>
+    <td><%=@visite_protocolaire_equipement.type_potentiel.type_potentiel %></td>
+    <td><%=pres_perio(@visite_protocolaire_equipement.valeur_potentiel,@visite_protocolaire_equipement.type_potentiel.type_potentiel) %></td>
+    <td><%=pres_perio(@visite_protocolaire_equipement.tolerance,@visite_protocolaire_equipement.type_potentiel.type_potentiel) %></td>
+    <td align="center"><%= if (@visite_protocolaire_equipement.gv) then image_tag "case_a_cocher.gif" else image_tag "case_cocher_vide.jpg" end %></td>
+    <td align="center"><%= if (@visite_protocolaire_equipement.va) then image_tag "case_a_cocher.gif" else image_tag "case_cocher_vide.jpg" end %></td>
+	<td align="center"><%= if (@visite_protocolaire_equipement.carte) then image_tag "case_a_cocher.gif" else image_tag "case_cocher_vide.jpg" end %></td>
+	<td align="center"><%=@visite_protocolaire_equipement.commentaire %></td>
+  </tr>
+
+</table>
+<h2>documents</h2>
+<h3>Carte de travail</h3>
+<%= render  partial: 'doc_divers/aff_doc', locals: {docs: @carte_travail}%>
+</div>
+
+
+<%= link_to 'Modifier', edit_visite_protocolaire_equipement_path(@visite_protocolaire_equipement) %> |
+<%= link_to 'retour à la liste', visite_protocolaire_equipements_path %>

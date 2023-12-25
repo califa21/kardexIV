@@ -1,0 +1,24 @@
+﻿<h1>liste durée de vie machines</h1>
+<%= link_to 'Nouveau durée de vie type machine', new_potentiel_machine_path %>
+<p>
+<table border=1>
+  <tr>
+	<th>Nom</th>
+	<th>Type Machine</th>
+	<th>durée de vie</th>
+	<th>Mod</th>
+	<th>Supp</th>
+  </tr>
+
+<% @potentiel_machines.each do |potentiel_machine| %>
+  <tr>
+    <td><%= link_to potentiel_machine.nom,potentiel_machine %></td>
+    <td><%= potentiel_machine.type_machine.Nom_constructeur+" "+ potentiel_machine.type_machine.type_machine %></td>
+    <td><%= pres_perio( potentiel_machine.valeur_potentiel,potentiel_machine.type_potentiel.type_potentiel) %> </td>
+    <td><%= mod_link edit_potentiel_machine_path(potentiel_machine) %></td>
+    <td><%= del_link potentiel_machine %></td>
+  </tr>
+<% end %>
+</table>
+
+

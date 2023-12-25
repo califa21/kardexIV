@@ -1,0 +1,39 @@
+﻿<h1>Applications des CN </h1>
+<br><%= link_to "saisie d'une application de CN", new_exec_cn_equipement_path %></br>
+<% type_equip="" %>
+<% @exec_cn_equipements.each do |exec_cn_equipement| %>
+	
+	<% if (type_equip != exec_cn_equipement.equipement.type_equipement.type_equipement+exec_cn_equipement.equipement.num_serie) then %>
+		<% if ( type_equip!="") then %> </table> <% end %>
+		<h3><%=  exec_cn_equipement.equipement.type_equipement.nom_constructeur+" " + exec_cn_equipement.equipement.type_equipement.type_equipement+" " +exec_cn_equipement.equipement.num_serie %></h3>
+		<% type_equip=exec_cn_equipement.equipement.type_equipement.type_equipement+exec_cn_equipement.equipement.num_serie %>
+		<table border=1 width=40% >
+		  <tr>
+			<th width=25%>CN </th>
+			<th width=10%>Numéro BS</th>
+			<th width=15%>date execution</th>
+			<th>Valide</th>
+			<th>potentiel</th>
+			<th>Potentiel à execution</th>
+			<th>Mod</th>
+			<th>Supp</th>
+			
+		  </tr>
+	<%end%>
+	  <tr>
+	    <td><%= exec_cn_equipement.cn_equipement.nom  %></td>
+	    <td><%= exec_cn_equipement.cn_equipement.service_bulletin %></td>
+	    <td><%= link_to exec_cn_equipement.date_exec.strftime('%d/%m/%Y'),exec_cn_equipement  %></td>
+	    <td align="center"><%= if (!exec_cn_equipement.non_applicable) then image_tag "case_a_cocher.gif" else image_tag "case_cocher_vide.jpg" end %></td>
+	    <td><%= pres_perio(exec_cn_equipement.cn_equipement.val_potentiel,exec_cn_equipement.cn_equipement.type_potentiel.type_potentiel)%></td>
+	    <td><%= if (exec_cn_equipement.cn_equipement.type_potentiel.type_potentiel=="Une fois" || exec_cn_equipement.cn_equipement.type_potentiel.type_potentiel=="Calendaire") then " " else  pres_perio(exec_cn_equipement.val_potentiel_exec,exec_cn_equipement.cn_equipement.type_potentiel.type_potentiel) end%></td>
+	    
+	    <td><%= mod_link edit_exec_cn_equipement_path(exec_cn_equipement) %></td>
+	    <td><%= del_link exec_cn_equipement %></td>
+	  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to "saisie d'une application de CN", new_exec_cn_equipement_path %>

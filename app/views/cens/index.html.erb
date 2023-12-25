@@ -1,0 +1,42 @@
+﻿<p id="notice"><%= notice %></p>
+
+<h1>liste des Certificats de navigabilté </h1>
+<%= link_to 'nouveau certificat', new_cen_path %>
+<table border=1 width 40%>
+  <thead>
+    <tr>
+      <th>Référence</th>
+      <th>Machine</th>
+      <th>Signataire</th>
+      <th>date de délivrance</th>
+      <th>date de validité</th>
+      <th>Mod</th>
+      <th>Supp</th>
+      <th>Imp cen</th>
+      <th>Imp ac158b</th>
+      <th>Imp annexe V</th>
+    </tr>
+  </thead>
+
+  <tbody
+  <%@cens.each do |cen| %>
+      <tr>
+	<td><%=link_to cen.num_cen,cen%></td>
+	<td><%=cen.machine.Immatriculation%></td>
+	<td><%=cen.personne.Nom%>  <%=cen.personne.prenom%></td>
+	<td><%= cen.deliv.strftime('%d/%m/%Y')%></td>
+	<td><%= cen.expire.strftime('%d/%m/%Y')%></td>
+	<td><%= mod_link edit_cen_path(cen) %></td>
+        <td><%= del_link cen %></td>
+	<td><%= print_link cen_path(cen, :format => 'docx',:type_rapport=>"cen") %></td>
+	<td><%= print_link cen_path(cen, :format => 'docx',:type_rapport=>"ac158d") %></td>
+	<td><%= print_link cen_path(cen, :format => 'docx',:type_rapport=>"annexeV") %></td>
+      </tr>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'nouveau certificat', new_cen_path %>

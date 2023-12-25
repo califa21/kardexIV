@@ -1,0 +1,36 @@
+﻿<h3>Potentiel<h3>
+<% if !@elt_pot.nil? and  !@elt_pot.empty?  then %>
+<table border=1>
+<td>type de potentiel</td>
+<td>Valeur du potentiel machine au jour de montage</td>
+<td>Potentiel restant au montage</td>
+<% @elt_pot.each do |pot| %>
+<tr>
+		<td><%= pot.type_potentiel.type_potentiel%></td>
+		<td><%= text_field "pot["+pot.id.to_s+"]", :valeur_machine_jour_montage , :value=>pres_val(pot.valeur_machine_jour_montage,pot.type_potentiel.type_potentiel), :size => 20 %></td>
+		<td><%= text_field "pot["+pot.id.to_s+"]", :valeur_potentiel_montage , :value=>pres_pot_mod(pot.valeur_potentiel_montage,pot.type_potentiel.type_potentiel), :size => 20 %>
+		<%= hidden_field_tag "pot["+pot.id.to_s+"][idtype_potentiel]",pot.type_potentiel.id.to_s %> 
+		<% if (pot.potentiel_equipement.nil?) then poto="" else poto=pot.potentiel_equipement.id.to_s end%>
+		<%= hidden_field_tag "pot["+pot.id.to_s+"][id_pot]",poto %>
+		</td>
+	</tr>
+
+<%end%>
+</table>
+<%end%>
+<h3> valeur carnet pour visites protocolaires </h3><% if !@tot.nil? then %>
+<table border=1>
+<tr>
+	<td>Type potentiel</td>
+	<td>Valeur carnet au montage</td>
+</tr>	
+<% @tot.each do |recup_pot_visite| %>
+<tr>
+	<td><%= recup_pot_visite[1]["typ_pot"] %></td>
+	<td><%= text_field_tag("[potentiel_montage_vis]["+recup_pot_visite[1]["id_pot"].to_s+"[valeur_machine_jour_montage]",pres_val(recup_pot_visite[1]["valeur_carnet_montage"].to_f ,recup_pot_visite[1]["typ_pot"])) %></td>
+	<%= hidden_field_tag("[potentiel_montage_vis]["+recup_pot_visite[1]["id_pot"].to_s+"][idtype_potentiel]", recup_pot_visite[1]["typ_pot"]) %>
+	
+</tr>
+<% end %>
+</table>
+<%end%>

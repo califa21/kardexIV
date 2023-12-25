@@ -1,0 +1,47 @@
+﻿<h2> Etat des visites d'entretien équipement</h2>
+<% type_equip=0 %>
+<%lance_visite=EstAcce.page_acc("visite_equipements","new",session[:personne].id_fonction)%>
+<% @visites_equipement.each do |vis| %>
+	<% if (type_equip!= vis[1]["moteur_helice"]) then %>
+		<% if (type_equip!=0) then %> </table> <%end %>
+		<% type_equip= vis[1]["moteur_helice"]  %>
+		<h3>
+		<%= if (type_equip==2) then "Hélice" end %>
+		<%= if (type_equip==1) then "Moteur" end %>
+		<%= if (type_equip==3) then 'Divers' end %>
+		</h3>
+		<table border=1 width="100%">
+			 <tr>
+			    <th>Equipement</th>
+			    <th>Nom visite equipement</th>
+			    <th>Potentiel</th>
+			    <th>Tolérance</th>
+			    <th>derni&egrave;re visite</th>
+			    <th>Date visite</th>
+			    <th>valeur potentiel</th>
+			    <th>butée</th>
+			    <th>butée avec tolérance</th>
+			    <th>Derniere valeur connue </th>
+			    <th>potentiel restant hors tolérance</th>
+			    <th>potentiel restant avec tolérance</th>
+			    <% if (lance_visite) then %><th>créer une nouvelle visite</th> <% end %>
+			</tr>
+	<% end %>
+	<tr>
+		<td  id='<%=styling(vis[1]["couleur"])%>' ><%=  vis[1]["type_equipement"] %></td>
+		<td ><%=  vis[1]["visite_protocolaire"].Nom %></td>
+		<td><%=  pres_perio(vis[1]["visite_protocolaire"].valeur_potentiel, vis[1]["visite_protocolaire"].type_potentiel.type_potentiel)%> </td>
+		<td><%=  pres_perio(vis[1]["visite_protocolaire"].tolerance, vis[1]["visite_protocolaire"].type_potentiel.type_potentiel) %> </td>
+		<td><%=  vis[1]["nom"] %></td>
+		<td><%=  vis[1]["date_visite"].strftime('%d/%m/%Y') %></td>
+		<td><%=  pres_val(vis[1]["val_potentiel"],vis[1]["visite_protocolaire"].type_potentiel.type_potentiel)%></td>
+		<td><%=  pres_val(vis[1]["butee"], vis[1]["visite_protocolaire"].type_potentiel.type_potentiel)%></td>
+		<td><%=  pres_val(vis[1]["butee_tol"], vis[1]["visite_protocolaire"].type_potentiel.type_potentiel)%></td>
+		<td><%=  pres_val(vis[1]["val_dernier_releve"], vis[1]["visite_protocolaire"].type_potentiel.type_potentiel) %></td>
+		<td  id='<%=styling(vis[1]["couleur"])%>' ><%=  pres_pot(vis[1]["reste"], vis[1]["visite_protocolaire"].type_potentiel.type_potentiel) %></td>
+		<td><%=  pres_pot(vis[1]["reste_tol"], vis[1]["visite_protocolaire"].type_potentiel.type_potentiel) %></td>
+		<% if (lance_visite) then %><td align='center'><%=  new_visite(url_for new_visite_equipement_path(:id_equipement=>vis[1]["id_equipement"],:id_visite_pro =>vis[1]["visite_protocolaire"].id,:id_machine=>@machine.id)) %></td><%end %>
+
+        </tr>
+<% end %>
+</table>
