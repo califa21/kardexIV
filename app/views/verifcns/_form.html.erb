@@ -1,0 +1,18 @@
+﻿<%= form_with(model: verifcn) do |form| %>
+  <% if verifcn.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(verifcn.errors.count, "error") %> prohibited this verifcn from being saved:</h2>
+
+      <ul>
+        <% verifcn.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+       <p> Nom du vérificateur : <%= form.select "id_verificateur", Personne.all.collect {|p| [ p.Nom, p.id ] },{:include_blank=> 'None'}%></p>
+       <p>Date de vérification<%= form.text_field  "date_verif",{:value=>val_date(@verifcn.date_verif), :class =>"date_saisie",:size => 10} %></p>
+  <div class="actions">
+    <%= form.submit 'Enregistrer' %>
+  </div>
+<% end %>

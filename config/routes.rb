@@ -1,4 +1,5 @@
 ﻿Rails.application.routes.draw do
+  resources :verifcns
   resources :outils
 #	scope '/kardex' do
 

@@ -1,0 +1,29 @@
+﻿<p id="notice"><%= notice %></p>
+
+<h1>Date de vérification des CN</h1>
+
+<table border=1>
+  <thead>
+    <tr>
+      <th>date</th>
+      <th>Vérifié par </th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @verifcns.each do |verifcn| %>
+      <tr>
+        <td><%= link_to verifcn.date_verif.strftime('%d/%m/%Y'), verifcn %></td>
+        <td><%= verifcn.verificateur.Nom%></td>
+        <td><%= mod_link edit_verifcn_path(verifcn) %></td>
+        <td><%= del_link  verifcn %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Nouvelle date de vérification', new_verifcn_path %>
