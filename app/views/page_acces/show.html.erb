@@ -3,13 +3,12 @@
 
 <table border=1>
 <tr>
-	<td>Nom Fonction</td>
-	<td>Consultation</td>
-	<td>Modification</td>
-	<td>Création</td>
-	<td>Suppression</td>
-	<td>&nbsp;</td>
-	<td>&nbsp;</td>
+	<th>Nom Fonction</th>
+	<th>Consultation</th>
+	<th>Modification</th>
+	<th>Création</th>
+	<th>Suppression</th>
+	<th>&nbsp;</th>
 </tr>
 
 <% @page_acce.est_acce.each do |est_acce| %>
@@ -19,8 +18,7 @@
 	<td><%= if (est_acce.page_modif) then image_tag "case_a_cocher.gif" else  image_tag"case_cocher_vide.jpg" end %></td>
 	<td><%= if (est_acce.page_new) then image_tag "case_a_cocher.gif" else  image_tag "case_cocher_vide.jpg" end %></td>
 	<td><%= if (est_acce.page_suppr) then image_tag "case_a_cocher.gif" else image_tag "case_cocher_vide.jpg" end %></td>
-	<td><%= link_to 'modifier',edit_page_acce_path(@page_acce)%></td>
-	<td>Suppr</td>
+	<td><%= mod_link edit_page_acce_path(@page_acce)%></td>
 </tr>
 <%end %>
 

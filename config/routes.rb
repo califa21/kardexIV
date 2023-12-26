@@ -1,4 +1,5 @@
 ﻿Rails.application.routes.draw do
+  resources :outils
 #	scope '/kardex' do
 
 resources :cens do

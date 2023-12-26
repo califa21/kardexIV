@@ -1,0 +1,12 @@
+﻿<p id="notice"><%= notice %></p>
+
+ <table border=1>
+
+     <tr><th>Nom</th> <td><%= @outil.nom%></td></tr>
+     <tr><th>Date de dernier étalonnage</th><td><%= @outil.date_der_etalon.strftime('%d/%m/%Y') %></td></tr>
+     <tr><th>durée Validité</th><td><%=@outil.duree_val %> ans</td></tr>
+  
+  </table>
+
+<%= link_to 'modifier', edit_outil_path(@outil) %> |
+<%= link_to 'retour à la liste', outils_path %>

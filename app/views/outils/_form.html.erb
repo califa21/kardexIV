@@ -1,0 +1,28 @@
+﻿<%= form_with(model: outil) do |form| %>
+  <% if outil.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(outil.errors.count, "error") %> prohibited this outil from being saved:</h2>
+
+      <ul>
+        <% outil.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+  <table border=0>
+  <tr><td><label for="outil_nom">nom :</label></td>
+<td><%= text_field("outil", "nom", :size => 20)  %></td></tr>
+ 
+ <tr><td>
+  <label for="outil_date_der_etalon">date du dernier étalonnage:</label></td>
+    <td><%= form.text_field  "date_der_etalon",{:value=>@date_1, :class =>"date_saisie",:size => 10} %></td></tr>
+    
+    <tr><td><label for="outil_duree_val">validité (année):</label></td>
+<td><%= text_field("outil", "duree_val", :size => 20)  %></td></tr>
+  </table>
+    <%= form.submit 'enregistrer' %>
+  </div>
+<% end %>

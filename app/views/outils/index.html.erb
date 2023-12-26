@@ -1,0 +1,31 @@
+﻿<p id="notice"><%= notice %></p>
+
+<h1>Outils</h1>
+<%= link_to 'Nouvel outillage', new_outil_path %>
+<table border=1>
+  <thead>
+    <tr>
+      <th> nom </th>
+      <th> date dernier étalonnage</th>
+      <th> durée validité (année)</th>
+      <th> </th>
+      <th> </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @outils.each do |outil| %>
+      <tr>
+        <td><%= link_to outil.nom, outil %></td>
+        <td><%= outil.date_der_etalon.strftime('%d/%m/%Y')%></td>
+        <td><%=outil.duree_val%></td>
+        <td><%= mod_link edit_outil_path(outil) %></td>
+        <td><%= del_link outil %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Nouvel outillage', new_outil_path %>
