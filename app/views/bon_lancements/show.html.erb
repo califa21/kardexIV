@@ -38,5 +38,12 @@
 <%end%>
 
 <h2>Travaux hors entretien périodique</h2>
+<%= @bon_lancement.trav_prog %>
+<h2>travaux découverts en visite</h2>
+<%= @bon_lancement.trav_decou %>
+<h2> Impression</h2>
+Impression Bon de lancement : <%= print_link bon_lancement_path(@bon_lancement, :format => 'pdf',:type_rapport=>"lancement") %></p>
+Impression Bon de lancement avec carte de travail <%= print_link bon_lancement_path(@bon_lancement, :format => 'pdf',:type_rapport=>"lancement_cv") %></p>
+Impression Rapport des travaux : <%= print_link bon_lancement_path(@bon_lancement, :format => 'pdf',:type_rapport=>"rapport") %></p>
 <%= link_to 'Modifier', edit_bon_lancement_path(@bon_lancement) %> |
 <%= link_to 'Retour à la liste', bon_lancements_path %>
