@@ -4,7 +4,7 @@
 		require "prawn/measurement_extensions"
 		######################################################################
 		# récupération des données
-		@cen=VisiteMachine.joins({machine: :type_machine},:visite_protocolaire).select("type_machines.Nom_constructeur,type_machines.type_machine,machines.Immatriculation,max(date_visite) as perim").where("visite_protocolaires.nom LIKE '%cen%' and not machines.vendu").group("type_machines.Nom_constructeur,type_machines.type_machine,machines.Immatriculation").order("type_machines.Nom_constructeur,type_machines.type_machine,machines.Immatriculation")
+		@cen=VisiteMachine.joins({machine: :type_machine},:visite_protocolaire).select("type_machines.Nom_constructeur,type_machines.type_machine,machines.Immatriculation,max(date_visite) as perim").where("visite_protocolaires.nom LIKE '%cen%' and not machines.vendu").group("type_machines.Nom_constructeur,type_machines.type_machine,machines.Immatriculation").order("perim,type_machines.Nom_constructeur,type_machines.type_machine,machines.Immatriculation")
 		
 		#################################################################################
 		# entête de page

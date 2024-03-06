@@ -13,6 +13,7 @@
      respond_to do |format|
       format.html {}
       format.pdf { 
+		@machines=@machines.sort_by{|machine|  [machine.type_machine.type_machine, machine.Immatriculation]}
 		test =CensReport.new(:page_size => "A4", :page_layout => :portrait)
 		output=test.to_pdf()
 		send_data output, :filename => "cen.pdf",:type => "application/pdf"
@@ -60,10 +61,11 @@
 		    #récupération des manuels maintenance disponibles
 		    @mm_docs=DocDiver.where(["type_doc_id=5 and id_entite=?",@machine.type_machine.id]).all
 		    #calcul de l'onglet courant pour retour des autres pages
-		    @onglet=Array.new(6,'hidden')
+		    @onglet=Array.new(7,'hidden')
 		    if params[:onglet].nil? then @onglet[0]="visible" else @onglet[params[:onglet].to_i]="visible" end
-		    @onglet1=Array.new(6,'visible')
+		    @onglet1=Array.new(7,'visible')
 		    if params[:onglet].nil? then @onglet1[0]="hidden" else @onglet1[params[:onglet].to_i]="hidden" end
+			 @bon_lancements = BonLancement.where(id_machine: params[:id]).order(id: :desc)
 	}# show.html.erb
 	format.xml  { render :xml => @machine }
 	format.pdf { 

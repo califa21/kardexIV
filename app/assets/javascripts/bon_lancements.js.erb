@@ -14,7 +14,7 @@ function initPagelanc() {
     if (state === "") {
       state = "0";
     }
-    jQuery.get('<%=url_for(:controller=>"/bon_lancements",:action=>"get_type_visite",:only_path=>true)%>'+".js?id_bl=" + state+"&id_machine="+machine );
+    jQuery.get('<%=url_for(:controller=>"bon_lancements",:action=>"get_type_visite",:only_path=>true)%>'+".js?id_bl=" + state+"&id_machine="+machine );
     return false;
   });
 });

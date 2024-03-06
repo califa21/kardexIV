@@ -26,7 +26,7 @@ end
   # GET /carnets/1
   # GET /carnets/1.json
   def show
-	@carnets=Carnet.where("machine_idmachine=?",params[:id]).order("date_releve asc")
+	@carnets=Carnet.where("machine_idmachine=? and date_releve > DATE_SUB(CURDATE(), INTERVAL 70 DAY) ",params[:id]).order("date_releve desc")
 	@machine=Machine.find(params[:id])
 	#@carnet["machine"]=machine.Immatriculation
 

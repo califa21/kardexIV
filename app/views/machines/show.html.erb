@@ -8,8 +8,8 @@
 	<div id="fx4"  style="position:absolute;background-color:#FFFFFF ; border: solid; width:100px; height:40px; left:359px; top:<%=top%>px; z-index:5;border-bottom : <%=@onglet1[3]%>" onclick="active_onglet(4)"><b id='<%=styling(@couleur_cn_equipement)%>'>CN Equipement </b> </div>
 	<div id="fx5"  style="position:absolute;background-color:#FFFFFF ; border: solid; width:100px; height:40px; left:462px; top:<%=top%>px; z-index:5;border-bottom : <%=@onglet1[4]%>" onclick="active_onglet(5)"><b id='<%=styling(@couleur_potentiel_machine)%>'>durée de vie</b></div>
 	<div id="fx6"  style="position:absolute;background-color:#FFFFFF ; border: solid; width:100px; height:40px; left:565px; top:<%=top%>px; z-index:5;border-bottom : <%=@onglet1[5]%>" onclick="active_onglet(6)"><b>Modification réparation</b></div>
+	<div id="fx7"  style="position:absolute;background-color:#FFFFFF ; border: solid; width:100px; height:40px; left:668px; top:<%=top%>px; z-index:5;border-bottom : <%=@onglet1[6]%>" onclick="active_onglet(7)"><b>Lancement</b></div>
 
-	
 <div	id=f1 style="position:absolute; background-color:#FFFFFF ; border:solid; width:1100px; height:4000px; left:10px; top:<%=top+40%>px; clip:rect('0', '0', '900', '900'); z-index:0";visibility:<%=@onglet[0]%>  >
 <h2>Données Générales</h2>
 <table border=0>
@@ -212,3 +212,38 @@
 </table>
 <% if (lance_visite) then %>  <%= link_to 'saisir nouvelle modif/réparation',new_modif_repar_path(:id_machine=>@machine.id) %><%end%>
 	</div>
+
+	<div	id=f7 style="position:absolute; background-color:#FFFFFF ; border:solid; width:1100px; height:4000px; left:10px; top:<%=top+40%>px; clip:rect('0', '0', '900', '900') ; z-index:0 ;visibility:<%=@onglet[6]%>" >
+	<h1>liste des bons de lancement</h1>
+<%= link_to 'nouveau Bon de lancement', new_bon_lancement_path(:id_machine=>@machine.id) %>
+<table border=1 width 40%>
+  <thead>
+    <tr>
+      <th>Référence</th>
+      <th>Machine</th>
+      <th>date de lancement</th>
+      <th>Imp</th>
+      <th>imp avec carte</th>
+      <th>Mod</th>
+      <th>Supp</th>
+      <th>rapport</th>
+      
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @bon_lancements.each do |bon_lancement| %>
+      <tr>
+                <td><%=link_to bon_lancement.numero,bon_lancement%></td>
+                <td><%=bon_lancement.machine.Immatriculation%></td>
+                <td><%=bon_lancement.date_lancement.strftime('%d/%m/%Y')%></td>
+                <td><%= print_link bon_lancement_path(bon_lancement, :format => 'pdf',:type_rapport=>"lancement") %></td>
+                <td><%= print_link bon_lancement_path(bon_lancement, :format => 'pdf',:type_rapport=>"lancement_cv") %></td>
+                <td><%= mod_link edit_bon_lancement_path(bon_lancement) %></td>
+                <td><%= del_link bon_lancement %></td>
+                <td><%= print_link bon_lancement_path(bon_lancement, :format => 'pdf',:type_rapport=>"rapport") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+	</div

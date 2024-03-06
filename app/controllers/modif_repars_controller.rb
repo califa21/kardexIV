@@ -18,7 +18,9 @@
 
   # GET /modif_repars/new
   def new
+   
     @modif_repar = ModifRepar.new
+     if !(params[:id_machine].nil?) then @modif_repar.id_machine=params[:id_machine] end
     @date_1= Date.today.strftime('%d/%m/%Y')
   end
 

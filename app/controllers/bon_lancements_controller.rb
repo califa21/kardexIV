@@ -77,6 +77,7 @@
   def new
       @date_1= Date.today.strftime('%d/%m/%Y')
     @bon_lancement = BonLancement.new
+	if !(params[:id_machine].nil?) then @bon_lancement.id_machine=params[:id_machine] end
     3.times {@bon_lancement.piece_changee.build}
   end
 
