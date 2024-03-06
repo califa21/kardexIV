@@ -75,9 +75,23 @@
 
   # GET /bon_lancements/new
   def new
-      @date_1= Date.today.strftime('%d/%m/%Y')
+	@date_1= Date.today.strftime('%d/%m/%Y')
     @bon_lancement = BonLancement.new
-	if !(params[:id_machine].nil?) then @bon_lancement.id_machine=params[:id_machine] end
+	if !(params[:id_machine].nil?) then 
+		@bon_lancement.id_machine=params[:id_machine]
+					#on recupére les visites susceptibles d'être lancé
+				@vis_prots=VisiteMachine.dernieres_visites(@bon_lancement.id_machine)
+				@cn_machine=ExecCnMachine.etat_cn(@bon_lancement.id_machine)
+				@visites_equipement=VisiteEquipement.dernieres_visites(@bon_lancement.id_machine)
+				@visites_equipement=@visites_equipement.sort_by {|visite_equipement| visite_equipement[1]["moteur_helice"]}
+				@cn_equipement_machine=ExecCnEquipement.etat_cn(@bon_lancement.id_machine)
+				@cn_equipement_machine=@cn_equipement_machine.sort_by{|cn_equipement| [cn_equipement[1]["moteur_helice"],cn_equipement[1]["equipement_type"]]}
+				#gestion  heure minute carnet
+				@carnet=Carnet.liste_machine_carnet(params[:id_machine])
+				@bon_lancement.heure_machine=pres_val(@carnet["heure_de_vol"],"Heure de vol")
+				@bon_lancement.heure_moteur=@carnet["heure_moteur"]
+				@bon_lancement.cycle=@carnet["nombre_cycle"]
+	end
     3.times {@bon_lancement.piece_changee.build}
   end
 
