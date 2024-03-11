@@ -41,7 +41,7 @@
 						carte = @carte_travail.first
 							# on cr饠le path
 							path = File.join(directory, carte.adresse)
-							pdf1 <<  CombinePDF.load(path)
+							pdf1 <<  CombinePDF.load(path, unsafe: true, allow_optional_content: true)
 				end
 					
 				#pour chaque visite d'équipement
@@ -54,7 +54,7 @@
 							carte = @carte_travail.first
 							# on cr饠le path
 							path = File.join(directory, carte.adresse)
-							pdf1 <<  CombinePDF.load(path)
+							pdf1 <<  CombinePDF.load(path, unsafe: true, allow_optional_content: true)
 							carte2= true
 						end
 						if @equi != vis_equi.id_equipement then 
