@@ -7,6 +7,7 @@
 
 <tr><td>Numéro autorisation CEN</td><td><%= if @personne.autor.nil? then " " else @personne.autor end %></td></tr>
 <tr><td>Numéro Licence Mécano</td><td><%= if @personne.num_licence_mec.nil? then " " else @personne.num_licence_mec end %></td></tr>
+<tr><td> Date limite validité licence mécano : </td><td><%= if @personne.date_val_lic.nil? then " " else @personne.date_val_lic.strftime("%d/%m/%Y") end%></td></tr>
 <tr><td>Pilote Propriétaire</td><td><%= if (@personne.pil_prop) then image_tag "case_a_cocher.gif" else  image_tag "case_cocher_vide.jpg" end %></td></tr>
 </table>
 <h2> Travaux menés </h2>

@@ -7,6 +7,7 @@
 	<th>Fonction</th>
 	<th>N° autor</th>
 	<th>num Licence mec</th>
+    <th>validité></th>
 	<th>Pilote propriétaire</th>
 	<th>&nbsp</th>
 	<th>&nbsp</th>
@@ -19,6 +20,7 @@
     <td><%= personne.fonction.nom_fonction %>
     <td><%= if personne.autor.nil? then " " else personne.autor end %>
     <td><%= if personne.num_licence_mec.nil? then " " else personne.num_licence_mec end %>
+    <td><%= if personne.date_val_lic.nil? then " " else personne.date_val_lic.strftime("%d/%m/%Y") end%></td>
     <td><%= if (personne.pil_prop) then image_tag "case_a_cocher.gif" else  image_tag "case_cocher_vide.jpg" end %></td>
     <td><%= mod_link edit_personne_path(personne) %></td>
     <td><%= del_link personne %></td>

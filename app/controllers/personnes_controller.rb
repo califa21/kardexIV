@@ -36,12 +36,13 @@ before_action :page_acc
   # GET /personnes/1/edit
   def edit
     @personne = Personne.find(params[:id])
+    @date_1=@personne.date_val_lic.strftime("%d/%m/%Y")
   end
 
   # POST /personnes
   # POST /personnes.xml
   def create
-    @personne = Personne.new(params[:personne].permit(:Nom, :prenom, :login, :id_fonction,:pass,:pil_prop,:num_licence_mec,:autor))
+    @personne = Personne.new(params[:personne].permit(:Nom, :prenom, :login, :id_fonction,:pass,:pil_prop,:num_licence_mec,:autor,:date_val_lic))
 
     respond_to do |format|
       if @personne.save
@@ -61,7 +62,7 @@ before_action :page_acc
 
     respond_to do |format|
       #if @personne.update_attributes(personne_profile_parameters)
-      if @personne.update(params[:personne].permit(:Nom, :prenom, :login, :id_fonction,:pass,:pil_prop,:num_licence_mec,:autor))
+      if @personne.update(params[:personne].permit(:Nom, :prenom, :login, :id_fonction,:pass,:pil_prop,:num_licence_mec,:autor,:date_val_lic))
         format.html { redirect_to(@personne, :notice => 'utilisateur modifié') }
         format.xml  { head :ok }
       else
@@ -83,6 +84,6 @@ before_action :page_acc
   end
   private
   def personne_profile_parameters
-    params.require(:personne).permit(:Nom, :prenom, :login, :idfonction,:pass,:pil_prop,:num_licence_mec,:autor)
+    params.require(:personne).permit(:Nom, :prenom, :login, :idfonction,:pass,:pil_prop,:num_licence_mec,:autor,:date_val_lic)
   end
 end

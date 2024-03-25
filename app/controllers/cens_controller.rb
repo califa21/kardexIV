@@ -7,7 +7,7 @@ class CensController < ApplicationController
   protect_from_forgery  except: [:get_heure_tot]
   # GET /cens or /cens.json
   def index
-    @cens = Cen.all
+    @cens = Cen.all.order(num_cen: :desc)
   end
 
   # GET /cens/1 or /cens/1.json

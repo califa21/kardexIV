@@ -315,7 +315,7 @@
 			text "Le responsable Entretien", {:align=>:center}
 			text @bon_lancement.re.prenom+" "+@bon_lancement.re.Nom, {:align=>:center}
 			move_down 20.mm
-			text "Date et visa : "
+			text "Date et visa : " + @bon_lancement.date_fin_trav.strftime('%d/%m/%Y')
 		end
 		
 		number_pages "<page> / <total>", 

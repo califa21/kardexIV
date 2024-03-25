@@ -7,6 +7,7 @@
     <tr>
       <th>date</th>
       <th>Vérifié par </th>
+      <th>Résultat</th>
       <th></th>
       <th></th>
     </tr>
@@ -17,6 +18,7 @@
       <tr>
         <td><%= link_to verifcn.date_verif.strftime('%d/%m/%Y'), verifcn %></td>
         <td><%= verifcn.verificateur.Nom%></td>
+        <td><%= verifcn.resultat %></td>
         <td><%= mod_link edit_verifcn_path(verifcn) %></td>
         <td><%= del_link  verifcn %></td>
       </tr>

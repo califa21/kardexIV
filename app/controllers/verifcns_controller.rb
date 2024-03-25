@@ -67,6 +67,6 @@
 
     # Only allow a list of trusted parameters through.
     def verifcn_params
-      params.fetch(:verifcn, {}).permit(:date_verif,:id_verificateur)
+      params.fetch(:verifcn, {}).permit(:date_verif,:id_verificateur,:resultat)
     end
 end

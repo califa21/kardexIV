@@ -33,6 +33,7 @@
 <td><%= text_field "personne", "pass", :size => 20 %><br/></td></tr>
 <tr><td><label for="personne_autor">Autorisation:</label></td><td><%= text_field "personne", "autor", :size => 20 %></td></tr>
 <tr><td><label for="personne_num_licence_mec">N° licence mec :</label></td><td><%= text_field "personne", "num_licence_mec", :size => 20 %></td></tr>
+<tr><td><label for="validité licence">validité :</label></td><td> <%= f.text_field  "date_val_lic",{:value=>@date_1, :class =>"date_saisie",:size => 10}%></td></tr>
 <tr><td><%= label_tag(:pil_prop, "Pilote propriétaire ") %></td><td><%= check_box "personne","pil_prop"%></td></tr>
 <tr><td>
  <div class="actions">

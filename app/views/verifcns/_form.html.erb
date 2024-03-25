@@ -12,6 +12,7 @@
   <% end %>
        <p> Nom du vérificateur : <%= form.select "id_verificateur", Personne.all.collect {|p| [ p.Nom, p.id ] },{:include_blank=> 'None'}%></p>
        <p>Date de vérification<%= form.text_field  "date_verif",{:value=>val_date(@verifcn.date_verif), :class =>"date_saisie",:size => 10} %></p>
+       <p>Résultat <%= form.text_area "resultat", :rows => 5, :cols => 20 %></p>
   <div class="actions">
     <%= form.submit 'Enregistrer' %>
   </div>
