@@ -1,4 +1,4 @@
-class MaintPrevisController < ApplicationController
+﻿class MaintPrevisController < ApplicationController
 before_action :page_def	
  before_action :page_acc 
   # GET /maint_previs
@@ -6,13 +6,10 @@ before_action :page_def
   def index
     @tableau_mois=["Janvier","F&eacutevrier","Mars","Avril","Mai","Juin","Juillet","Aout","Septembre","Octobre","Novembre","D&eacutecembre"]
      @date_fin=Date.today.to_s
-    @machines = Machine.find_each
-    @machines=@machines.sort_by{|machine|  machine.type_machine.type_machine}
+    @machines =  Machine.where("vendu is false").sort_by{|machine|  machine.type_machine.type_machine}
     @pot=Equipement.liste_pot_hs(@date_fin)
-    @vis_equip=Equipement.visite_equipement(@date_fin)
-    @vis_equip=@vis_equip.sort_by{|visite|  [visite[1]["type_equipement"],visite[1]["nom_machine"]] }
-    @vis_machine=VisiteMachine.visites_previ(@date_fin)
-    @vis_machine=@vis_machine.sort_by{|visite|  visite[1]["visite_protocolaire"].Nom }
+    @vis_equip=Equipement.visite_equipement(@date_fin).sort_by{|visite|  [visite[1]["type_equipement"],visite[1]["nom_machine"]] }
+    @vis_machine=VisiteMachine.visites_previ(@date_fin).sort_by{|visite|  visite[1]["visite_protocolaire"].Nom }
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @maint_previs }

@@ -21,7 +21,7 @@ def self.liste_pot_hs(date)
 	#liste les éléments hs à une date déterminé
 	list=Hash.new
 	#on liste les équipements montés sur une machine qui ont un potentiel  ( montage join equipement join type_equipement join potentiel
-	montages=EstMonteSur.where("date_retrait is null")
+	montages=EstMonteSur.joins(:machine).where("date_retrait is null and machines.vendu is false")
 	j=0
 	i=0
 	montages.each do |montage|
@@ -85,7 +85,7 @@ def self.visite_equipement(date)
 	list_def=Hash.new
 	#on récupère les équipements
 	#on liste les équipements montés sur une machine qui ont un potentiel  ( montage join equipement join type_equipement join visite_protocolaire
-	montages=EstMonteSur.where("date_retrait is null")
+	montages=EstMonteSur.joins(:machine).where("date_retrait is null and machines.vendu is false")
 	i=0
 	j=0
 	 #pour chaque équipement monté

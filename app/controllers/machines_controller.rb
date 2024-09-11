@@ -5,15 +5,13 @@
   # GET /machines
   # GET /machines.json
   def index
-    @machines = Machine.where("vendu is false")
+    @machines = Machine.where("vendu is false").sort_by{|machine|  [machine.type_machine.type_machine, machine.Immatriculation]}
     @machines_vendu=Machine.where("vendu is true")
     @modif=EstAcce.page_acc("machines","edit",session[:personne].id_fonction)
     @suppr= EstAcce.page_acc("machines","destroy",session[:personne].id_fonction)
-    @machines=@machines.sort_by{|machine|  [machine.type_machine.type_machine, machine.Immatriculation]}
      respond_to do |format|
       format.html {}
       format.pdf { 
-		@machines=@machines.sort_by{|machine|  [machine.type_machine.type_machine, machine.Immatriculation]}
 		test =CensReport.new(:page_size => "A4", :page_layout => :portrait)
 		output=test.to_pdf()
 		send_data output, :filename => "cen.pdf",:type => "application/pdf"

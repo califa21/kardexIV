@@ -129,7 +129,7 @@ def self.visites_previ(date)
 	
 	liste2=Hash.new
 	#on prend la liste des machines 
-	machines=Machine.find_each
+	machines=Machine.where("vendu is false")
 	i=0
 	machines.each do |machine|
 		#pour chaque machine 

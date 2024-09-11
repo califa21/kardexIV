@@ -36,7 +36,7 @@ before_action :page_acc
   # GET /personnes/1/edit
   def edit
     @personne = Personne.find(params[:id])
-    @date_1=@personne.date_val_lic.strftime("%d/%m/%Y")
+    if @personne.date_val_lic.nil? then @date_1= Date.today.strftime("%d/%m/%Y") else  @date_1=@personne.date_val_lic.strftime("%d/%m/%Y") end
   end
 
   # POST /personnes
