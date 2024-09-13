@@ -4,3 +4,12 @@
 
 <%= link_to 'détail', @outil %> |
 <%= link_to 'retour à la liste', outils_path %>
+
+<h2>documents</h2>
+<h3>Ccertificat d'étalonnage</h3>
+<%= render  partial: 'doc_divers/aff_doc', locals: {docs: @certif_docs}%>
+</div>
+
+<div style="border-style: solid;width:40%;">
+<%= render partial: 'doc_divers/form', locals:{retour: "outils"} %>
+</div>

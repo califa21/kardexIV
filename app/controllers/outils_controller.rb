@@ -11,17 +11,24 @@
 
   # GET /outils/1 or /outils/1.json
   def show
+    @certificats=DocDiver.where("type_doc_id=11 and id_entite=?",params[:id])
   end
 
   # GET /outils/new
   def new
     @outil = Outil.new
     @date_1= Date.today.strftime('%d/%m/%Y')
+    
   end
 
   # GET /outils/1/edit
   def edit
     @date_1= @outil.date_der_etalon.strftime('%d/%m/%Y')
+    @certif_docs=DocDiver.where("type_doc_id=11 and id_entite=?",params[:id])
+	@doc_diver=DocDiver.new
+	#doc = mm par défaut
+	@doc_diver.type_doc_id=11
+	@doc_diver.id_entite=@outil.id
   end
 
   # POST /outils or /outils.json

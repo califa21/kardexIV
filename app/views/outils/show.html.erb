@@ -7,6 +7,9 @@
      <tr><th>durée Validité</th><td><%=@outil.duree_val %> ans</td></tr>
   
   </table>
-
+<h2>documents</h2>
+<h3>Certificat d'étalonnage</h3>
+<%= render  partial: 'doc_divers/aff_doc', locals: {docs: @certificats}%>
+</div>
 <%= link_to 'modifier', edit_outil_path(@outil) %> |
 <%= link_to 'retour à la liste', outils_path %>
